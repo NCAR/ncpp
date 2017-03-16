@@ -14,7 +14,7 @@ COD	= ../class
 DEFINES	= -DPNG
 INCLUDES= -I${INC} -I${RAFINC}
 LIB_DIRS= -L${JLOCAL}/lib
-LIBS	= -lraf++ -lXm -lXt -lX11 -lXext -lnetcdf_c++ -lnetcdf -lhdf5 -lhdf5_hl -lpng -lz
+LIBS	= -lraf -lXm -lXt -lX11 -lXext -lnetcdf_c++ -lnetcdf -lhdf5 -lhdf5_hl -lpng -lz
 ANONFTP	= /net/ftp/pub/archive/RAF-src/bin.RHEL6
 
 # Mac OS X
@@ -28,12 +28,12 @@ ANONFTP	= /net/ftp/pub/archive/RAF-src/bin.RHEL6
 #
 # setenv JLOCAL /usr/local
 #
-# Build libraf++ first.
+# Build libraf first.
 #
 #DEFINES	= -DPNG -DPNG15
 #INCLUDES= -I${INC} -I/usr/OpenMotif/include -I${RAFINC} -I/opt/X11/include
 #LIB_DIRS= -L/opt/X11/lib -L${JLOCAL}/lib -L/usr/OpenMotif/lib
-#LIBS	= -lraf++ -lXm -lXt -lX11 -lXext -lnetcdf_c++ -lnetcdf -lpng -lz
+#LIBS	= -lraf -lXm -lXt -lX11 -lXext -lnetcdf_c++ -lnetcdf -lpng -lz
 
 CXX	= g++
 CXXFLAGS= -g -O -Wno-write-strings ${INCLUDES} ${DEFINES}
