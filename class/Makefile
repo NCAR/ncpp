@@ -1,18 +1,17 @@
 #
 # ncpp C++ class makefile
 #
-INC=	../include
 RAFINC=	${JLOCAL}/include
 O2D=	../obj
 
 #	Solaris
 #
-#INCLUDES=	-I${INC} -I${RAFINC} -I/usr/dt/include
+#INCLUDES=	-I${RAFINC} -I/usr/dt/include
 #DEFINES=	-DSVR4
 
 #	Linux
 #
-#INCLUDES= -I${INC} -I${RAFINC} -I/usr/X11R6/include
+#INCLUDES= -I${RAFINC} -I/usr/X11R6/include
 #DEFINES=
 
 #CXXFLAGS=	-O ${INCLUDES} ${DEFINES}
@@ -31,54 +30,54 @@ SRCS=	Ascii.cc CanvasWindow.cc DataFile.cc DataSet.cc DataSource.cc\
 	fssp.cc s100.cc s200.cc f300.cc pcasp.cc x260.cc x200.cc y200.cc\
 	2D.cc hvps.cc uhsas.cc cdp.cc
 
-HDRS=	${INC}/define.h
+HDRS=	define.h
 
 all: ${OBJS}
 
 
 ${OBJS}: ${HDRS}
 
-Ascii.o:		${INC}/Ascii.h ${INC}/SetMgr.h ${RAFINC}/raf/TextWindow.h ${INC}/DataSet.h ${INC}/PlotMgr.h ${INC}/PlotInfo.h
-CanvasWindow.o:		${INC}/CanvasWindow.h ${RAFINC}/raf/Window.h
+Ascii.o:		Ascii.h SetMgr.h ${RAFINC}/raf/TextWindow.h DataSet.h PlotMgr.h PlotInfo.h
+CanvasWindow.o:		CanvasWindow.h ${RAFINC}/raf/Window.h
 
-DataFile.o:		${INC}/DataFile.h ${INC}/Probe.h ${RAFINC}/raf/Time.h ${INC}/fssp.h ${INC}/f300.h ${INC}/pcasp.h ${INC}/x260.h ${INC}/x200.h ${INC}/y200.h ${INC}/s100.h ${INC}/hvps.h ${INC}/uhsas.h
-DataSet.o:		${INC}/DataSet.h ${INC}/Probe.h ${INC}/DataFile.h
-DataSource.o:		${INC}/DataSource.h ${INC}/FileMgr.h ${INC}/SetMgr.h ${INC}/Probe.h
+DataFile.o:		DataFile.h Probe.h ${RAFINC}/raf/Time.h fssp.h f300.h pcasp.h x260.h x200.h y200.h s100.h hvps.h uhsas.h
+DataSet.o:		DataSet.h Probe.h DataFile.h
+DataSource.o:		DataSource.h FileMgr.h SetMgr.h Probe.h
 
-EditDiameters.o:	${INC}/EditDiameters.h ${RAFINC}/raf/Window.h ${INC}/FileMgr.h
-EditPlotParms.o:	${INC}/EditPlotParms.h ${RAFINC}/raf/Window.h
-FileMgr.o:		${INC}/FileMgr.h ${INC}/DataFile.h
-Header.o:		${INC}/Header.h ${RAFINC}/raf/TextWindow.h
-MovieControl.o:		${INC}/MovieControl.h ${RAFINC}/raf/Window.h ${RAFINC}/raf/Time.h ${INC}/PlotMgr.h ${RAFINC}/raf/Application.h ${INC}/FileMgr.h ${INC}/PlotMgr.h ${INC}/SetMgr.h
+EditDiameters.o:	EditDiameters.h ${RAFINC}/raf/Window.h FileMgr.h
+EditPlotParms.o:	EditPlotParms.h ${RAFINC}/raf/Window.h
+FileMgr.o:		FileMgr.h DataFile.h
+Header.o:		Header.h ${RAFINC}/raf/TextWindow.h
+MovieControl.o:		MovieControl.h ${RAFINC}/raf/Window.h ${RAFINC}/raf/Time.h PlotMgr.h ${RAFINC}/raf/Application.h FileMgr.h PlotMgr.h SetMgr.h
 
-Panel.o:		${INC}/Panel.h ${RAFINC}/raf/Canvas.h ${INC}/DataSet.h ${INC}/PlotInfo.h ${RAFINC}/raf/PostScript.h ${RAFINC}/raf/PixMap.h ${RAFINC}/raf/XFonts.h ${RAFINC}/raf/XPen.h
+Panel.o:		Panel.h ${RAFINC}/raf/Canvas.h DataSet.h PlotInfo.h ${RAFINC}/raf/PostScript.h ${RAFINC}/raf/PixMap.h ${RAFINC}/raf/XFonts.h ${RAFINC}/raf/XPen.h
 
-PlotInfo.o:		${INC}/PlotInfo.h ${RAFINC}/raf/Canvas.h ${INC}/Panel.h ${RAFINC}/raf/Printer.h ${INC}/SetMgr.h ${INC}/Colors.h ${RAFINC}/raf/XFonts.h ${RAFINC}/raf/XPen.h ${RAFINC}/raf/PostScript.h
+PlotInfo.o:		PlotInfo.h ${RAFINC}/raf/Canvas.h Panel.h ${RAFINC}/raf/Printer.h SetMgr.h Colors.h ${RAFINC}/raf/XFonts.h ${RAFINC}/raf/XPen.h ${RAFINC}/raf/PostScript.h
 
-PlotMgr.o:		${INC}/PlotMgr.h ${RAFINC}/raf/Window.h ${INC}/DataSource.h ${RAFINC}/raf/Canvas.h ${INC}/DataFile.h ${INC}/EditPlotParms.h ${INC}/PlotInfo.h ${INC}/SetMgr.h ${INC}/Colors.h ${RAFINC}/raf/XFonts.h ${RAFINC}/raf/XPen.h
+PlotMgr.o:		PlotMgr.h ${RAFINC}/raf/Window.h DataSource.h ${RAFINC}/raf/Canvas.h DataFile.h EditPlotParms.h PlotInfo.h SetMgr.h Colors.h ${RAFINC}/raf/XFonts.h ${RAFINC}/raf/XPen.h
 
-SetMgr.o:		${INC}/SetMgr.h ${INC}/DataSet.h
-Titles.o:		${INC}/Titles.h
-VarsWin.o:		${INC}/VarsWin.h ${RAFINC}/raf/TextWindow.h ${INC}/SetMgr.h ${INC}/PlotMgr.h ${INC}/PlotInfo.h
+SetMgr.o:		SetMgr.h DataSet.h
+Titles.o:		Titles.h
+VarsWin.o:		VarsWin.h ${RAFINC}/raf/TextWindow.h SetMgr.h PlotMgr.h PlotInfo.h
 
-Colors.o:		${INC}/Colors.h
+Colors.o:		Colors.h
 
 
-Probe.o:		${INC}/Probe.h
-Probe200.o:		${INC}/Probe200.h ${INC}/Probe.h
-Probe100.o:		${INC}/Probe100.h ${INC}/Probe.h
-fssp.o:			${INC}/fssp.h ${INC}/Probe100.h
-cdp.o:			${INC}/cdp.h ${INC}/Probe100.h
-s100.o:			${INC}/s100.h ${INC}/Probe100.h
-s200.o:			${INC}/s200.h ${INC}/Probe.h
-f300.o:			${INC}/f300.h ${INC}/Probe.h
-pcasp.o:		${INC}/pcasp.h ${INC}/Probe.h
-hvps.o:			${INC}/hvps.h ${INC}/Probe.h
-uhsas.o:		${INC}/uhsas.h ${INC}/Probe.h
-x260.o:			${INC}/x260.h ${INC}/Probe200.h ${INC}/Probe.h
-x200.o:			${INC}/x200.h ${INC}/Probe200.h ${INC}/Probe.h
-y200.o:			${INC}/y200.h ${INC}/Probe200.h ${INC}/Probe.h
-2D.o:			${INC}/2D.h ${INC}/Probe200.h ${INC}/Probe.h
+Probe.o:		Probe.h
+Probe200.o:		Probe200.h Probe.h
+Probe100.o:		Probe100.h Probe.h
+fssp.o:			fssp.h Probe100.h
+cdp.o:			cdp.h Probe100.h
+s100.o:			s100.h Probe100.h
+s200.o:			s200.h Probe.h
+f300.o:			f300.h Probe.h
+pcasp.o:		pcasp.h Probe.h
+hvps.o:			hvps.h Probe.h
+uhsas.o:		uhsas.h Probe.h
+x260.o:			x260.h Probe200.h Probe.h
+x200.o:			x200.h Probe200.h Probe.h
+y200.o:			y200.h Probe200.h Probe.h
+2D.o:			2D.h Probe200.h Probe.h
 
 
 clean:

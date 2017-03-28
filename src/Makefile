@@ -5,7 +5,7 @@ BIN	= ${JLOCAL}/bin
 WWW	= /net/www/docs/raf/Software
 RELEASE = ${JLOCAL}/ncpp
 
-INC	= ../include
+INC	= ../class
 RAFINC	= ${JLOCAL}/include
 COD	= ../class
 
