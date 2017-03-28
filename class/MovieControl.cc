@@ -88,10 +88,10 @@ void MovieControl::UpdateTime()
   XtFree(p);
 
   if (currTime < startTime)
-    currTime == startTime;
+    currTime = startTime;
 
   if (currTime > endTime)
-    currTime == endTime;
+    currTime = endTime;
 
   XmTextFieldSetString(timeText, currTime.c_str());
 
