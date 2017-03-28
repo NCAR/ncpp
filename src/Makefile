@@ -53,7 +53,7 @@ OBJS=	ncpp.o global.o autoscale.o ccb.o cb_canvas.o cb_control.o\
 COBS=	${COD}/Ascii.o ${COD}/CanvasWindow.o ${COD}/DataFile.o ${COD}/DataSet.o\
 	${COD}/DataSource.o ${COD}/EditDiameters.o ${COD}/EditPlotParms.o\
 	${COD}/FileMgr.o\
-	${COD}/Header.o ${COD}/MovieControl.o ${COD}/Panel.o ${COD}/PlotInfo.o\
+	${COD}/ncHeader.o ${COD}/MovieControl.o ${COD}/Panel.o ${COD}/PlotInfo.o\
 	${COD}/PlotMgr.o ${COD}/Probe.o ${COD}/SetMgr.o ${COD}/Titles.o\
 	${COD}/VarsWin.o ${COD}/Colors.o\
 	${COD}/fssp.o ${COD}/f300.o ${COD}/pcasp.o ${COD}/x260.o ${COD}/cdp.o\
@@ -102,4 +102,4 @@ cb_movie.o:	${INC}/MovieControl.h
 
 cb_printer.o:	${RAFINC}/raf/Printer.h
 
-cb_text.o:	${RAFINC}/raf/Application.h ${INC}/Ascii.h ${INC}/Header.h ${INC}/FileMgr.h ${INC}/SetMgr.h ${INC}/PlotMgr.h ${INC}/SetMgr.h ${RAFINC}/raf/TextWindow.h ${RAFINC}/raf/XmFile.h ${RAFINC}/raf/XmError.h ${INC}/VarsWin.h
+cb_text.o:	${RAFINC}/raf/Application.h ${INC}/Ascii.h ${INC}/ncHeader.h ${INC}/FileMgr.h ${INC}/SetMgr.h ${INC}/PlotMgr.h ${INC}/SetMgr.h ${RAFINC}/raf/TextWindow.h ${RAFINC}/raf/XmFile.h ${RAFINC}/raf/XmError.h ${INC}/VarsWin.h
