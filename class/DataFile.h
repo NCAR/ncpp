@@ -26,7 +26,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 #include "hvps.h"
 #include "uhsas.h"
 
-#include <raf/Time.h>
+#include <raf/rafTime.h>
 
 
 /* -------------------------------------------------------------------- */

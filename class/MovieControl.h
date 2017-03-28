@@ -15,7 +15,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-8
 
 #include "define.h"
 
-#include <raf/Time.h>
+#include <raf/rafTime.h>
 #include <raf/Application.h>
 #include "FileMgr.h"
 #include "PlotMgr.h"
