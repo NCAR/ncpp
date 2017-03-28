@@ -1,6 +1,6 @@
 /*
 -------------------------------------------------------------------------
-OBJECT NAME:	Header.h
+OBJECT NAME:	ncHeader.h
 
 FULL NAME:	View NetCDF Header
 
@@ -19,15 +19,15 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 
 
 /* -------------------------------------------------------------------- */
-class Header : public TextWindow
+class ncHeader : public TextWindow
 {
 public:
 
-	Header(const Widget parent);
+	ncHeader(const Widget parent);
   void	Update(const std::string fileName);
 
 private:
 
-};	// END HEADER.H
+};	// END NCHEADER.H
 
 #endif

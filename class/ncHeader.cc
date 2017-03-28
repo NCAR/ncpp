@@ -1,22 +1,22 @@
 /*
 -------------------------------------------------------------------------
-OBJECT NAME:	Header.cc
+OBJECT NAME:	ncHeader.cc
 
 COPYRIGHT:	University Corporation for Atmospheric Research, 1997-8
 -------------------------------------------------------------------------
 */
 
-#include "Header.h"
+#include "ncHeader.h"
 
 
 /* -------------------------------------------------------------------- */
-Header::Header(const Widget parent) : TextWindow(parent, "header")
+ncHeader::ncHeader(const Widget parent) : TextWindow(parent, "header")
 {
 
 }
 
 /* -------------------------------------------------------------------- */
-void Header::Update(const std::string fileName)
+void ncHeader::Update(const std::string fileName)
 {
   FILE	*pp;
 
@@ -43,4 +43,4 @@ void Header::Update(const std::string fileName)
 
 }	/* END UPDATE */
 
-/* END HEADER.CC */
+/* END NCHEADER.CC */
