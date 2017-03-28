@@ -19,7 +19,7 @@ Ascii::Ascii(const Widget parent) : TextWindow(parent, "ascii")
 /* -------------------------------------------------------------------- */
 void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
 {
-  int	i, j;
+  size_t i, j;
   DataSet	*set;
 
   Clear();
@@ -45,7 +45,7 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
       {
       strcat(buffer, "\n  Raw Counts\n");
 
-      for (i = 0; i < sets.NumberRecords(); ++i)
+      for (i = 0; i < (size_t)sets.NumberRecords(); ++i)
         {
         long sum = 0;
         for (j = 0; j < set->probe()->VectorLength(); ++j)
@@ -54,7 +54,7 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
           sum += (long)set->Accumulation(i, j);
           }
 
-        sprintf(&buffer[strlen(buffer)], "  total=%7d\n", sum);
+        sprintf(&buffer[strlen(buffer)], "  total=%7ld\n", sum);
         Append(buffer);
         buffer[0] = '\0';
         }
@@ -66,7 +66,7 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
       strcat(buffer, MakeYAxisLabel(sets.GetNormalization(), sets.DataTypes()).c_str());
       strcat(buffer, "\n");
 
-      for (i = 0; i < sets.NumberRecords(); ++i)
+      for (i = 0; i < (size_t)sets.NumberRecords(); ++i)
         {
         double sum = 0.0;
         for (j = 0; j < set->probe()->FirstBin(); ++j)
@@ -93,7 +93,7 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
       strcat(buffer, MakeYAxisLabel(sets.GetNormalization(), sets.DataTypes()).c_str());
       strcat(buffer, "\n");
 
-      for (i = 0; i < sets.NumberRecords(); ++i)
+      for (i = 0; i < (size_t)sets.NumberRecords(); ++i)
         {
         double sum = 0.0;
         for (j = 0; j < set->probe()->FirstBin(); ++j)
@@ -120,7 +120,7 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
       strcat(buffer, MakeYAxisLabel(sets.GetNormalization(), sets.DataTypes()).c_str());
       strcat(buffer, "\n");
 
-      for (i = 0; i < sets.NumberRecords(); ++i)
+      for (i = 0; i < (size_t)sets.NumberRecords(); ++i)
         {
         double sum = 0.0;
         for (j = 0; j < set->probe()->FirstBin(); ++j)

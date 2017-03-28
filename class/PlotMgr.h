@@ -81,8 +81,8 @@ private:
   PlotInfo	*plot[N_PLOTTYPES];		// Postage, 3d.
   EditPlotParms	*editParms[N_PLOTTYPES];	// Postage, 3d.
 
-  Colors	colors;
   XFonts	fonts;
+  Colors	colors;
   XPen		blackPen, colorPen;
 
 };	// END PLOTMGR.H

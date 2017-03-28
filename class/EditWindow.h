@@ -31,7 +31,7 @@ struct ep_axisInfo  // This needs to match axisInfo in Panel.h
 class EditWindow : public WinForm
 {
 public:
-	EditWindow(const Widget parent, PlotType plotType, char name[], int nPanels, bool zAxis);
+	EditWindow(const Widget parent, PlotType plotType, const char name[], int nPanels, bool zAxis);
 
   friend class PlotManager;
 

@@ -31,7 +31,7 @@ Probe100::Probe100(NcFile *file, NcVar *av) : Probe(file, av)
   else
     _DBZfac = 1.0e6;
 
-  for (int i = 0; i < _otherVars.size(); ++i)
+  for (size_t i = 0; i < _otherVars.size(); ++i)
     {
     if (strcmp(_otherVars[i]->name(), "TASX") == 0)
       _tasIdx = i;

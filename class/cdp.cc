@@ -34,11 +34,11 @@ CDP::CDP(NcFile *file, NcVar *av) : Probe100(file, av)
 void CDP::ComputeConcentration(float *accum, float *conc, long countV[],
 	const std::vector<float *> & otherVarData)
 {
-  int	i, bin;
+  size_t bin;
+  int	i;
   std::vector<float> dia;
   float	*counts, *concentration;
-  float	*tas, *fbmfr, *activity, sampleArea;
-  double vol;
+  float	*tas, sampleArea;
 
   tas = otherVarData[_tasIdx];
 

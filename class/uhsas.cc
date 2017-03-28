@@ -18,7 +18,7 @@ UHSAS::UHSAS(NcFile *file, NcVar *av) : Probe(file, av)
 {
   _concIdx = _dispIdx = _dbarIdx = _volIdx = -1;
 
-  for (int i = 0; i < _otherVars.size(); ++i)
+  for (size_t i = 0; i < _otherVars.size(); ++i)
     {
     if (strncmp(_otherVars[i]->name(), "UFLWC", 5) == 0)
       _flowIdx = i;
@@ -41,7 +41,8 @@ UHSAS::UHSAS(NcFile *file, NcVar *av) : Probe(file, av)
 void UHSAS::ComputeConcentration(float *accum, float *conc, long countV[],
 	const std::vector<float *> & otherVarData)
 {
-  int		i, bin;
+  size_t	bin;
+  int		i;
   std::vector<float> dia;
   float		*counts, *concentration;
   float		*flow;

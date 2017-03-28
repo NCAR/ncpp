@@ -30,7 +30,7 @@ S100::S100(NcFile *file, NcVar *av) : Probe100(file, av)
 
   _range = 0;	// For FSSP, all other probes must be 0.
 
-  for (int i = 0; i < _otherVars.size(); ++i)
+  for (size_t i = 0; i < _otherVars.size(); ++i)
     {
     if (strncmp(_otherVars[i]->name(), "REJAT", 5) == 0)
       _rejATIdx = i;
@@ -45,7 +45,8 @@ S100::S100(NcFile *file, NcVar *av) : Probe100(file, av)
 void S100::ComputeConcentration(float *accum, float *conc, long countV[],
 	const std::vector<float *> & otherVarData)
 {
-  int	i, j, bin;
+  int	i;
+  size_t bin;
   float	*dia, *counts, *concentration, total_cnts;
   float	*tas, *oFlow, *rejAT, sampleArea;
   double vol;
@@ -62,7 +63,7 @@ void S100::ComputeConcentration(float *accum, float *conc, long countV[],
     concentration = &conc[i * VectorLength()];
 
     total_cnts = 0.0;
-    for (j = FirstBin(); j < LastBin(); ++j)
+    for (size_t j = FirstBin(); j < LastBin(); ++j)
       total_cnts += accum[j];
 
     vol = tas[i] / DataRate() * sampleArea;

@@ -52,7 +52,7 @@ Probe200::Probe200(NcFile *file, NcVar *av) : Probe(file, av), _nDiodes(0), _res
   ComputeWidths();
 
   _deadTimeIdx = -1;
-  for (int i = 0; i < _otherVars.size(); ++i)
+  for (size_t i = 0; i < _otherVars.size(); ++i)
     {
     if (strcmp(_otherVars[i]->name(), "TASX") == 0)
       _tasIdx = i;
@@ -83,7 +83,8 @@ Probe200::Probe200(NcFile *file, NcVar *av) : Probe(file, av), _nDiodes(0), _res
 void Probe200::ComputeConcentration(float *accum, float *conc, long countV[],
 	const std::vector<float *> & otherVarData)
 {
-  int	time, bin;
+  size_t bin;
+  int	time;
   std::vector<float> dia;
   float	*counts, *concentration;
   float	*tas, tasx;
@@ -132,7 +133,7 @@ void Probe200::ComputeWidths()
   // All binWidths should be equal for 200 series probes.
   _mag = DiodeDiameter / (_binWidth[1] / 1000);
 
-  for (int i = 1; i <= LastBin(); ++i)
+  for (size_t i = 1; i <= LastBin(); ++i)
     {
     _radius[i]   = _midPointDiam[i] / 2000;
     _esw[i]      = DiodeDiameter * (_nDiodes - i - 1) / _mag;
@@ -146,7 +147,7 @@ void Probe200::ComputeWidths()
 /* -------------------------------------------------------------------- */
 void Probe200::ComputeDOF200(float tasx)
 {
-  int		i;
+  size_t	i;
   double	szz, timex, frac, f, z;
 
   for (i = FirstBin(); i <= LastBin(); ++i)

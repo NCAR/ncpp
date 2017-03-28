@@ -170,7 +170,7 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
   else
     {
     _firstBin = 1;
-    fprintf(stderr, "netCDF attribute FirstBin not found for %s, defaulting to %d\n", cname.c_str(), _firstBin);
+    fprintf(stderr, "netCDF attribute FirstBin not found for %s, defaulting to %ld\n", cname.c_str(), _firstBin);
     }
 
   if ((attr = _cvar->get_att("LastBin")) || (attr = _avar->get_att("LastBin")))
@@ -178,13 +178,13 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
   else
     {
     _lastBin = _avar->get_dim(2)->size()-1;
-    fprintf(stderr, "netCDF attribute LastBin not found for %s, defaulting to %d\n", cname.c_str(), _lastBin);
+    fprintf(stderr, "netCDF attribute LastBin not found for %s, defaulting to %ld\n", cname.c_str(), _lastBin);
     }
 
   if ((attr = _cvar->get_att("CellSizes")) || (attr = _avar->get_att("CellSizes")))
     {
     if (attr->num_vals() != nCells)
-      fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%d, expected=%d.\n", cname.c_str(), attr->num_vals(), nCells);
+      fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%ld, expected=%d.\n", cname.c_str(), attr->num_vals(), nCells);
 
     for (i = 0; i < nCells; ++i)
       _diameter[i] = attr->as_float(i);
@@ -357,10 +357,10 @@ int Probe::SetEditWindow(Widget txt[])
 
   cnt = 0;
 
-  sprintf(buffer, "%d", FirstBin());
+  sprintf(buffer, "%ld", FirstBin());
   XmTextFieldSetString(txt[cnt++], buffer);
 
-  sprintf(buffer, "%d", LastBin());
+  sprintf(buffer, "%ld", LastBin());
   XmTextFieldSetString(txt[cnt++], buffer);
 
 
@@ -385,7 +385,8 @@ int Probe::SetEditWindow(Widget txt[])
 /* -------------------------------------------------------------------- */
 int Probe::ApplyEditWindow(Widget text[])
 {
-  int	nTxt, i, j, cnt;
+  size_t nTxt, i;
+  int	j, cnt;
   float	cells[256];
   char	*p, *p1;
 

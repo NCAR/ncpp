@@ -30,7 +30,7 @@ FSSP::FSSP(NcFile *file, NcVar *av) : Probe100(file, av)
 
   _range = 0;	// For FSSP, all other probes must be 0.
 
-  for (int i = 0; i < _otherVars.size(); ++i)
+  for (size_t i = 0; i < _otherVars.size(); ++i)
     {
     if (strncmp(_otherVars[i]->name(), "FACT", 4) == 0)
       _actIdx = i;
@@ -45,7 +45,8 @@ FSSP::FSSP(NcFile *file, NcVar *av) : Probe100(file, av)
 void FSSP::ComputeConcentration(float *accum, float *conc, long countV[],
 	const std::vector<float *> & otherVarData)
 {
-  int	i, bin;
+  size_t bin;
+  int	i;
   float	*dia, *counts, *concentration;
   float	*tas, *fbmfr, *activity, sampleArea;
   double vol;

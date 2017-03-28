@@ -18,7 +18,7 @@ S200::S200(NcFile *file, NcVar *av) : Probe(file, av)
 {
   _concIdx = _dispIdx = _dbarIdx = _volIdx = -1;
 
-  for (int i = 0; i < _otherVars.size(); ++i)
+  for (size_t i = 0; i < _otherVars.size(); ++i)
     {
     if (strncmp(_otherVars[i]->name(), "PFLWC", 5) == 0)
       _flowIdx = i;
@@ -41,7 +41,8 @@ S200::S200(NcFile *file, NcVar *av) : Probe(file, av)
 void S200::ComputeConcentration(float *accum, float *conc, long countV[],
 	const std::vector<float *> & otherVarData)
 {
-  int		i, bin;
+  size_t	bin;
+  int		i;
   std::vector<float> dia;
   float		*counts, *concentration;
   float		*flow;

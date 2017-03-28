@@ -17,7 +17,6 @@ VarsWin::VarsWin(const Widget parent) : TextWindow(parent, "vars")
 /* -------------------------------------------------------------------- */
 void VarsWin::Update(SetManager& sets, PlotManager *plotMgr)
 {
-  int	i, j;
   DataSet	*set;
 
   Clear();
@@ -30,11 +29,11 @@ void VarsWin::Update(SetManager& sets, PlotManager *plotMgr)
     strcpy(buffer, set->probe()->Name().c_str());
     strcat(buffer, "\n");
 
-    for (i = 0; i < set->probe()->nOtherVars(); ++i)
+    for (size_t i = 0; i < set->probe()->nOtherVars(); ++i)
       {
       sprintf(&buffer[strlen(buffer)], "  %-12s", set->probe()->OtherVarName(i));
 
-      for (j = 0; j < sets.NumberRecords(); ++j)
+      for (int j = 0; j < sets.NumberRecords(); ++j)
         {
 	sprintf(&buffer[strlen(buffer)], "%10.3f", set->OtherVar(i, j));
         }
