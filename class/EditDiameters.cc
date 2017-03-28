@@ -12,12 +12,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1998-9
 /* -------------------------------------------------------------------- */
 EditDiameters::EditDiameters(const Widget parent) : WinForm(parent, "editDiams", RowColumn)
 {
-  int		i, j, k, nTxt;
   Cardinal	n;
   Arg		args[8];
   Widget	diamFrame, RC, probeRC, drFrame, drRC, b[3],
 		plRC, innerRC;
-  DataFile	*file;
 
   txtCnt = 0;
 
@@ -169,9 +167,9 @@ void EditDiameters::SetDiameters(Probe *probe)
 
   cnt = 0;
 
-  sprintf(buffer, "%d", probe->FirstBin());
+  sprintf(buffer, "%lu", probe->FirstBin());
   XmTextFieldSetString(text[cnt++], buffer);
-  sprintf(buffer, "%d", probe->LastBin());
+  sprintf(buffer, "%lu", probe->LastBin());
   XmTextFieldSetString(text[cnt++], buffer);
 
   nTxt = probe->VectorLength() / 16;
@@ -245,10 +243,9 @@ void EditDiameters::SetDiameters(Probe *probe)
 /* -------------------------------------------------------------------- */
 void EditDiameters::ApplyDiameters(Probe *probe)
 {
-  int	i, j, k, l, cnt, nTxt, first, last;
-  DataFile	*file;
-  char		*p, *p1;
-  float		cells[256];
+  int	k, l, cnt, nTxt, first, last;
+  char	*p, *p1;
+  float	cells[256];
 
   cnt = 0;
 

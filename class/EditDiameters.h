@@ -20,7 +20,9 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1998-9
 #include <Xm/PushB.h>
 #include <Xm/RowColumn.h>
 #include <Xm/TextF.h>
-#include "FileMgr.h"
+#include <Xm/ToggleB.h>
+#include "DataFile.h"
+#include "Probe.h"
 #include <raf/Window.h>
 
 
