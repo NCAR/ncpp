@@ -52,7 +52,7 @@ class/EditDiameters.cc
 class/EditPlotParms.cc
 class/EditWindow.cc
 class/FileMgr.cc
-class/Header.cc
+class/ncHeader.cc
 class/MovieControl.cc
 class/Panel.cc
 class/PlotInfo.cc
