@@ -26,7 +26,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-8
 #include <raf/Application.h>
 #include "Ascii.h"
 #include <raf/Cursor.h>
-#include "Header.h"
+#include "ncHeader.h"
 #include "FileMgr.h"
 #include "PlotMgr.h"
 #include <raf/Printer.h>
@@ -47,7 +47,7 @@ extern XCursor		cursor;
 extern XmFile		*fileSel;
 
 static Ascii	*ascii = NULL;
-static Header	*ncHeader = NULL;
+static ncHeader	*ncHdr = NULL;
 static Titles	*varTitles = NULL;
 static VarsWin	*otherVars = NULL;
 
@@ -71,11 +71,11 @@ void ViewHeader(Widget w, XtPointer client, XtPointer call)
   if (fileMgr.NumberOfFiles() == 0)
     return;
 
-  if (!ncHeader)
-    ncHeader = new Header(application->Shell());
+  if (!ncHdr)
+    ncHdr = new ncHeader(application->Shell());
 
-  ncHeader->Update(fileMgr.CurrentFile()->FileName());
-  ncHeader->PopUp();
+  ncHdr->Update(fileMgr.CurrentFile()->FileName());
+  ncHdr->PopUp();
 
 }	/* END VIEWHEADER */
 
