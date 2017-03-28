@@ -31,8 +31,8 @@ ANONFTP	= /net/ftp/pub/archive/RAF-src/bin.RHEL6
 # Build libraf first.
 #
 #DEFINES	= -DPNG -DPNG15
-#INCLUDES= -I${INC} -I/usr/OpenMotif/include -I${RAFINC} -I/opt/X11/include
-#LIB_DIRS= -L/opt/X11/lib -L${JLOCAL}/lib -L/usr/OpenMotif/lib
+#INCLUDES= -I${INC} -I${RAFINC} -I/opt/X11/include
+#LIB_DIRS= -L/opt/X11/lib -L${JLOCAL}/lib
 #LIBS	= -lraf -lXm -lXt -lX11 -lXext -lnetcdf_c++ -lnetcdf -lpng -lz
 
 CXX	= g++
