@@ -1,40 +1,34 @@
 #!python
 
 import os
-env = Environment(platform = 'posix',ENV= os.environ)
+import eol_scons
+
+env = Environment(platform = 'posix',tools = ['default', 'openmotif', 'netcdf'],ENV= os.environ)
+#env = Environment(platform = 'posix',ENV= os.environ)
 
 try: env['JLOCAL'] = os.environ['JLOCAL']
 except KeyError:
     print "\n$JLOCAL not found!  Defaulting to '/opt/local'\n"
     env['JLOCAL'] = '/opt/local/'
 
-env['CPPPATH'] = Split("""
-    #/libraf
-    #/class
-    $JLOCAL/include
-    /usr/include/netcdf
-""")
+env.Append(CPPPATH=['#/libraf'])
+env.Append(CPPPATH=['#/class'])
+env.Append(CPPPATH=['$JLOCAL/include'])
 
-env['CCFLAGS'] = Split("""
-    -Wall -g -Wno-write-strings -Wstrict-aliasing
-""")
+env.Append(CCFLAGS=['-Wall'])
+env.Append(CCFLAGS=['-Wno-write-strings'])
+env.Append(CCFLAGS=['-Wstrict-aliasing'])
 
-env['CPPDEFINES'] = Split("""
-    -DPNG
-""")
+env.Append(CPPDEFINES=['-DPNG'])
+if env['PLATFORM'] == 'darwin':
+  env.Append(CPPDEFINES=['-DPNG15'])
 
-env['LIBPATH'] = Split("""
-    #/libraf
-    $JLOCAL/lib
-""")
+env.Append(LIBPATH=['#/libraf'])
+env.Append(LIBPATH=['$JLOCAL/lib'])
 
-env['LIBS'] = Split("""
-  raf
-  Xm Xt X11 Xext
-  netcdf_c++ netcdf hdf5_hl hdf5 
-  png z
-""")
-
+env.Append(LIBS=['raf'])
+env.Append(LIBS=['png'])
+env.Append(LIBS=['z'])
 
 Export('env')
 
