@@ -1,3 +1,6 @@
 [submodule "libraf"]
 	path = libraf
 	url = https://github.com/ncar/libraf
+[submodule "site_scons"]
+	path = site_scons
+	url = https://github.com/ncareol/eol_scons
