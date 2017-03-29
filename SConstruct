@@ -8,12 +8,13 @@ env = Environment(platform = 'posix',tools = ['default', 'openmotif', 'netcdf'],
 
 try: env['JLOCAL'] = os.environ['JLOCAL']
 except KeyError:
-    print "\n$JLOCAL not found!  Defaulting to '/opt/local'\n"
-    env['JLOCAL'] = '/opt/local/'
+    env.Append(CPPPATH=['#/libraf'])
+    env.Append(LIBPATH=['#/libraf'])
+else:
+    env.Append(CPPPATH=['$JLOCAL/include'])
+    env.Append(LIBPATH=['$JLOCAL/lib'])
 
-env.Append(CPPPATH=['#/libraf'])
 env.Append(CPPPATH=['#/class'])
-env.Append(CPPPATH=['$JLOCAL/include'])
 
 env.Append(CCFLAGS=['-Wall'])
 env.Append(CCFLAGS=['-Wno-write-strings'])
@@ -23,8 +24,6 @@ env.Append(CPPDEFINES=['-DPNG'])
 if env['PLATFORM'] == 'darwin':
   env.Append(CPPDEFINES=['-DPNG15'])
 
-env.Append(LIBPATH=['#/libraf'])
-env.Append(LIBPATH=['$JLOCAL/lib'])
 
 env.Append(LIBS=['raf'])
 env.Append(LIBS=['png'])
