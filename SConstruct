@@ -83,4 +83,8 @@ src/ticlabel.cc
 
 env.Program(target = 'src/ncpp', source = sources)
 
-env.Alias('install', env.Install([env['JLOCAL'] + '/bin'], 'src/ncpp'))
+try: env['JLOCAL'] = os.environ['JLOCAL']
+except KeyError:
+  print('JLOCAL not defined.  No install location.')
+else:
+  env.Alias('install', env.Install([env['JLOCAL'] + '/bin'], 'src/ncpp'))
