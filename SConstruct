@@ -3,8 +3,7 @@
 import os
 import eol_scons
 
-env = Environment(platform = 'posix',tools = ['default', 'openmotif', 'netcdf'],ENV= os.environ)
-#env = Environment(platform = 'posix',ENV= os.environ)
+env = Environment(tools = ['default', 'openmotif', 'netcdf'], ENV= os.environ)
 
 try: env['JLOCAL'] = os.environ['JLOCAL']
 except KeyError:
@@ -83,3 +82,5 @@ src/ticlabel.cc
 
 
 env.Program(target = 'src/ncpp', source = sources)
+
+env.Alias('install', env.Install([env['JLOCAL'] + '/bin'], 'src/ncpp'))
