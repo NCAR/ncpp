@@ -92,7 +92,7 @@ void DataSet::SetNormalize(NormType nt)
 {
   normType = nt;
 
-  for (int i = 1; i < _probe->VectorLength(); ++i)
+  for (size_t i = 1; i < _probe->VectorLength(); ++i)
     {
     switch (normType)
       {
@@ -126,8 +126,6 @@ void DataSet::SetCompute(bool x)
 /* -------------------------------------------------------------------- */
 void DataSet::ResizeData(int nRecs)
 {
-  int	i;
-
   nRecords = nRecs;
   nWords = _probe->DataRate() * _probe->VectorLength() * nRecs;
 
@@ -155,7 +153,7 @@ void DataSet::ResizeData(int nRecs)
     volume = new float[nWords];
     }
 
-  for (i = 0; i < _probe->nOtherVars(); ++i)
+  for (size_t i = 0; i < _probe->nOtherVars(); ++i)
     {
     delete [] otherVars[i];
     otherVars[i] = new float[nRecs];
@@ -166,7 +164,6 @@ void DataSet::ResizeData(int nRecs)
 /* -------------------------------------------------------------------- */
 void DataSet::ReadData(int nRecs, int avRate)
 {
-  int	i, j, k;
   long	startV[3], countV[3], nPoints;
   float	*accumBuff = NULL;
   float	*concBuff = NULL;
@@ -209,7 +206,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
     {
     concBuff = new float[nPoints];
 
-    for (i = 0; i < nRecs * _probe->VectorLength(); ++i)
+    for (int i = 0; i < nRecs * _probe->VectorLength(); ++i)
       conc[i] = _probe->FillValue();
 
 //    memset(conc, 0, nRecs * _probe->VectorLength() * sizeof(float));
@@ -222,31 +219,33 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
     memset(volume, 0, nRecs * _probe->VectorLength() * sizeof(float));
 
   timeSeriesData.resize(_probe->nOtherVars());
-  for (i = 0; i < _probe->nOtherVars(); ++i)
+  for (size_t i = 0; i < _probe->nOtherVars(); ++i)
     timeSeriesData[i] = new float[avRate];
 
 
-  for (i = 0; i < nRecs; ++i)
+  for (int i = 0; i < nRecs; ++i)
     {
     if (accum)
       _probe->ReadCounts(startV, (const long *)countV, accumBuff);
 
-    for (j = 0; j < _probe->nOtherVars(); ++j)
+    for (size_t j = 0; j < _probe->nOtherVars(); ++j)
       _probe->ReadOtherVar(j, startV, countV, timeSeriesData[j]);
 
     if (conc)
+      {
       if (computeConc)
         _probe->ComputeConcentration(accumBuff,concBuff, countV, timeSeriesData);
       else
         _probe->ReadConcen(startV, (const long *)countV, concBuff);
+      }
 
 
     // Average other vars;
-    for (j = 0; j < _probe->nOtherVars(); ++j)
+    for (size_t j = 0; j < _probe->nOtherVars(); ++j)
       {
       otherVars[j][i] = 0.0;
 
-      for (k = 0; k < avRate; ++k)
+      for (int k = 0; k < avRate; ++k)
         otherVars[j][i] += timeSeriesData[j][k];
 
       otherVars[j][i] /= avRate;
@@ -257,11 +256,11 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 
 
     // Average data.
-    for (j = 1; j < _probe->VectorLength(); ++j)
+    for (size_t j = 1; j < _probe->VectorLength(); ++j)
       {
       int dest = (i * _probe->VectorLength()) + j, avCntr = 0;
 
-      for (k = 0; k < avRate; ++k)
+      for (int k = 0; k < avRate; ++k)
         {
         if (accum && accumBuff[(k * _probe->VectorLength()) + j] != _probe->FillValue())
           accum[dest] += accumBuff[(k * _probe->VectorLength()) + j];
@@ -314,7 +313,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
   if (concBuff)
     delete [] concBuff;
 
-  for (i = 0; i < _probe->nOtherVars(); ++i)
+  for (size_t i = 0; i < _probe->nOtherVars(); ++i)
     delete [] timeSeriesData[i];
 
   findMinMax();
@@ -377,7 +376,6 @@ float DataSet::Volume(int s, int cell) const
 /* -------------------------------------------------------------------- */
 void DataSet::findMinMax()
 {
-  int	i, j;
   float	c;
 
   if (accum)
@@ -385,8 +383,8 @@ void DataSet::findMinMax()
     minAccum = FLT_MAX;
     maxAccum = -FLT_MAX;
 
-    for (i = 0; i < nRecords; ++i)
-      for (j = 1; j < _probe->VectorLength(); ++j)
+    for (int i = 0; i < nRecords; ++i)
+      for (size_t j = 1; j < _probe->VectorLength(); ++j)
         {
         c = Accumulation(i, j);
 
@@ -400,8 +398,8 @@ void DataSet::findMinMax()
     minConc = FLT_MAX;
     maxConc = -FLT_MAX;
 
-    for (i = 0; i < nRecords; ++i)
-      for (j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
+    for (int i = 0; i < nRecords; ++i)
+      for (size_t j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
         {
         c = Concentration(i, j);
 
@@ -420,8 +418,8 @@ void DataSet::findMinMax()
     minSurf = FLT_MAX;
     maxSurf = -FLT_MAX;
 
-    for (i = 0; i < nRecords; ++i)
-      for (j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
+    for (int i = 0; i < nRecords; ++i)
+      for (size_t j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
         {
         c = Surface(i, j);
 
@@ -439,8 +437,8 @@ void DataSet::findMinMax()
     minVol = FLT_MAX;
     maxVol = -FLT_MAX;
 
-    for (i = 0; i < nRecords; ++i)
-      for (j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
+    for (int i = 0; i < nRecords; ++i)
+      for (size_t j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
         {
         c = Volume(i, j);
 

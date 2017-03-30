@@ -23,7 +23,7 @@ class Probe
 {
 public:
 	Probe(NcFile *file, NcVar *av);
-       ~Probe();
+	virtual ~Probe();
 
   enum	ProbeType	{ NoProbe, FSSP, F300, PCASP, X260, X200, Y200, MASP, X300, TWODC, TWODP, TWODS, HVPS, S100, S200, S300, RDMA, CLIMET, CMCA, CDP, UHSAS, SIDII, CAPS, PDI, CIP, PIP };
 
@@ -77,11 +77,12 @@ protected:
   std::string	_name;
   std::string	_serialNum;
   std::string	_units;
-  float		_missing_value;
 
   size_t _vectorLength;
   size_t _dataRate;
   size_t _firstBin, _lastBin;
+
+  float		_missing_value;
 
   std::vector<float> _diameter, _midPointDiam, _binWidth, _sampleVolume;
 

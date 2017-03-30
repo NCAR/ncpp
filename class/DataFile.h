@@ -61,8 +61,6 @@ private:
 
   int	nProbes;
 
-  int	baseDataRate;
-
   FlightClock	startTime, endTime;
 
   bool	validProbeName(const char target[]) const;
