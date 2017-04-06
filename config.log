@@ -1,0 +1,26 @@
+file /Users/cjw/code/ncpp/site_scons/eol_scons/tools/netcdf.py,line 75:
+	Configure(confdir = .sconf_temp)
+scons: Configure: Checking for netcdf linking...
+scons: Configure: ".sconf_temp/conftest_0.c" is up to date.
+scons: Configure: The original builder output was:
+  |.sconf_temp/conftest_0.c <-
+  |  |
+  |  |#include <netcdf.h>
+  |  |int main(int argc, char **argv)
+  |  |{
+  |  |    const char* ncv = nc_inq_libvers();
+  |  |    return 0;
+  |  |}
+  |  |
+  |
+scons: Configure: ".sconf_temp/conftest_0.o" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_0.o -c -I. -I/opt/X11/include -I/usr/local/include .sconf_temp/conftest_0.c
+  |
+scons: Configure: ".sconf_temp/conftest_0" is up to date.
+scons: Configure: The original builder output was:
+  |gcc -o .sconf_temp/conftest_0 .sconf_temp/conftest_0.o -L/opt/X11/lib -L/usr/local/lib -lnetcdf_c++ -lnetcdf
+  |
+scons: Configure: (cached) yes
+
+
