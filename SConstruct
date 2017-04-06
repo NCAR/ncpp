@@ -7,8 +7,8 @@ env = Environment(tools = ['default', 'openmotif', 'netcdf'], ENV= os.environ)
 
 try: env['JLOCAL'] = os.environ['JLOCAL']
 except KeyError:
-    env.Append(CPPPATH=['#/libraf'])
-    env.Append(LIBPATH=['#/libraf'])
+    env.Append(CPPPATH=['#/raf'])
+    env.Append(LIBPATH=['#/raf'])
 else:
     env.Append(CPPPATH=['$JLOCAL/include'])
     env.Append(LIBPATH=['$JLOCAL/lib'])
@@ -30,7 +30,7 @@ env.Append(LIBS=['z'])
 
 Export('env')
 
-SConscript('libraf/SConscript')
+SConscript('raf/SConscript')
 
 sources = Split("""
 class/2D.cc
