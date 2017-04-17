@@ -19,18 +19,18 @@ env.Append(CCFLAGS=['-Wall'])
 env.Append(CCFLAGS=['-Wno-write-strings'])
 env.Append(CCFLAGS=['-Wstrict-aliasing'])
 
-env.Append(CPPDEFINES=['-DPNG'])
+env.Append(CPPDEFINES=['PNG'])
 if env['PLATFORM'] == 'darwin':
-  env.Append(CPPDEFINES=['-DPNG15'])
+  env.Append(CPPDEFINES=['PNG15'])
 
 
 env.Append(LIBS=['raf'])
 env.Append(LIBS=['png'])
 env.Append(LIBS=['z'])
 
-Export('env')
+#Export('env')
 
-SConscript('raf/SConscript')
+SConscript('raf/SConscript', exports='env')
 
 sources = Split("""
 class/2D.cc
