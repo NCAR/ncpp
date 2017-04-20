@@ -3,21 +3,23 @@
 import os
 import eol_scons
 
-env = Environment(tools = ['default', 'openmotif', 'netcdf'], ENV= os.environ)
+AddOption('--prefix',
+  dest='prefix',
+  type='string',
+  nargs=1,
+  action='store',
+  metavar='DIR',
+  default='#',
+  help='installation prefix')
 
-try: env['JLOCAL'] = os.environ['JLOCAL']
-except KeyError:
-    env.Append(CPPPATH=['#/raf'])
-    env.Append(LIBPATH=['#/raf'])
-else:
-    env.Append(CPPPATH=['$JLOCAL/include'])
-    env.Append(LIBPATH=['$JLOCAL/lib'])
+env = Environment(PREFIX = GetOption('prefix'),tools = ['default', 'openmotif', 'netcdf'], ENV= os.environ)
+PREFIX=env['PREFIX']
 
 env.Append(CPPPATH=['#/class'])
+env.Append(CPPPATH=[PREFIX+'/include'])
+env.Append(LIBPATH=[PREFIX+'/lib'])
 
-env.Append(CCFLAGS=['-Wall'])
-env.Append(CCFLAGS=['-Wno-write-strings'])
-env.Append(CCFLAGS=['-Wstrict-aliasing'])
+env.Append(CCFLAGS='-Wall -Wno-write-strings -Wstrict-aliasing')
 
 env.Append(CPPDEFINES=['PNG'])
 if env['PLATFORM'] == 'darwin':
@@ -28,9 +30,10 @@ env.Append(LIBS=['raf'])
 env.Append(LIBS=['png'])
 env.Append(LIBS=['z'])
 
-#Export('env')
+Export('PREFIX')
 
-SConscript('raf/SConscript', exports='env')
+if env['PREFIX'] == '#':
+  SConscript('raf/SConscript')
 
 sources = Split("""
 class/2D.cc
@@ -83,8 +86,4 @@ src/ticlabel.cc
 
 env.Program(target = 'src/ncpp', source = sources)
 
-try: env['JLOCAL'] = os.environ['JLOCAL']
-except KeyError:
-  print('JLOCAL not defined.  No install location.')
-else:
-  env.Alias('install', env.Install([env['JLOCAL'] + '/bin'], 'src/ncpp'))
+env.Alias('install', env.Install([PREFIX + '/bin'], 'src/ncpp'))
