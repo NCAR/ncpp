@@ -61,6 +61,7 @@ class/VarsWin.cc
 class/cdp.cc
 class/f300.cc
 class/fssp.cc
+class/hdc.cc
 class/hvps.cc
 class/pcasp.cc
 class/s100.cc

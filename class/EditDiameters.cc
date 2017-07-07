@@ -202,6 +202,7 @@ void EditDiameters::SetDiameters(Probe *probe)
     case Probe::FSSP:
     case Probe::S100:
     case Probe::CDP:
+    case Probe::HDC:
       setSpex("DBZ Factor", cnt++, ((Probe100 *)probe)->_DBZfac);
       setSpex("Liquid Water Content Factor", cnt++, ((Probe100 *)probe)->_PLWfac);
       setSpex("Density of Water", cnt++, ((Probe100 *)probe)->_DENS);

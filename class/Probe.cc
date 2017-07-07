@@ -19,6 +19,11 @@ static float	cdpDefSize[] =
 	  13.0, 14.0, 16.0, 18.0, 20.0, 22.0, 24.0, 26.0, 28.0, 30.0,
 	  32.0, 34.0, 36.0, 38.0, 40.0, 42.0, 44.0, 46.0, 48.0, 50.0 };
 
+static float	hdcDefSize[] =
+	{ 6.0, 10.0, 12.5, 15.0, 17.5, 20.0, 22.5, 25.0, 30.0, 35.0, 40.0,
+	  45.0, 50.0, 60.0, 70.0, 80.0, 90.0, 100.0, 150.0, 200.0, 250.0,
+	  300.0, 350.0, 400.0, 450.0, 500.0, 2000.0 };
+
 static float	pcasDefSize[] =
 	{ 0.1, 0.12, 0.14, 0.17, 0.2, 0.25, 0.3, 0.4,
 	  0.5, 0.7, 0.9, 1.2, 1.5, 2.0, 2.5, 3.0 };
@@ -139,6 +144,9 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
   else
   if (_name.find("PIP") != _name.npos)
     _type = PIP;
+  else
+  if (_name.find("HDC") != _name.npos)
+    _type = HDC;
 
 
   if (Type() == NoProbe)
@@ -211,6 +219,10 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
     if (Type() == CDP)
       for (i = 0; i < 31; ++i)
         _diameter[i] = cdpDefSize[i];
+    else
+    if (Type() == HDC)
+      for (i = 0; i < 27; ++i)
+        _diameter[i] = hdcDefSize[i];
     else
     if (Type() == PCASP)
       for (i = 0; i < 16; ++i)
