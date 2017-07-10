@@ -24,7 +24,7 @@ public:
 
 
 protected:
-  float	_PLWfac, _DBZfac, _DENS, _DOF, _beamDiameter;
+  float	_PLWfac, _DBZfac, _DENS, _DOF, _beamDiameter, _sampleVol;
   float	_totalConcen, _dbar, _plwc, _disp, _dbz;
 
   int	_tasIdx;					// Inputs

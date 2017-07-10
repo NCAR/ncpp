@@ -1,7 +1,7 @@
 Summary: Spec file for ncpp
 Name: ncpp
 Version: 2.2
-Release: 2
+Release: 3
 License: GPL
 Group: System Environment/Daemons
 Url: http://www.eol.ucar.edu/
@@ -20,8 +20,7 @@ Configuration for NCAR-EOL ncpp display for size-distribution data.
 %setup -n %{name}
 
 %build
-cd src
-make
+scons
 
 %install
 rm -rf %{buildroot}

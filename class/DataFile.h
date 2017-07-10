@@ -25,6 +25,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 #include "2D.h"
 #include "hvps.h"
 #include "uhsas.h"
+#include "hdc.h"
 
 #include <raf/rafTime.h>
 

@@ -22,7 +22,7 @@ static const char *validProbeNames[] = {
 	"AFSSP","AF300","APCAS","A260X","AASAS","A200X","A200Y","A300X",
 	"AMASP","A1DC","A2DC","A1DP","A2DP","AS100","AS200","AS300",
 	"ACDP", "ARDMA","ACLMT","ACMCA","AHVPS","AUHSAS","ASID","ACAPS",
-	"APDI", "A2D3", "ACIP", "APIP", NULL };
+	"APDI", "A2D3", "ACIP", "APIP", "AHDC", NULL };
 
 
 /* -------------------------------------------------------------------- */
@@ -120,6 +120,9 @@ DataFile::DataFile(const char fName[]) : fileName(fName)
       else
       if (strncmp("AUHSAS", avar->name(), 6) == 0)
         probe[nProbes++] = new UHSAS(file, avar);
+      else
+      if (strncmp("AHDC", avar->name(), 4) == 0)
+        probe[nProbes++] = new HDC(file, avar);
       else
       if (strncmp("A260X", avar->name(), 5) == 0)
         probe[nProbes++] = new X260(file, avar);
