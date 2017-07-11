@@ -12,7 +12,7 @@ AddOption('--prefix',
   default='#',
   help='installation prefix')
 
-env = Environment(PREFIX = GetOption('prefix'),tools = ['default', 'openmotif', 'netcdf'], ENV= os.environ)
+env = Environment(PREFIX = GetOption('prefix'),tools = ['default', 'openmotif', 'netcdf'])
 PREFIX=env['PREFIX']
 
 env.Append(CPPPATH=['#/class'])
@@ -61,6 +61,7 @@ class/VarsWin.cc
 class/cdp.cc
 class/f300.cc
 class/fssp.cc
+class/hdc.cc
 class/hvps.cc
 class/pcasp.cc
 class/s100.cc
