@@ -22,7 +22,7 @@ static const char *validProbeNames[] = {
 	"AFSSP","AF300","APCAS","A260X","AASAS","A200X","A200Y","A300X",
 	"AMASP","A1DC","A2DC","A1DP","A2DP","AS100","AS200","AS300",
 	"ACDP", "ARDMA","ACLMT","ACMCA","AHVPS","AUHSAS","ASID","ACAPS",
-	"APDI", "A2D3", "ACIP", "APIP", "AHDC", NULL };
+	"APDI", "A2DS", "A2D3", "ACIP", "APIP", "AHDC", NULL };
 
 
 /* -------------------------------------------------------------------- */

@@ -146,7 +146,7 @@ static void ReadConfigFile()
   if ((fp = fopen(buffer, "r")) == NULL)
     return;
 
-  while (fgets(buffer, 1024, fp) > 0)
+  while (fgets(buffer, 1024, fp))
     {
     if (buffer[0] == '#' || strlen(buffer) < 3)
       continue;

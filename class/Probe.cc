@@ -103,7 +103,7 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
   if (_name.find("2DP") != _name.npos || _name.find("1DP") != _name.npos)
     _type = TWODP;
   else
-  if (_name.find("2D3") != _name.npos || _name.find("1D3") != _name.npos)
+  if (_name.find("2D3") != _name.npos || _name.find("2DS") != _name.npos)
     _type = TWODS;
   else
   if (_name.find("HVPS") != _name.npos)
