@@ -16,8 +16,6 @@ env = Environment(PREFIX = GetOption('prefix'),tools = ['default', 'openmotif', 
 PREFIX=env['PREFIX']
 
 env.Append(CPPPATH=['#/class'])
-env.Append(CPPPATH=[PREFIX+'/include'])
-env.Append(LIBPATH=[PREFIX+'/lib'])
 
 env.Append(CCFLAGS='-Wall -Wno-write-strings -Wstrict-aliasing')
 
@@ -33,7 +31,12 @@ env.Append(LIBS=['z'])
 Export('PREFIX')
 
 if env['PREFIX'] == '#':
+  env.Append(CPPPATH=[PREFIX+'/raf'])
+  env.Append(LIBPATH=[PREFIX+'/raf'])
   SConscript('raf/SConscript')
+else:
+  env.Append(CPPPATH=[PREFIX+'/include'])
+  env.Append(LIBPATH=[PREFIX+'/lib'])
 
 sources = Split("""
 class/2D.cc
