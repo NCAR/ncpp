@@ -20,7 +20,7 @@ Configuration for NCAR-EOL ncpp display for size-distribution data.
 %setup -n %{name}
 
 %build
-scons
+scons --prefix=/opt/local
 
 %install
 rm -rf %{buildroot}
