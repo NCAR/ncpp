@@ -7,3 +7,5 @@ User's manual : http://www.eol.ucar.edu/raf/software/ncpp.html
 
 RAF netCDF file conventions : http://www.eol.ucar.edu/raf/software/netCDF.html
 
+Checkout: git clone --recursive https:github.com/ncar/ncpp
+Build with: scons (scons-3 on Redhat 8).
