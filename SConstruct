@@ -88,6 +88,7 @@ src/ticlabel.cc
 """)
 
 
-env.Program(target = 'src/ncpp', source = sources)
+ncpp = env.Program(target = 'src/ncpp', source = sources)
+env.Default(ncpp)
 
 env.Alias('install', env.Install([PREFIX + '/bin'], 'src/ncpp'))
