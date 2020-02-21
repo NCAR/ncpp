@@ -139,6 +139,7 @@ void Colors::resetColors()
 void Colors::SavePNG(const char file_name[], XImage *image)
 {
   int		i, j;
+  size_t	idx;
   FILE          *outFP;
   uint16_t	*s;
   png_structp   png_ptr;
@@ -189,15 +190,13 @@ void Colors::SavePNG(const char file_name[], XImage *image)
 
 
   palette = new png_color[NumberOfColors()];
-
-  for (size_t idx = 0; idx < NumberOfColors(); idx++) {
+  for (idx = 0; idx < NumberOfColors(); idx++) {
     s = GetColorRGB_X(idx);
     palette[idx].red   = s[0];
     palette[idx].green = s[1];
     palette[idx].blue  = s[2];
     }
-
-  palette[i-1].red = palette[i-1].green = palette[i-1].blue = (png_byte)0xff;
+  palette[idx-1].red = palette[idx-1].green = palette[idx-1].blue = (png_byte)0xff;
 
   png_set_PLTE(png_ptr, info_ptr, palette, NumberOfColors());
 //  png_set_bKGD(png_ptr, info_ptr, NumberOfColors()-1);
