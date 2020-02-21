@@ -37,35 +37,35 @@ class Colors
 public:
 	Colors(const Widget w);
 
-  int	NumberOfColors()	{ return(numberColors); }
-  void	ResetColors()		{ colorIndex = 0; resetColors(); }
-  void	SetColorNames(char str[]);
+  size_t	NumberOfColors()	{ return numberColors; }
+  void		ResetColors()		{ colorIndex = 0; resetColors(); }
+  void		SetColorNames(char str[]);
 
-  uint32_t	GetColor(int indx);
+  uint32_t	GetColor(size_t indx);
   uint32_t	NextColor();
   uint32_t	CurrentColor();
 
-  float	*GetColorPS(int indx);
+  float	*GetColorPS(size_t indx);
   float	*NextColorPS();
   float	*CurrentColorPS();
 
 #ifdef PNG
-  void	SavePNG(const char outFile[], XImage *image);
-  uint16_t	*GetColorRGB_X(int idx);
+  void		SavePNG(const char outFile[], XImage *image);
+  uint16_t	*GetColorRGB_X(size_t idx);
 #endif
 
 
 private:
-  void	resetColors();
+  void		resetColors();
 
 #ifdef PNG
-  void	checkByteSwap(XImage *image);
-  int	getColorIndex(uint32_t pixel);
+  void		checkByteSwap(XImage *image);
+  size_t	getColorIndex(uint32_t pixel);
 #endif
 
   Widget _w;
-  int	colorIndex, numberColors;
-  bool	Color;
+  size_t	colorIndex, numberColors;
+  bool		Color;
 
 };	// END COLORS.H
 

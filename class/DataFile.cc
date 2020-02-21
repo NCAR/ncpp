@@ -32,7 +32,7 @@ DataFile::DataFile(const char fName[]) : fileName(fName)
   NcAtt		*attr;
   NcVar		*avar;
 
-  NcError * err = new NcError(NcError::silent_nonfatal);
+  err = new NcError(NcError::silent_nonfatal);
 
   nProbes = 0;
 
@@ -169,6 +169,7 @@ DataFile::~DataFile()
   while (--nProbes >= 0)
     delete probe[nProbes];
 
+  delete err;
   delete file;
 
 }	/* END DESTRUCTOR */

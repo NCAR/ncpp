@@ -55,10 +55,10 @@ public:
 
   virtual void SetRange(int)	{}
 
-  size_t	nOtherVars()		{ return(_otherVars.size()); }
-  const char	*OtherVarName(int idx)	{ return(_otherVars[idx]->name()); }
+  size_t	nOtherVars()			{ return(_otherVars.size()); }
+  const char	*OtherVarName(size_t idx)	{ return(_otherVars[idx]->name()); }
 
-  bool	ReadOtherVar(int idx, long start[], const long count[], float *data);
+  bool	ReadOtherVar(size_t idx, long start[], const long count[], float *data);
 
   virtual int	SetEditWindow(Widget txt[]);
   virtual int	ApplyEditWindow(Widget txt[]);

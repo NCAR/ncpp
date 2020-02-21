@@ -40,7 +40,7 @@ void DataSource::CreateDataSourceWidgets(Widget fileParent, Widget probeParent, 
 
   /* Probe Toggle Buttons.
    */
-  for (int i = 0; i < MAX_PROBES; ++i)
+  for (size_t i = 0; i < MAX_PROBES; ++i)
     {
     _probeB[i] = XmCreateToggleButton(probeParent, (char *)"none        ", NULL, 0);
     XtAddCallback(_probeB[i], XmNvalueChangedCallback,
@@ -59,7 +59,7 @@ void DataSource::CreateDataSourceWidgets(Widget fileParent, Widget probeParent, 
   XtManageChildren(_dataType, 4);
   XmToggleButtonSetState(_dataType[1], True, True);
 
-  for (int i = 0; i < 4; ++i)
+  for (size_t i = 0; i < 4; ++i)
     XtAddCallback(_dataType[i], XmNvalueChangedCallback,
           (XtCallbackProc)ModifyActiveDataTypes, NULL);
 
@@ -79,7 +79,7 @@ void DataSource::CreateDataSourceWidgets(Widget fileParent, Widget probeParent, 
 /* -------------------------------------------------------------------- */
 void DataSource::SetFileNames()
 {
-  int		i;
+  size_t	i;
   XmString	label;
   Arg		args[2];
 
@@ -112,7 +112,7 @@ void DataSource::SetFileNames()
 /* -------------------------------------------------------------------- */
 void DataSource::SetProbeNames()
 {
-  int		i = 0;
+  size_t	i = 0;
   XmString	label;
   Arg		args[2];
   DataSet	*set;
@@ -156,8 +156,8 @@ void DataSource::SetProbeNames()
 /* -------------------------------------------------------------------- */
 DataType DataSource::ActiveDataTypes()
 {
-  int	i;
-  DataType dt = 0;
+  size_t	i;
+  DataType	dt = 0;
 
   for (i = 0; i < 4; ++i)
     if (XmToggleButtonGetState(_dataType[i]))

@@ -34,13 +34,13 @@ public:
 
   void		Clear();
 
-  int		NumberOfSets() const		{ return(numberSets); }
+  size_t	NumberOfSets() const		{ return(numberSets); }
 
   int		AveragingRate() const		{ return(avRate); }
   void		SetAverageRate(int newRate);
 
-  int		NumberRecords() const		{ return(nRecords); }
-  void		SetNumberRecords(int newCnt);
+  size_t	NumberRecords() const		{ return(nRecords); }
+  void		SetNumberRecords(size_t newCnt);
 
   DataType	DataTypes() const		{ return(dataType); }
   void		SetDataTypes(DataType newDT);
@@ -68,14 +68,14 @@ public:
 
 private:
   int		avRate;		// Averaging rate.
-  int		nRecords;	// Number records to display.
+  size_t	nRecords;	// Number records to display.
   DataType	dataType;
   NormType	normType;
 
   FlightClock	currentTime;	// StartTime to use for new data.
 
-  int		numberSets;
-  int		currentSet;
+  size_t	numberSets;
+  size_t	currentSet;
 
   DataSet	*set[MAX_DATASETS];
 
@@ -83,7 +83,7 @@ private:
   float		minConc, maxConc, minCell, maxCell;
   float		minSurf, maxSurf, minVol, maxVol;
 
-  void		findMinMax(), setEndTime(int idx);
+  void		findMinMax(), setEndTime(size_t idx);
 
 };	// END SETMGR.H
 

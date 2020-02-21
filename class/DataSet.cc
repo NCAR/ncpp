@@ -296,7 +296,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 
     if (_probe->DataRate() > 1)
       {
-      if (++startV[1] >= _probe->DataRate())
+      if (++startV[1] >= (long)_probe->DataRate())
         {
         startV[1] = 0;
         ++startV[0];

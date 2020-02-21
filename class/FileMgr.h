@@ -32,7 +32,7 @@ public:
 
   void		SetCurrentFile(int newFile)	{ _currentFile = newFile; }
 
-  int		NumberOfFiles()	const	{ return(_numberFiles); }
+  size_t	NumberOfFiles()	const	{ return _numberFiles; }
   DataFile	*CurrentFile() const
 	{ return(_numberFiles == 0 ? (DataFile *)NULL : _dataFile[_currentFile]); }
 
@@ -43,9 +43,9 @@ public:
 	{ return(++_nextCnt == _numberFiles ? (DataFile *)NULL : _dataFile[_nextCnt]); }
 
 private:
-  int	_numberFiles;
-  int	_currentFile;
-  int	_nextCnt;
+  size_t	_numberFiles;
+  size_t	_currentFile;
+  size_t	_nextCnt;
 
   DataFile	*_dataFile[MAX_DATAFILES];
 

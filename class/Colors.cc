@@ -49,7 +49,8 @@ Colors::Colors(const Widget w) : _w(w)
 /* -------------------------------------------------------------------- */
 void Colors::resetColors()
 {
-  int		i = 5, defaultDepth;
+  size_t	i = 5;
+  int		defaultDepth;
   Colormap	defaultCMap;
   Display	*dpy;
   int		screenNum;
@@ -137,7 +138,7 @@ void Colors::resetColors()
 /* -------------------------------------------------------------------- */
 void Colors::SavePNG(const char file_name[], XImage *image)
 {
-  int           i, j;
+  int		i, j;
   FILE          *outFP;
   uint16_t	*s;
   png_structp   png_ptr;
@@ -189,11 +190,11 @@ void Colors::SavePNG(const char file_name[], XImage *image)
 
   palette = new png_color[NumberOfColors()];
 
-  for (i = 0; i < NumberOfColors(); i++) {
-    s = GetColorRGB_X(i);
-    palette[i].red   = s[0];
-    palette[i].green = s[1];
-    palette[i].blue  = s[2];
+  for (size_t idx = 0; idx < NumberOfColors(); idx++) {
+    s = GetColorRGB_X(idx);
+    palette[idx].red   = s[0];
+    palette[idx].green = s[1];
+    palette[idx].blue  = s[2];
     }
 
   palette[i-1].red = palette[i-1].green = palette[i-1].blue = (png_byte)0xff;
@@ -250,9 +251,9 @@ void Colors::SavePNG(const char file_name[], XImage *image)
 /* -------------------------------------------------------------------- */
 void Colors::checkByteSwap(XImage *image)
 {
-  int   i;
-  bool	prog_byte_order;
-  uint32_t pixel, x;
+  size_t	i;
+  bool		prog_byte_order;
+  uint32_t	pixel, x;
 
   static bool firstTime = TRUE;
 
@@ -297,16 +298,14 @@ void Colors::checkByteSwap(XImage *image)
 }
 
 /* -------------------------------------------------------------------- */
-int Colors::getColorIndex(uint32_t pixel)
+size_t Colors::getColorIndex(uint32_t pixel)
 {
-  int   i;
-
   /* Check background color first, since it will be the most common.
    */
   if (pixel == colorInfo[BACKGROUND].cpixel)
     return(BACKGROUND);
 
-  for (i = 0; i < numberColors; ++i)
+  for (size_t i = 0; i < numberColors; ++i)
     if (pixel == colorInfo[i].cpixel)
       return(i);
 
@@ -315,7 +314,7 @@ int Colors::getColorIndex(uint32_t pixel)
 }
 
 /* -------------------------------------------------------------------- */
-uint16_t *Colors::GetColorRGB_X(int indx)
+uint16_t *Colors::GetColorRGB_X(size_t indx)
 {
   return(colorInfo[indx].x_rgb);
 }
@@ -323,7 +322,7 @@ uint16_t *Colors::GetColorRGB_X(int indx)
 #endif
 
 /* -------------------------------------------------------------------- */
-uint32_t Colors::GetColor(int indx)
+uint32_t Colors::GetColor(size_t indx)
 {
   return(colorInfo[indx].pixel);
 }
@@ -341,7 +340,7 @@ uint32_t Colors::CurrentColor()
 }
 
 /* -------------------------------------------------------------------- */
-float *Colors::GetColorPS(int indx)
+float *Colors::GetColorPS(size_t indx)
 {
   return(colorInfo[indx].ps_rgb);
 }

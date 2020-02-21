@@ -322,7 +322,7 @@ void Probe::ComputeConcentration(float *accum, float *conc, long countV[],
 }	/* END COMPUTECONCENTRATION */
 
 /* -------------------------------------------------------------------- */
-bool Probe::ReadOtherVar(int idx, long start[], const long count[], float *data)
+bool Probe::ReadOtherVar(size_t idx, long start[], const long count[], float *data)
 {
   if (idx >= _otherVars.size())
     return(false);

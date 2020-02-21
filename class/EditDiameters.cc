@@ -99,18 +99,18 @@ EditDiameters::EditDiameters(const Widget parent) : WinForm(parent, "editDiams",
   n = 0;
   drRC = XmCreateRowColumn(drFrame, (char *)"buttonRC", args, n);
   XtManageChild(drRC);
- 
+
   n = 0;
   b[0] = XmCreatePushButton(drRC, (char *)"applyButton", args, n);
- 
+
   n = 0;
   b[1] = XmCreatePushButton(drRC, (char *)"resetButton", args, n);
- 
+
   n = 0;
   b[2] = XmCreatePushButton(drRC, (char *)"dismissButton", args, n);
- 
+
   XtManageChildren(b, 3);
- 
+
   XtAddCallback(b[0],XmNactivateCallback, ApplyDiams, (XtPointer)NULL);
   XtAddCallback(b[1],XmNactivateCallback, SetDiams, (XtPointer)NULL);
   XtAddCallback(b[2],XmNactivateCallback, DismissWindow, (XtPointer)Window());
@@ -120,7 +120,7 @@ EditDiameters::EditDiameters(const Widget parent) : WinForm(parent, "editDiams",
 /* -------------------------------------------------------------------- */
 void EditDiameters::SetProbeNames(DataFile *currFile)
 {
-  int	i;
+  size_t	i;
   XmString      label;
   Arg           args[2];
 
