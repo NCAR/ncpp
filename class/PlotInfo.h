@@ -102,8 +102,8 @@ private:
   SetManager&	sets;
 
   Canvas&	canvas;
-  Colors&	colors;
   XFonts&	fonts;
+  Colors&	colors;
   XPen&		blackPen;
   XPen&		colorPen;
 

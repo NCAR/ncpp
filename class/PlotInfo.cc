@@ -62,7 +62,7 @@ void PlotInfo::UpdateSubtitle(DataSet *set)
   if (!autoTitles)
     return;
 
-  int	idx = subTitle.find(",");
+  size_t idx = subTitle.find(",");
 
   if (!set)
     {
@@ -85,13 +85,13 @@ void PlotInfo::UpdateSubtitle(DataSet *set)
     subTitle.append(temp);
   else
     subTitle.replace(idx, subTitle.length(), temp);
- 
+
 }       /* END SETCURRENTSUBTITLE */
 
 /* -------------------------------------------------------------------- */
 void PlotInfo::SetDataTypes(DataType dt)
 {
-  int		idx = 0;
+  size_t	idx = 0;
   DataType	oldTypes = dataTypes;
 
   dataTypes = dt;
@@ -218,11 +218,11 @@ void PlotInfo::SetDefaultLabels(int idx)
 
 
   // Convert the letter 'u' to the ASCII micron character
-  for (int i = 0; i < panel[idx]->xAxis.label.length(); ++i)
+  for (size_t i = 0; i < panel[idx]->xAxis.label.length(); ++i)
     if (panel[idx]->xAxis.label[i] == 'u')
       panel[idx]->xAxis.label[i] = 0xb5;
 
-  for (int i = 0; i < panel[idx]->yAxis.label.length(); ++i)
+  for (size_t i = 0; i < panel[idx]->yAxis.label.length(); ++i)
     if (panel[idx]->yAxis.label[i] == 'u')
       panel[idx]->yAxis.label[i] = 0xb5;
 

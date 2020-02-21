@@ -33,7 +33,6 @@ void HDC::ComputeConcentration(float *accum, float *conc, long countV[],
   int	i;
   std::vector<float> dia;
   float	*counts, *concentration;
-  float	sampleVolume;
 
   for (i = 0; i < countV[0] * countV[1]; ++i)
     {

@@ -206,7 +206,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
     {
     concBuff = new float[nPoints];
 
-    for (int i = 0; i < nRecs * _probe->VectorLength(); ++i)
+    for (size_t i = 0; i < nRecs * _probe->VectorLength(); ++i)
       conc[i] = _probe->FillValue();
 
 //    memset(conc, 0, nRecs * _probe->VectorLength() * sizeof(float));
@@ -280,9 +280,9 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
         conc[dest] /= avCntr;
 
       // Convert #/L data to #/cm3 so we have consistant data.
-      if ((conc && conc[dest] != _probe->FillValue()) &&
-		_probe->Units().find("/L") != _probe->Units().npos ||
-		_probe->Units().find("liter") != _probe->Units().npos)
+      if (((conc && conc[dest] != _probe->FillValue())) &&
+		(_probe->Units().find("/L") != _probe->Units().npos ||
+		_probe->Units().find("liter") != _probe->Units().npos))
         conc[dest] /= 1000;
 
       if (surface)

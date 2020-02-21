@@ -305,8 +305,6 @@ void SetManager::findMinMax()
       }
     else
       {
-      Probe *prb = set[0]->probe();
-
       minSurf = set[0]->minSurf;
       maxSurf = set[0]->maxSurf;
 
@@ -314,8 +312,6 @@ void SetManager::findMinMax()
         {
         minSurf = std::min(minSurf, set[i]->minSurf);
         maxSurf = std::max(maxSurf, set[i]->maxSurf);
-
-        prb = set[i]->probe();
         }
       }
     }
@@ -330,8 +326,6 @@ void SetManager::findMinMax()
       }
     else
       {
-      Probe *prb = set[0]->probe();
-
       minVol = set[0]->minVol;
       maxVol = set[0]->maxVol;
 
@@ -339,8 +333,6 @@ void SetManager::findMinMax()
         {
         minVol = std::min(minVol, set[i]->minVol);
         maxVol = std::max(maxVol, set[i]->maxVol);
-
-        prb = set[i]->probe();
         }
       }
     }

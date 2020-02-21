@@ -270,8 +270,8 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
     {
     var = file->get_var(i);
 
-    if (var->num_dims() < 3 &&
-       (strstr(var->name(), location) && strncmp(var->name(), "EVENT_", 6)) ||
+    if ((var->num_dims() < 3 &&
+       (strstr(var->name(), location) && strncmp(var->name(), "EVENT_", 6))) ||
        strcmp(var->name(), "TASX") == 0)
       {
       _otherVars.push_back(var);

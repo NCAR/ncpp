@@ -39,7 +39,7 @@ EditDiameters::EditDiameters(const Widget parent) : WinForm(parent, "editDiams",
 
   /* Probe Toggle Buttons.
    */
-  for (int i = 0; i < MAX_PROBES; ++i)
+  for (size_t i = 0; i < MAX_PROBES; ++i)
     {
     n = 0;
     probeB[i] = XmCreateToggleButton(probeRC, (char *)"none      ", NULL, 0);
@@ -156,7 +156,7 @@ void EditDiameters::SetProbeNames(DataFile *currFile)
 /* -------------------------------------------------------------------- */
 void EditDiameters::SetDiameters(Probe *probe)
 {
-  int	i, j, cnt, nTxt;
+  size_t	i, j, cnt, nTxt;
   Arg		args[1];
   XmString	label;
 

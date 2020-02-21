@@ -60,8 +60,6 @@ private:
   std::vector<float *> otherVars;
   std::vector<float> normalization;
 
-  FlightClock	startTime, endTime;
-
   NormType	normType;
 
   void	findMinMax();
@@ -70,6 +68,8 @@ private:
 
   DataFile *_file;
   Probe *_probe;
+
+  FlightClock	startTime, endTime;
 
 };	// END DATASET.H
 

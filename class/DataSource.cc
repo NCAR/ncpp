@@ -28,16 +28,16 @@ void DataSource::CreateDataSourceWidgets(Widget fileParent, Widget probeParent, 
 
   /* File Toggle Buttons.
    */
-  for (int i = 0; i < MAX_DATAFILES; ++i)
+  for (size_t i = 0; i < MAX_DATAFILES; ++i)
     {
     _fileB[i] = XmCreateToggleButton(fileParent, (char *)"none", NULL, 0);
     XtAddCallback(_fileB[i], XmNvalueChangedCallback,
                   (XtCallbackProc)SetCurrentFile, (XtPointer)i);
     }
- 
+
   XtManageChildren(_fileB, MAX_DATAFILES);
- 
- 
+
+
   /* Probe Toggle Buttons.
    */
   for (int i = 0; i < MAX_PROBES; ++i)
@@ -46,7 +46,7 @@ void DataSource::CreateDataSourceWidgets(Widget fileParent, Widget probeParent, 
     XtAddCallback(_probeB[i], XmNvalueChangedCallback,
                   (XtCallbackProc)ModifyActiveProbes, (XtPointer)i);
     }
- 
+
   XtManageChildren(_probeB, MAX_PROBES);
 
 
@@ -62,7 +62,7 @@ void DataSource::CreateDataSourceWidgets(Widget fileParent, Widget probeParent, 
   for (int i = 0; i < 4; ++i)
     XtAddCallback(_dataType[i], XmNvalueChangedCallback,
           (XtCallbackProc)ModifyActiveDataTypes, NULL);
- 
+
   compute[0] = XmCreateToggleButton(computeParent, (char *)"From file     ", NULL, 0);
   compute[1] = XmCreateToggleButton(computeParent, (char *)"Computed", NULL, 0);
   XtManageChildren(compute, 2);
@@ -86,21 +86,21 @@ void DataSource::SetFileNames()
   for (i = 0; i < fileMgr.NumberOfFiles(); ++i)
     {
     XtSetSensitive(_fileB[i], True);
- 
+
     label = XmStringCreate((char *)fileMgr._dataFile[i]->FileName().c_str(),
                            XmFONTLIST_DEFAULT_TAG);
     XtSetArg(args[0], XmNlabelString, label);
     XtSetValues(_fileB[i], args, 1);
     XmStringFree(label);
- 
+
     if (fileMgr._dataFile[i] == fileMgr.CurrentFile())
       XmToggleButtonSetState(_fileB[i], True, True);
     }
- 
+
   for (; i < MAX_DATAFILES; ++i)
     {
     XtSetSensitive(_fileB[i], False);
- 
+
     label = XmStringCreate((char *)"none", XmFONTLIST_DEFAULT_TAG);
     XtSetArg(args[0], XmNlabelString, label);
     XtSetValues(_fileB[i], args, 1);
@@ -138,11 +138,11 @@ void DataSource::SetProbeNames()
           XmToggleButtonSetState(_probeB[i], True, False);
       }
     }
- 
+
   for (; i < MAX_PROBES; ++i)
     {
     XtSetSensitive(_probeB[i], False);
- 
+
     label = XmStringCreate((char *)"none", XmFONTLIST_DEFAULT_TAG);
     XtSetArg(args[0], XmNlabelString, label);
     XtSetValues(_probeB[i], args, 1);

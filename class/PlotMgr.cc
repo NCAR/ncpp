@@ -46,7 +46,7 @@ PlotManager::PlotManager(const Widget parent, const Widget drawA) :
   Widget	frame[8], title[8], RC[8], plRC[2], grid, bandw, ditc;
 
   extern Canvas		*mainCanvas;
-  extern SetManager	setMgr, movieSetMgr;
+  extern SetManager	setMgr;
 
   n = 0;
   frame[0] = XmCreateFrame(Window(), (char *)"plotFrame", args, n);
