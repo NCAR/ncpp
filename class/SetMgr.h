@@ -74,7 +74,7 @@ private:
 
   FlightClock	currentTime;	// StartTime to use for new data.
 
-  size_t	numberSets;
+  long int	numberSets;
   size_t	currentSet;
 
   DataSet	*set[MAX_DATASETS];

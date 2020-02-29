@@ -43,7 +43,7 @@ public:
 	{ return(++_nextCnt == _numberFiles ? (DataFile *)NULL : _dataFile[_nextCnt]); }
 
 private:
-  size_t	_numberFiles;
+  long int	_numberFiles;
   size_t	_currentFile;
   size_t	_nextCnt;
 

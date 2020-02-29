@@ -62,7 +62,7 @@ private:
   std::string	fileName;
   std::string	projName, flightNum, flightDate;
 
-  size_t	nProbes;
+  long int	nProbes;
 
   FlightClock	startTime, endTime;
 
