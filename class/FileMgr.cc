@@ -20,8 +20,8 @@ void FileManager::NewFile(const char fileName[])
 {
   extern PlotManager	*plotMgr;
 
-  while (--_numberFiles >= 0)
-    delete _dataFile[_numberFiles];
+  for (size_t i = 0; i < _numberFiles; ++i)
+    delete _dataFile[i];
 
   _numberFiles = 1;
   _currentFile = 0;

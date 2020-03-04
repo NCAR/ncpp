@@ -26,7 +26,7 @@ static const char *validProbeNames[] = {
 
 
 /* -------------------------------------------------------------------- */
-DataFile::DataFile(const char fName[]) : fileName(fName)
+DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
 {
   int		i;
   NcAtt		*attr;
@@ -34,7 +34,6 @@ DataFile::DataFile(const char fName[]) : fileName(fName)
 
   err = new NcError(NcError::silent_nonfatal);
 
-  nProbes = 0;
 
   // Open Input File
   file = new NcFile(fName);
@@ -99,65 +98,65 @@ DataFile::DataFile(const char fName[]) : fileName(fName)
     if (avar->num_dims() >= 3 && validProbeName(avar->name()))
       {
       if (strncmp("AFSSP", avar->name(), 5) == 0)
-        probe[nProbes++] = new FSSP(file, avar);
+        probe[_nProbes++] = new FSSP(file, avar);
       else
       if (strncmp("AF300", avar->name(), 5) == 0 ||
           strncmp("AS300", avar->name(), 5) == 0)
-        probe[nProbes++] = new F300(file, avar);
+        probe[_nProbes++] = new F300(file, avar);
       else
       if (strncmp("AASAS", avar->name(), 5) == 0 ||
           strncmp("APCAS", avar->name(), 5) == 0)
-        probe[nProbes++] = new PCASP(file, avar);
+        probe[_nProbes++] = new PCASP(file, avar);
       else
       if (strncmp("AS100", avar->name(), 5) == 0)
-        probe[nProbes++] = new S100(file, avar);
+        probe[_nProbes++] = new S100(file, avar);
       else
       if (strncmp("ACDP", avar->name(), 4) == 0)
-        probe[nProbes++] = new CDP(file, avar);
+        probe[_nProbes++] = new CDP(file, avar);
       else
       if (strncmp("AS200", avar->name(), 5) == 0)
-        probe[nProbes++] = new S200(file, avar);
+        probe[_nProbes++] = new S200(file, avar);
       else
       if (strncmp("AUHSAS", avar->name(), 6) == 0)
-        probe[nProbes++] = new UHSAS(file, avar);
+        probe[_nProbes++] = new UHSAS(file, avar);
       else
       if (strncmp("AHDC", avar->name(), 4) == 0)
-        probe[nProbes++] = new HDC(file, avar);
+        probe[_nProbes++] = new HDC(file, avar);
       else
       if (strncmp("A260X", avar->name(), 5) == 0)
-        probe[nProbes++] = new X260(file, avar);
+        probe[_nProbes++] = new X260(file, avar);
       else
       if (strncmp("AMASP", avar->name(), 5) == 0)
-        probe[nProbes++] = new F300(file, avar);
+        probe[_nProbes++] = new F300(file, avar);
       else
 //      if (strncmp("AHVPS", avar->name(), 5) == 0)
-//        probe[nProbes++] = new HVPS(file, avar);
+//        probe[_nProbes++] = new HVPS(file, avar);
 //      else
       if (strncmp("A200X", avar->name(), 5) == 0)
-        probe[nProbes++] = new X200(file, avar);
+        probe[_nProbes++] = new X200(file, avar);
       else
       if (strncmp("A200Y", avar->name(), 5) == 0)
-        probe[nProbes++] = new Y200(file, avar);
+        probe[_nProbes++] = new Y200(file, avar);
       else
       if (strncmp("ACIP", avar->name(), 5) == 0)
-        probe[nProbes++] = new TwoDCIP(file, avar);
+        probe[_nProbes++] = new TwoDCIP(file, avar);
       else
       if (strncmp("APIP", avar->name(), 5) == 0)
-        probe[nProbes++] = new TwoDPIP(file, avar);
+        probe[_nProbes++] = new TwoDPIP(file, avar);
       else
       if (strncmp("A2DC", avar->name(), 4) == 0 ||
           strncmp("A1DC", avar->name(), 4) == 0)
-        probe[nProbes++] = new TwoDC(file, avar);
+        probe[_nProbes++] = new TwoDC(file, avar);
       else
       if (strncmp("A2DP", avar->name(), 4) == 0 ||
           strncmp("A1DP", avar->name(), 4) == 0)
-        probe[nProbes++] = new TwoDP(file, avar);
+        probe[_nProbes++] = new TwoDP(file, avar);
       else
       if (strncmp("A2D3", avar->name(), 4) == 0 ||	// 3V-CPI
           strncmp("A1D3", avar->name(), 4) == 0)
-        probe[nProbes++] = new TwoDS(file, avar);
+        probe[_nProbes++] = new TwoDS(file, avar);
       else
-        probe[nProbes++] = new Probe(file, avar);
+        probe[_nProbes++] = new Probe(file, avar);
       }
     }
 
@@ -166,8 +165,8 @@ DataFile::DataFile(const char fName[]) : fileName(fName)
 /* -------------------------------------------------------------------- */
 DataFile::~DataFile()
 {
-  while (--nProbes >= 0)
-    delete probe[nProbes];
+  for (size_t i = 0; i < _nProbes; ++i)
+    delete probe[i];
 
   delete err;
   delete file;

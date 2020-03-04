@@ -16,11 +16,8 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-8
 #include <cfloat>
 
 /* -------------------------------------------------------------------- */
-SetManager::SetManager()
+SetManager::SetManager() : numberSets(0), currentSet(0)
 {
-  numberSets = 0;
-  currentSet = 0;
-
 avRate = 10;
 nRecords = 1;
 dataType = CONCENTRATION;
@@ -30,8 +27,8 @@ dataType = CONCENTRATION;
 /* -------------------------------------------------------------------- */
 void SetManager::Clear()
 {
-  while (--numberSets >= 0)
-    delete set[numberSets];
+  for (size_t i = 0; i < numberSets; ++i)
+    delete set[i];
 
   numberSets = 0;
   currentSet = 0;

@@ -17,7 +17,7 @@ PREFIX=env['PREFIX']
 
 env.Append(CPPPATH=['#/class'])
 
-env.Append(CCFLAGS='-Wall -Wno-write-strings -Wstrict-aliasing')
+env.Append(CCFLAGS='-std=c++11 -Wall -Wno-write-strings -Wstrict-aliasing')
 
 env.Append(CPPDEFINES=['PNG'])
 if env['PLATFORM'] == 'darwin':

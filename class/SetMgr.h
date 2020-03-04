@@ -19,7 +19,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2001
 #include "DataFile.h"
 #include <raf/rafTime.h>
 
-class Panel; 
+class Panel;
 
 /* -------------------------------------------------------------------- */
 class SetManager
@@ -74,7 +74,7 @@ private:
 
   FlightClock	currentTime;	// StartTime to use for new data.
 
-  long int	numberSets;
+  size_t	numberSets;
   size_t	currentSet;
 
   DataSet	*set[MAX_DATASETS];
