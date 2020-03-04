@@ -127,7 +127,10 @@ static void ProcessArgs(char **argv)
     else
       {
       if (access(*argv, R_OK) == 0)
-        NewDataFile(NULL, (XtPointer)*argv, NULL);
+        if (fileMgr.NumberOfFiles() == 0)
+          NewDataFile(NULL, (XtPointer)*argv, NULL);
+        else
+          AddDataFile(NULL, (XtPointer)*argv, NULL);
       }
 
 }	/* END PROCESSARGS */

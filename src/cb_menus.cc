@@ -72,7 +72,7 @@ void NewDataFile(Widget w, XtPointer client, XtPointer call)
          ((XmFileSelectionBoxCallbackStruct *)call)->value, &dataFile);
   else
     dataFile = (char *)client;
- 
+
   fileMgr.NewFile(dataFile);
 
   if (w)
@@ -100,10 +100,13 @@ void AddDataFile(Widget w, XtPointer client, XtPointer call)
     ErrorMsg("Currently at maximum allowed files.");
     return;
     }
- 
-  fileSel->ExtractFileName(
+
+  if (w)
+    fileSel->ExtractFileName(
          ((XmFileSelectionBoxCallbackStruct *)call)->value, &dataFile);
- 
+  else
+    dataFile = (char *)client;
+
   fileMgr.AddFile(dataFile);
   SetFileNames();
 
