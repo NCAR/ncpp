@@ -106,6 +106,9 @@ void SetCurrentFile(Widget w, XtPointer client, XtPointer call)
 /* -------------------------------------------------------------------- */
 void ModifyActiveProbes(Widget w, XtPointer client, XtPointer call)
 {
+  if (fileMgr.CurrentFile() == 0)
+    return;
+
   XmToggleButtonCallbackStruct *cb = (XmToggleButtonCallbackStruct *)call;
 
   cursor.WaitCursor(movieControlGUI->Window());
