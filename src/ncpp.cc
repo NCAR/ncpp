@@ -120,6 +120,7 @@ static void Initialize()
 static void ProcessArgs(char **argv)
 {
   while (*++argv)
+    {
     if ((*argv)[0] == '-')
       switch ((*argv)[1])
         {
@@ -127,11 +128,14 @@ static void ProcessArgs(char **argv)
     else
       {
       if (access(*argv, R_OK) == 0)
+        {
         if (fileMgr.NumberOfFiles() == 0)
           NewDataFile(NULL, (XtPointer)*argv, NULL);
         else
           AddDataFile(NULL, (XtPointer)*argv, NULL);
+        }
       }
+    }
 
 }	/* END PROCESSARGS */
 
