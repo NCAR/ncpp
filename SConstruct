@@ -20,9 +20,6 @@ env.Append(CPPPATH=['#/class'])
 env.Append(CCFLAGS='-std=c++11 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
 
 env.Append(CPPDEFINES=['PNG'])
-if env['PLATFORM'] == 'darwin':
-  env.Append(CPPDEFINES=['PNG15'])
-
 
 env.Append(LIBS=['raf'])
 env.Append(LIBS=['png'])
