@@ -3,37 +3,19 @@
 import os
 import eol_scons
 
-AddOption('--prefix',
-  dest='prefix',
-  type='string',
-  nargs=1,
-  action='store',
-  metavar='DIR',
-  default='#',
-  help='installation prefix')
 
-env = Environment(PREFIX = GetOption('prefix'),tools = ['default', 'openmotif', 'netcdf', 'raf'])
-PREFIX=env['PREFIX']
-
-env.Append(CPPPATH=['#/class'])
+env = Environment(tools = ['default', 'openmotif', 'netcdf', 'raf'])
+env.Require('prefixoptions')
 
 env.Append(CCFLAGS='-std=c++11 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
-
 env.Append(CPPDEFINES=['PNG'])
+env.Append(CPPPATH=['#/class'])
 
 env.Append(LIBS=['raf'])
 env.Append(LIBS=['png'])
 env.Append(LIBS=['z'])
 
-Export('PREFIX')
-
-if env['PREFIX'] == '#':
-  env.Append(CPPPATH=[PREFIX+'/raf'])
-  env.Append(LIBPATH=[PREFIX+'/raf'])
-  SConscript('raf/SConscript')
-else:
-  env.Append(CPPPATH=[PREFIX+'/include'])
-  env.Append(LIBPATH=[PREFIX+'/lib'])
+env.Append(LIBPATH=['#/raf'])
 
 sources = Split("""
 class/2D.cc
@@ -88,4 +70,5 @@ src/ticlabel.cc
 ncpp = env.Program(target = 'src/ncpp', source = sources)
 env.Default(ncpp)
 
-env.Alias('install', env.Install([PREFIX + '/bin'], 'src/ncpp'))
+#env.Alias('install', env.Install([$INSTALL_PREFIX + '/bin'], 'src/ncpp'))
+env.Install('$INSTALL_PREFIX/bin', 'src/ncpp')
