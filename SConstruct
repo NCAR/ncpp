@@ -7,7 +7,7 @@ import eol_scons
 env = Environment(tools = ['default', 'openmotif', 'netcdf', 'raf'])
 env.Require('prefixoptions')
 
-env.Append(CCFLAGS='-std=c++11 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
+env.Append(CXXFLAGS='-std=c++11 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
 env.Append(CPPDEFINES=['PNG'])
 env.Append(CPPPATH=['#/class'])
 
