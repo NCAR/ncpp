@@ -1,6 +1,6 @@
 [submodule "site_scons"]
 	path = site_scons
-	url = https://github.com/ncar/eol_scons
+	url = ../eol_scons
 [submodule "raf"]
 	path = raf
-	url = https://github.com/ncar/libraf
+	url = ../libraf
