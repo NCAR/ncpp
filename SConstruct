@@ -4,7 +4,7 @@ import os
 import eol_scons
 
 
-env = Environment(tools = ['default', 'openmotif', 'netcdf', 'raf'])
+env = Environment(tools = ['default', 'openmotif', 'netcdfcxx', 'raf'])
 env.Require('prefixoptions')
 
 env.Append(CXXFLAGS='-std=c++11 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
