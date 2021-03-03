@@ -1,7 +1,7 @@
 Summary: Spec file for ncpp
 Name: ncpp
 Version: 2.2
-Release: 3
+Release: 4
 License: GPL
 Group: System Environment/Daemons
 Url: http://www.eol.ucar.edu/
@@ -10,7 +10,16 @@ Packager: Chris Webster <cjw@ucar.edu>
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Vendor: UCAR
 BuildArch: x86_64
-Requires: openmotif netcdf libpng
+
+BuildRequires: scons
+Requires: netcdf-cxx netcdf libpng
+
+%if 0%{?rhel} <= 7
+Requires: openmotif 
+%else
+Requires: motif
+%endif
+
 Source: ftp://ftp.eol.ucar.edu/pub/archive/RAF-src/%{name}.tar.gz
 
 %description
@@ -20,7 +29,7 @@ Configuration for NCAR-EOL ncpp display for size-distribution data.
 %setup -n %{name}
 
 %build
-scons --prefix=/opt/local
+scons 
 
 %install
 rm -rf %{buildroot}
