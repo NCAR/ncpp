@@ -31,7 +31,7 @@ span.comment { background-color: #88FF88; font-style: italic; }
 <body bgcolor="ffffff">
 
 <h1 align=CENTER>NCPP User's Guide</h1>
-<h1 align=CENTER>Version 2.2.3</h1>
+<h1 align=CENTER>Version 2.2.4</h1>
 <hr>
 <h1 align=CENTER>Table Of Contents</h1>
 <ol type=A>
@@ -39,9 +39,7 @@ span.comment { background-color: #88FF88; font-style: italic; }
  <li><a href="#gs">Getting Started</a>
  <ol>
   <li>Acquiring
-  <li>Installing
   <li>Environment
-  <li>Fonts
   <li>Command line options
  </ol>
 
@@ -148,31 +146,14 @@ static const char *validProbeNames[] = {
 <dt><h2>Acquiring</h2>
 <dd><b>ncpp</b> is available at <a href="https://github.com/ncar/ncpp">https://github.com/ncar/ncpp</a>.
 
-
-<dt><h3>Installing</h3>
-<dd>For system use, the binary may be placed in something like
-<b>/usr/local/bin</b>.
-<p>
-For single user, place the binary in ~/bin (Make sure ~/bin is in your
-<b>PATH</b>).
-
 <dt><h3>Environment</h3>
 <dd><b>ncpp</b> is written in C++, requiring X11/R6 and Motif 2.0 (or later),
 and the <b>netCDF</b> library 3.0 or later.  Our current development platform
-Redhat and Fedora Linux.
+Redhat/Fedora and MacOS.
 <p>
 <b>ncpp</b> uses, though it is not required, a shell environment variable
 called <b>DATA_DIR</b> as the default directory to locate data files.
 <p>
-
-<dt><h3>Fonts</h3>
-<dd>Fonts (on screen) have been a source of irritation from the start.  What
-looks great on Solaris looks like crap on Linux or an HP.  You can modify
-the fonts for the screen in the <b>XmNCpp</b> file.  All font references
-are at the top.  The <b>X</b> programs <b>xfontsel</b> and <b>xlsfonts</b>
-can help you locate a font that looks good on your machine (you'll need
-10, 12, 14, 18, and 24 point sizes for the font you do locate, with 12 &mp;
-14 being the most heavely used).
 
 <dt><h2>Command Line Options</h2>
 <dd><b>data_file</b>, a netCDF data file that conforms to the
@@ -197,41 +178,41 @@ can help you locate a font that looks good on your machine (you'll need
   <td align=left>
 
 <dl>
-<dt><h3>Selecting and Deselecting Probes</h3>
+<dt><h3>Selecting and Deselecting Probes</h3></dt>
 <dd>After you have selected which data file, turn on the probes you wish to
 view.  Multiple probes may selected.
 <p>
 To <b>de-select</b> a variable, click on it again.  The file, axis,
 location and panel must all match from when the variable was selected.  This
-can get confusing if you are drawing data from multiple files.
+can get confusing if you are drawing data from multiple files.</dd>
 
-<dt><h3>Data Types</h3>
+<dt><h3>Data Types</h3></dt>
 <dd>Turn on which data types you wish to view (you may select more than one).
-<b>Turning off all data types will cause a core dump at this time.</b>
+<b>Turning off all data types will cause a core dump at this time.</b></dd>
 
-<dt><h3>Concentrations</h3>
+<dt><h3>Concentrations</h3></dt>
 <dd>You may choose to have <b>ncpp</b> read concentrations from the netCDF
 file (the default), or compute them on the fly.  Computing is useful if you
-want to modify certain probe parameters (see <b>Edit Cell Diameters</b>).
+want to modify certain probe parameters (see <b>Edit Cell Diameters</b>).</dd>
 
-<dt><h3>Options</h3>
- <dl>
+<dt><h3>Options</h3></dt>
+ <dd><dl>
  <dt><b>Panels</b>
  <dd>This allows you to select how many <b>Postage stamps</b> to display per
-data type.
+data type.</dd>
 <p>
- <dt><b>Normalization</b>
+ <dt><b>Normalization</b></dt>
  <dd>This allows you to select a normalization method for dividing down
-concentrations.  Options are <b>None</b>, <b>Linear</b>, and <b>Log</b>.
+concentrations.  Options are <b>None</b>, <b>Linear</b>, and <b>Log</b>.</dd>
 <p>
- <dt><b>Black &amp; White (on/off)</b>
+ <dt><b>Black &amp; White (on/off)</b></dt>
  <dd>Converts all color traces to black and white.  Dashed lines are used
 to differentiate variables in black and white.  This option is provided
-to let the user preview black-and-white print-outs.
+to let the user preview black-and-white print-outs.</dd>
 <p>
- <dt><b>Grid (on/off)</b>
- <dd>Turns grid on or off.
- </dl>
+ <dt><b>Grid (on/off)</b></dt>
+ <dd>Turns grid on or off.</dd>
+ </dl></dd>
 </dl>
 
   <td align=right>
@@ -314,83 +295,81 @@ cursor is located in the <b>plot canvas</b>.
 <hr>
 <h1 align=CENTER>Guide to Menus</h1>
 <dl>
-<dt><h2>File Menu</h2>
+<dt><h2>File Menu</h2></dt>
 <dd>The items in the File menu allow opening of data files from disk,
 printer setup, and printing.  In the case of an operation that will
 overwrite an existing file, you will be prompted by an alert that allows
 you to abort the write if you don't want the file to be overwritten.
 <p>
  <dl>
- <dt><b>Open Data File</b>.
+ <dt><b>Open Data File</b>.</dt>
  <dd>This displays a File Selection Box to select a file to read.  There
 is no error checking to see if the input file is valid.  Invalid files
 tend to cause a segmentation fault.  Open Data File will close out all
-previously-opened files.
+previously-opened files.</dd>
 <p>
- <dt><b>Add Data File</b>.
- <dd>This displays a File Selection Box to select an additional file to open.
+ <dt><b>Add Data File</b>.</dt>
+ <dd>This displays a File Selection Box to select an additional file to open.</dd>
 <p>
- <dt><b>Save PostScript</b>.
+ <dt><b>Save PostScript</b>.</dt>
  <dd>This displays a File Selection Box prompting for the name of the file
-where you want to write the PostScript output.
+where you want to write the PostScript output.</dd>
 <p>
- <dt><b>Printer Setup</b>.
+ <dt><b>Printer Setup</b>.</dt>
  <dd>This pops up a window with options to change the 'lp' command, the size of
 plot to be printed, whether to print landscape or portrait, and color vs.
-black and white.
+black and white.</dd>
 <p>
- <dt><b>Print</b>.
- <dd>This opens a pipe and sends PostScript commands to <b>lp(1)</b>.  
+ <dt><b>Print</b>.</dt>
+ <dd>This opens a pipe and sends PostScript commands to <b>lp(1)</b>.</dd>
 <p>
 <p>
- <dt><b>Save <a href="http://www.libpng.org/pub/png/">PNG</a></b>.
+ <dt><b>Save <a href="http://www.libpng.org/pub/png/">PNG</a></b>.</dt>
  <dd>This option allows you to save the plot image as a graphics file, which
 can then be used in web pages, etc.  You can adjust the size of the image
-saved by first sizing the plot canvas.
+saved by first sizing the plot canvas.</dd>
 <p>
-<b>Why not GIF or JPEG?</b><br>
-<b>JPEG</b> was rejected because it is a lossy algorithm.  I would have chosen
-<b>GIF</b> except <b>Unisys</b> owns the patent on the LZW compression
-algorithm required to produce a <b>GIF</b> image.  A new freeware image
-compression standard has emerged; <b>PNG</b>.  Both <b>netscape</b> and
-<b>Internet Explorer</b> support <b>PNG</b>.  Visit <a href="http://www.burnallgifs.org">http://www.burnallgifs.org</a> for more on the controversy.
- </dl>
+ </dl></dd>
 
-<dt><h2>Edit Menu</h2>
+<dt><h2>Edit Menu</h2></dt>
 <p>
+ <dd>
  <dl>
- <dt><b>XY Parameter</b>
+ <dt><b>XY Parameter</b></dt>
  <dd>window allows the user to edit titles, labels, autoscaling, number of
-tic marks, and log vs. linear axis scales.  This will convert the Y axis units from "N/cM3" to "N/cM3/um" to "N/cM3/ln(um)".
+tic marks, and log vs. linear axis scales.  This will convert the Y axis units from "N/cM3" to "N/cM3/um" to "N/cM3/ln(um)".</dd>
 <p>
- <dt><b>Cell Diameters</b>.
+ <dt><b>Cell Diameters</b>.</dt>
  <dd>This pops up a window for editing cell diameters, start and end bins,
-and other probe parameters used in computing concentrations.
+and other probe parameters used in computing concentrations.</dd>
 <p>
- </dl>
+ </dl></dd>
 
-<dt><h2>View Menu</h2>
+<dt><h2>View Menu</h2></dt>
+<p>
+ <dd>
  <dl>
- <dt><b>ASCII cell data</b>.
+ <dt><b>ASCII cell data</b>.</dt>
  <dd>This opens a window for viewing the cell data in ASCII format.  Cell
 diameters are displayed, along with the values for all the data types (counts,
 concentrations, surface and/or volume).  The save button pops up a file
-selection window allowing you to specify a file.
+selection window allowing you to specify a file.</dd>
 <p>
- <dt><b>Probe Variables</b>.
+ <dt><b>Probe Variables</b>.</dt>
  <dd>This opens a window showing all the housekeeping and derived parameters for
-each probe, and the averaged values for each frame.
+each probe, and the averaged values for each frame.</dd>
 <p>
- <dt><b>Variable Titles</b>.
+ <dt><b>Variable Titles</b>.</dt>
  <dd>This opens a window listing variables names and their titles.  The
 "Category" menu may be used to reduce the list to just variables that belong
 in a given category.  The category system is not perfect, our system allows a
 variable to exist in 1 category, even though some variables should belong in
-more than one category.
+more than one category.</dd>
 <p>
- <dt><b>netCDF Header</b>.
- <dd>This opens a window with output from the <b>ncdump</b>(1) program.
- </dl>
+ <dt><b>netCDF Header</b>.</dt>
+ <dd>This opens a window with output from the <b>ncdump</b>(1) program.</dd>
+ </dl></dd>
+
 </dl>
 <p>
 
@@ -455,6 +434,6 @@ Research Aviation Facility.<br>
 <hr>
 <font size=2>
 Last update:
-Thu Oct 10 19:05:59 MDT 2019
+Wed Mar 10 09:30:00 MDT 2021
 </body>
 </html>
