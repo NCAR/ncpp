@@ -51,7 +51,7 @@ extern XmFile		*fileSel;
 void GetDataFileName(Widget w, XtPointer client, XtPointer call)
 {
   static bool   firstTime = True;
- 
+
   if (firstTime)
     {
     fileSel->QueryFile("Enter Data file to read:", DataPath, (XtCallbackProc)client);
@@ -151,7 +151,7 @@ static void SavePS(Widget w, XtPointer client, XtPointer call)
     }
   else
     PrintPS(NULL, NULL, NULL);
- 
+
 }       /* END SAVEPS */
 
 /* -------------------------------------------------------------------- */
@@ -162,7 +162,7 @@ void PrintSave(Widget w, XtPointer client, XtPointer call)
     ErrorMsg("No data.");
     return;
     }
- 
+
   if (client)
     fileSel->QueryFile("Enter PostScript output file name:", "*.ps",
                        (XtCallbackProc)SavePS);
@@ -227,25 +227,21 @@ void Quit(Widget w, XtPointer client, XtPointer call)
 }	/* END QUIT */
 
 /* -------------------------------------------------------------------- */
-void ForkNetscape(Widget w, XtPointer client, XtPointer call)
-{
-  if (fork() == 0)
-    {
-    switch ((long)client)
-      {
-      case 1:
-        execlp("firefox", "firefox", "http://www.eol.ucar.edu/research-aircraft", NULL);
-        break;
-      case 2:
-        execlp("firefox", "firefox", "http://www.eol.ucar.edu/raf/Software", NULL);
-        break;
-      case 3:
-        execlp("firefox", "firefox", "http://www.eol.ucar.edu/raf/Software/ncpp.html", NULL);
-        break;
-      }
+#include <raf/opener.h>
 
-    printf("exec of firefox failed, errno = %d\n", errno);
-    exit(0);
+void OpenURL(Widget w, XtPointer client, XtPointer call)
+{
+  switch ((long)client)
+    {
+    case 1:
+      opener("http://www.eol.ucar.edu");
+      break;
+    case 2:
+      opener("http://www.eol.ucar.edu/raf/Software");
+      break;
+    case 3:
+      opener("http://www.eol.ucar.edu/raf/Software/ncpp.html");
+      break;
     }
 
 }       /* END FORKNETSCAPE */

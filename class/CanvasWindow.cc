@@ -14,7 +14,7 @@ struct menu
 	void            (*callback)(Widget, XtPointer, XtPointer);
 	XtPointer       callData;
 	} ;
- 
+
 static struct menu	fileMenu[] = {
 	{ "newFile", GetDataFileName, (XtPointer)NewDataFile, },
 	{ "addFile", GetDataFileName, (XtPointer)AddDataFile, },
@@ -31,7 +31,7 @@ static struct menu	fileMenu[] = {
 	{ "separator", NULL, NULL, },
 	{ "quit", Quit, NULL, },
 	{ NULL, NULL, NULL }};
- 
+
 static struct menu	legendMenu[] = {
 	{ "editXYparms", EditParms, (void *)XY, },
 	{ "editDiams", EditDiams, (void *)NULL, },
@@ -45,9 +45,9 @@ static struct menu	viewMenu[] = {
 	{ NULL, NULL, NULL }};
 
 static struct menu	helpMenu[] = {
-        { "RAF Homepage", ForkNetscape, (XtPointer)1 },
-        { "RAF Software Page", ForkNetscape, (XtPointer)2 },
-        { "ncpp User's Manual", ForkNetscape, (XtPointer)3 },
+        { "EOL Homepage", OpenURL, (XtPointer)1 },
+        { "RAF Software Page", OpenURL, (XtPointer)2 },
+        { "ncpp User's Manual", OpenURL, (XtPointer)3 },
 	{ NULL, NULL, NULL }};
 
 static struct
@@ -60,7 +60,7 @@ static struct
 		{ "View", viewMenu, },
 		{ "Help", helpMenu, },
 		{ NULL, NULL }};
- 
+
 
 /* -------------------------------------------------------------------- */
 CanvasWindow::CanvasWindow(const Widget parent) : WinForm(parent, "canvas", Form)
@@ -78,29 +78,29 @@ CanvasWindow::CanvasWindow(const Widget parent) : WinForm(parent, "canvas", Form
     {
     n = 0;
     menu[i] = XmCreatePulldownMenu(menubar, (char *)main_menu[i].title, args, n);
- 
+
     n = 0;
     XtSetArg(args[n], XmNsubMenuId, menu[i]); ++n;
     menu_button[i] = XmCreateCascadeButton(menubar, (char *)main_menu[i].title, args,n);
- 
+
     for (j = 0; main_menu[i].sub[j].title; ++j)
       {
       n = 0;
- 
+
       if (main_menu[i].sub[j].callback == NULL)
         {
         bttn[j] = XmCreateSeparator(menu[i], (char *)main_menu[i].sub[j].title, args,n);
         continue;
         }
- 
+
       bttn[j] = XmCreatePushButton(menu[i], (char *)main_menu[i].sub[j].title, args, n);
       XtAddCallback(bttn[j], XmNactivateCallback,
         main_menu[i].sub[j].callback, (void *)main_menu[i].sub[j].callData);
       }
- 
+
     XtManageChildren(bttn, j);
     }
- 
+
   XtManageChildren(menu_button, i);
 
 
@@ -113,7 +113,7 @@ CanvasWindow::CanvasWindow(const Widget parent) : WinForm(parent, "canvas", Form
   XtSetArg(args[n], XmNleftAttachment, XmATTACH_FORM); n++;
   XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
   _drawA = XmCreateDrawingArea(Window(), (char *)"canvas", args, n);
- 
+
   XtAddCallback(_drawA, XmNexposeCallback, (XtCallbackProc)CanvasExpose, NULL);
   XtAddCallback(_drawA, XmNinputCallback, (XtCallbackProc)CanvasInput, NULL);
   XtAddCallback(_drawA, XmNresizeCallback, (XtCallbackProc)CanvasResize, NULL);

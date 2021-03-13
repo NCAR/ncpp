@@ -25,9 +25,9 @@ DESCRIPTION:
 #define OK		(0)
 #define ERR		(-1)
 #endif
- 
+
 #define COMMENT		'#'	/* Comment character for textfiles  */
- 
+
 #define SecondsSinceMidnite(t)	(t[0] * 3600 + t[1] * 60 + t[2])
 
 
@@ -126,7 +126,7 @@ void	DismissWindow(Widget, XtPointer, XtPointer),
 
 	ApplyPrintParms(Widget, XtPointer, XtPointer),
 
-	ForkNetscape(Widget, XtPointer, XtPointer),
+	OpenURL(Widget, XtPointer, XtPointer),
 
 	ValidateTime(Widget w, XtPointer client, XtPointer call),
         ValidateFloat(Widget w, XtPointer client, XtPointer call),
