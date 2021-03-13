@@ -1,7 +1,7 @@
 Summary: Spec file for ncpp
 Name: ncpp
 Version: 2.2
-Release: 4
+Release: 5
 License: GPL
 Group: System Environment/Daemons
 Url: http://www.eol.ucar.edu/
@@ -47,5 +47,7 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Sat Mar 13 2021 Chris Webster <cjw@ucar.edu> - 2.2-5
+- Refactor help menu to open URLs into default browser.
 * Wed Jul 13 2011 Chris Webster <cjw@ucar.edu> - 1.0-1
 - initial version
