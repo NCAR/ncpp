@@ -6,8 +6,8 @@ ncpp is a X11-Motif based GUI program for looking at counts and size-distributio
 
 ## Documentation
 
-https://www.eol.ucar.edu/raf/software/ncpp.html User's manual.
-https://www.eol.ucar.edu/raf/Software/netCDF.html describes netCDF conventions used.  
+https://www.eol.ucar.edu/raf/software/ncpp.html User's manual.\
+https://www.eol.ucar.edu/raf/Software/netCDF.html describes netCDF conventions used.\
 https://github.com/ncar/aircraft_oap/wiki/MacOS-Build-Environment for building on MacOS.
 
 ## Build
