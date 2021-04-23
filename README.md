@@ -6,9 +6,10 @@ ncpp is a X11-Motif based GUI program for looking at counts and size-distributio
 
 ## Documentation
 
-https://www.eol.ucar.edu/raf/software/ncpp.html User's manual.\
-https://www.eol.ucar.edu/raf/Software/netCDF.html describes netCDF conventions used.\
-https://github.com/ncar/aircraft_oap/wiki/MacOS-Build-Environment for building on MacOS.
+[User's Manual](https://www.eol.ucar.edu/raf/Software/ncpp.html).\
+[RAF netCDF file conventions](https://www.eol.ucar.edu/raf/Software/netCDF.html).\
+[MacOS build environment](https://github.com/ncar/aircraft_oap/wiki/MacOS-Build-Environment).
+
 
 ## Build
 
@@ -16,12 +17,7 @@ ncpp can be built on any Unix platform, including MacOS.  Motif GUI toolkit is t
 
 ```
 git clone --recursive https://github.com/ncar/ncpp
-cd ncplot
-```
-    
-If you are on MacOS, follow MacOS Environment instructions above and edit the Makefile and uncomment the MacOS section.
-
-```
+cd ncpp
 scons
 ```
 
