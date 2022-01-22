@@ -37,5 +37,12 @@ ncpp can be built on any Unix platform, including MacOS.  Motif GUI toolkit is t
 ```
 git clone --recursive https://github.com/ncar/ncpp
 cd ncpp
+```
+Edit the SConstruct file and uncomment this line (remove the '#'):
+```
+#env.Append(CPPDEFINES=['UBUNTU'])
+```
+and build:
+```
 scons
 ```
