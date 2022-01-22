@@ -4,6 +4,27 @@
 
 static String fallback_resources[] =
   {
+#ifdef UBUNTU
+  "*defaultFontList:	-misc-fixed-bold-r-*-*-14-*-*-*-*-*-iso8859-1",
+
+  "*font24:             -misc-fixed-bold-r-*-*-24-*-*-*-*-*-iso8859-1",
+  "*font18:             -misc-fixed-bold-r-*-*-18-*-*-*-*-*-iso8859-1",
+  "*font14:             -misc-fixed-bold-r-*-*-14-*-*-*-*-*-iso8859-1",
+  "*font12:             -misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*font10:             -misc-fixed-bold-r-*-*-10-*-*-*-*-*-iso8859-1",
+
+  "*plRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*controlForm*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*printParmsRC*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*specOptForm*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*editSpecShell*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+
+  "*plRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*controlRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*movieRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*printParmsRC*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+  "*diamRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
+#else
   "*defaultFontList:	-adobe-courier-bold-r-*-*-14-140-75-75-m-90-*-*",
   "*foreground:         black",
 
@@ -18,6 +39,7 @@ static String fallback_resources[] =
   "*movieRC*fontList:	-adobe-courier-bold-r-*-*-12-120-75-75-*-70-*-*",
   "*printParmsRC*fontList: -adobe-courier-bold-r-*-*-12-120-75-75-*-70-*-*",
   "*diamRC*fontList:	-adobe-courier-bold-r-*-*-12-120-75-75-*-70-*-*",
+#endif
 
   "*XmPushButton.height:		32",
   "*XmTextField.background:		Burlywood",
