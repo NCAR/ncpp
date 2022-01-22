@@ -11,6 +11,25 @@ ncpp is a X11-Motif based GUI program for looking at counts and size-distributio
 [MacOS build environment](https://github.com/ncar/aircraft_oap/wiki/MacOS-Build-Environment).
 
 
+## Dependencies
+
+Redhat
+```
+openmotif-devel (motif-devel CentOS 8 & Fedora)
+netcdf-devel
+netcdf-cxx-devel
+xorg-x11-fonts-ISO8859-1-75dpi
+xorg-x11-fonts-ISO8859-1-100dpi
+```
+
+Ubuntu Focal (20.04)
+```
+libnetcdf-cxx-legacy-dev
+libmotif-dev
+libnetcdf-dev
+```
+
+
 ## Build
 
 ncpp can be built on any Unix platform, including MacOS.  Motif GUI toolkit is the limiting factor.
@@ -18,7 +37,12 @@ ncpp can be built on any Unix platform, including MacOS.  Motif GUI toolkit is t
 ```
 git clone --recursive https://github.com/ncar/ncpp
 cd ncpp
+```
+Edit the SConstruct file and uncomment this line (remove the '#'):
+```
+#env.Append(CPPDEFINES=['UBUNTU'])
+```
+and build:
+```
 scons
 ```
-
-    
