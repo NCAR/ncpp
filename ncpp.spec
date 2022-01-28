@@ -1,7 +1,7 @@
 Summary: Spec file for ncpp
 Name: ncpp
 Version: 2.2
-Release: 5
+Release: 6
 License: GPL
 Group: System Environment/Daemons
 Url: http://www.eol.ucar.edu/
@@ -11,12 +11,13 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Vendor: UCAR
 BuildArch: x86_64
 
-BuildRequires: scons
 Requires: netcdf-cxx netcdf libpng
 
 %if 0%{?rhel} <= 7
+BuildRequires: scons
 Requires: openmotif 
 %else
+BuildRequires: python3-scons
 Requires: motif
 %endif
 
@@ -47,6 +48,8 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Sat Mar 13 2021 Chris Webster <cjw@ucar.edu> - 2.2-6
+- Maintenance for Macports builds
 * Sat Mar 13 2021 Chris Webster <cjw@ucar.edu> - 2.2-5
 - Refactor help menu to open URLs into default browser.
 * Wed Jul 13 2011 Chris Webster <cjw@ucar.edu> - 1.0-1
