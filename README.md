@@ -12,7 +12,6 @@ ncpp is a X11-Motif based GUI program for looking at counts and size-distributio
 
 ## Build
 
----
 
 ### MacOS
 
