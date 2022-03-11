@@ -30,8 +30,8 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
   for (set = sets.FirstSet(); set; set = sets.NextSet())
     {
     strcpy(buffer, set->probe()->Name().c_str());
- 
-    strcat(buffer, "\n  Cell diameter end points (um)\n");
+
+    strcat(buffer, "\n  Cell diameter end points (um)\n      ");
 
     for (i = 0; i < set->probe()->VectorLength(); ++i)
       sprintf(&buffer[strlen(buffer)], "%11.3f", set->probe()->CellSize(i));
