@@ -49,7 +49,7 @@ static float	fsspDefSize[] =
 
 
 /* -------------------------------------------------------------------- */
-Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(VectorLength()), _missing_value(-32767)
+Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(VectorLength()), _missing_value(-32767), _zeroBinOffset(0)
 {
   std::string	cname;
   int		i;
@@ -177,7 +177,7 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
     _firstBin = attr->as_short(0);
   else
     {
-    _firstBin = 1;
+    _firstBin = 0;
     fprintf(stderr, "netCDF attribute FirstBin not found for %s, defaulting to %ld\n", cname.c_str(), _firstBin);
     }
 
@@ -191,8 +191,8 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
 
   if ((attr = _cvar->get_att("CellSizes")) || (attr = _avar->get_att("CellSizes")))
     {
-    if (attr->num_vals() != nCells)
-      fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%ld, expected=%d.\n", cname.c_str(), attr->num_vals(), nCells);
+    if (attr->num_vals() != nCells + 1 - ZeroBinOffset())
+      fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%ld, expected=%d.\n", cname.c_str(), attr->num_vals(), nCells+1-ZeroBinOffset());
 
     for (i = 0; i < nCells; ++i)
       _diameter[i] = attr->as_float(i);

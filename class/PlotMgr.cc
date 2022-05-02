@@ -183,7 +183,7 @@ PlotManager::PlotManager(const Widget parent, const Widget drawA) :
 			*mainCanvas, fonts, colors, blackPen, colorPen);
   plot[1] = new PlotInfo(XYZ, setMgr,
 			*mainCanvas, fonts, colors, blackPen, colorPen);
- 
+
   editParms[0] = editParms[1] = NULL;
 
   SetFileNames();
@@ -226,11 +226,11 @@ void PlotManager::GenerateAutoTitles(DataFile& file)
     {
     if (file.ProjectName().length() > 0)
       title += ", ";
- 
+
     title += "Flight #";
     title += file.FlightNumber();
     }
- 
+
   subTitle = file.FlightDate();
 
 

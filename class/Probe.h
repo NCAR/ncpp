@@ -39,6 +39,8 @@ public:
   size_t FirstBin() const	{ return(_firstBin); }
   size_t LastBin() const	{ return(_lastBin); }
 
+  int ZeroBinOffset() const	{ return(_zeroBinOffset); }
+
   bool	HaveConcentrations() const	{ return(_cvar); }
 
   virtual float CellSize(int idx) const	{ return(_diameter[idx]); }
@@ -72,7 +74,7 @@ protected:
 
   NcVar		*_avar, *_cvar;		// netCDF variable ID.
   std::vector<NcVar *> _otherVars;	// Hskping & Derived Vars for action box
-  
+
   ProbeType	_type;
   std::string	_name;
   std::string	_serialNum;
@@ -83,6 +85,12 @@ protected:
   size_t _firstBin, _lastBin;
 
   float		_missing_value;
+
+  /* Files prior to 2022 had a zeroth bin (e.g. 31 instead of 30).  This will be
+   * used as an offset to index with.  Set to 0 for new files, set to 1 for old
+   * files.
+   */
+  int		_zeroBinOffset;
 
   std::vector<float> _diameter, _midPointDiam, _binWidth, _sampleVolume;
 

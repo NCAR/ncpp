@@ -15,19 +15,12 @@ const std::string PlotInfo::prelimWarning = "This plot contains preliminary data
 extern Printer	*printerSetup;
 
 /* -------------------------------------------------------------------- */
-PlotInfo::PlotInfo(PlotType pt, SetManager& sm, Canvas& da, XFonts& f, Colors& c, XPen& bp, XPen& cp) : plotType(pt), sets(sm), canvas(da), fonts(f), colors(c), blackPen(bp), colorPen(cp)
+PlotInfo::PlotInfo(PlotType pt, SetManager& sm, Canvas& da, XFonts& f, Colors& c, XPen& bp, XPen& cp)
+ : autoTitles(true), plotType(pt), dataTypes((DataType)0), normalization(NONE),
+   plotParmsChanged(true), grid(false), color(true), ditc(false), nPanels(0),
+   lineWidth(1), nCols(1), nRows(1), sets(sm), canvas(da), fonts(f), colors(c),
+   blackPen(bp), colorPen(cp)
 {
-  grid = false;
-  color = true;
-  autoTitles = true;
-  plotParmsChanged = true;
-
-  nCols = nRows = 0;
-  nPanels = 0;
-  lineWidth = 1;
-  dataTypes = (DataType)0;
-  nCols = nRows = 1;
-  normalization = NONE;
 
 }	/* END CONSTRUCTOR */
 

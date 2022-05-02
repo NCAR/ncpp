@@ -761,7 +761,7 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
 
   if (dt == COUNTS)
   {
-    startBin = 1;
+    startBin = set->probe()->ZeroBinOffset();
     endBin = set->probe()->VectorLength();
   }
   else
@@ -772,7 +772,8 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
 
   for (int i = startBin; i <= endBin; ++i)
     {
-    datumX = set->probe()->CellSize(i-1);
+    int lowerCellSizeIdx = i - set->probe()->ZeroBinOffset();
+    datumX = set->probe()->CellSize(lowerCellSizeIdx);
 
     switch (dt)
       {
@@ -823,7 +824,7 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
     if (dt == COUNTS)
       datumX = (double)i + 1;
     else
-      datumX = set->probe()->CellSize(i);
+      datumX = set->probe()->CellSize(lowerCellSizeIdx+1);
 
     if (xAxis.logScale)
       datumX = log10(datumX);
@@ -850,7 +851,7 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
     }
 
   pen.ClearClipping();
- 
+
 }	/* END DRAWHISTOGRAM */
 
 /* -------------------------------------------------------------------- */
@@ -872,7 +873,7 @@ void Panel::PrintHistogram(DataSet *set, int setNum, int idx, DataType dt, PostS
 
   if (dt == COUNTS)
   {
-    startBin = 1;
+    startBin = set->probe()->ZeroBinOffset();
     endBin = set->probe()->VectorLength();
   }
   else
@@ -883,7 +884,8 @@ void Panel::PrintHistogram(DataSet *set, int setNum, int idx, DataType dt, PostS
 
   for (int i = startBin; i <= endBin; ++i)
     {
-    datumX = set->probe()->CellSize(i-1);
+    int lowerCellSizeIdx = i - set->probe()->ZeroBinOffset();
+    datumX = set->probe()->CellSize(lowerCellSizeIdx);
 
     switch (dt)
       {
@@ -938,7 +940,7 @@ void Panel::PrintHistogram(DataSet *set, int setNum, int idx, DataType dt, PostS
     if (dt == COUNTS)
       datumX = (double)i + 1;
     else
-      datumX = set->probe()->CellSize(i);
+      datumX = set->probe()->CellSize(lowerCellSizeIdx+1);
 
     if (xAxis.logScale)
       datumX = log10(datumX);
@@ -963,7 +965,7 @@ void Panel::PrintHistogram(DataSet *set, int setNum, int idx, DataType dt, PostS
 
   pen.ClearClipping();
   pen.MoveOrigin(-dimsPS.LV, -dimsPS.BH);
- 
+
 }	/* END PRINTHISTOGRAM */
 
 /* END PANEL.CC */
