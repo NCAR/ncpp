@@ -45,23 +45,22 @@ EditWindow::EditWindow(const Widget parent, PlotType plotType, const char name[]
   XtSetArg(args[n], XmNrightAttachment, XmATTACH_FORM); n++;
   drFrame = XmCreateFrame(Window(), (char *)"buttonFrame", args, n);
   XtManageChild(drFrame);
- 
+
   n = 0;
   drRC = XmCreateRowColumn(drFrame, (char *)"buttonRC", args, n);
   XtManageChild(drRC);
- 
+
   n = 0;
   b[0] = XmCreatePushButton(drRC, (char *)"applyButton", args, n);
- 
+
   n = 0;
   b[1] = XmCreatePushButton(drRC, (char *)"resetButton", args, n);
- 
+
   n = 0;
   b[2] = XmCreatePushButton(drRC, (char *)"dismissButton", args, n);
- 
+
   XtManageChildren(b, 3);
- 
- 
+
   XtAddCallback(b[0],XmNactivateCallback,ApplyParmsWindow, (XtPointer)plotType);
   XtAddCallback(b[1],XmNactivateCallback,SetParmsWindow, (XtPointer)plotType);
   XtAddCallback(b[2],XmNactivateCallback,DismissWindow, (XtPointer)Window());
