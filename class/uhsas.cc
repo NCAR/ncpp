@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2001
 
 
 /* -------------------------------------------------------------------- */
-UHSAS::UHSAS(NcFile *file, NcVar *av) : Probe(file, av)
+UHSAS::UHSAS(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
 {
   _concIdx = _dispIdx = _dbarIdx = _volIdx = -1;
 

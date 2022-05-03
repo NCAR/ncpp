@@ -92,7 +92,7 @@ void DataSet::SetNormalize(NormType nt)
 {
   normType = nt;
 
-  for (size_t i = 1; i < _probe->VectorLength(); ++i)
+  for (size_t i = 0; i < _probe->VectorLength(); ++i)
     {
     switch (normType)
       {
@@ -101,7 +101,8 @@ void DataSet::SetNormalize(NormType nt)
         break;
 
       case LOG:
-        normalization[i] = log10(_probe->CellSize(i)) - log10(_probe->CellSize(i-1));
+        normalization[i + _probe->ZeroBinOffset()] =
+		log10(_probe->CellSize(i+1)) - log10(_probe->CellSize(i));
         break;
 
       default:
@@ -256,7 +257,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 
 
     // Average data.
-    for (size_t j = 1; j < _probe->VectorLength(); ++j)
+    for (size_t j = 0; j < _probe->VectorLength(); ++j)
       {
       int dest = (i * _probe->VectorLength()) + j, avCntr = 0;
 

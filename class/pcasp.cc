@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 
 
 /* -------------------------------------------------------------------- */
-PCASP::PCASP(NcFile *file, NcVar *av) : Probe(file, av)
+PCASP::PCASP(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
 {
   _concIdx = _dispIdx = _dbarIdx = _volIdx = -1;
 

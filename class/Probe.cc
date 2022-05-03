@@ -49,7 +49,7 @@ static float	fsspDefSize[] =
 
 
 /* -------------------------------------------------------------------- */
-Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(VectorLength()), _missing_value(-32767), _zeroBinOffset(0)
+Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastBin(VectorLength()), _missing_value(-32767), _zeroBinOffset(zbo)
 {
   std::string	cname;
   int		i;
@@ -158,7 +158,7 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
 
   int   nCells = Type() == FSSP ? 64 : VectorLength();
   _sampleVolume.resize(nCells);
-  _diameter.resize(nCells);
+  _diameter.resize(nCells+1);
   _midPointDiam.resize(nCells);
   _binWidth.resize(nCells);
 
@@ -194,7 +194,7 @@ Probe::Probe(NcFile *file, NcVar *av) : _avar(av), _firstBin(0), _lastBin(Vector
     if (attr->num_vals() != nCells + 1 - ZeroBinOffset())
       fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%ld, expected=%d.\n", cname.c_str(), attr->num_vals(), nCells+1-ZeroBinOffset());
 
-    for (i = 0; i < nCells; ++i)
+    for (i = 0; i < attr->num_vals(); ++i)
       _diameter[i] = attr->as_float(i);
     }
   else
@@ -353,10 +353,10 @@ void Probe::ComputeWidths()
 
   _midPointDiam[0] = _binWidth[0] = 0.0;
 
-  for (int i = 1; i < nCells; ++i)
+  for (int i = 0; i < nCells; ++i)
     {
-    _midPointDiam[i] = (_diameter[i] + _diameter[i-1]) / 2;
-    _binWidth[i] = _diameter[i] - _diameter[i-1];
+    _midPointDiam[i+ZeroBinOffset()] = (_diameter[i] + _diameter[i+1]) / 2;
+    _binWidth[i+ZeroBinOffset()] = _diameter[i+1] - _diameter[i];
     }
 
 }	/* END COMPUTEWIDTHS */

@@ -29,11 +29,20 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
 
   for (set = sets.FirstSet(); set; set = sets.NextSet())
     {
+    size_t nCells = set->probe()->VectorLength();
+
     strcpy(buffer, set->probe()->Name().c_str());
 
-    strcat(buffer, "\n  Cell diameter end points (um)\n      ");
+    strcat(buffer, "\n  Cell diameter end points (um)\n");
 
-    for (i = 0; i < set->probe()->VectorLength(); ++i)
+    if (set->probe()->ZeroBinOffset() > 0)
+      sprintf(&buffer[strlen(buffer)], "      %11.3f", set->probe()->CellSize(0));
+    else
+      {
+      nCells += 1;
+      sprintf(&buffer[strlen(buffer)], "%-6.3f", set->probe()->CellSize(0));
+      }
+    for (i = 1; i < nCells; ++i)
       sprintf(&buffer[strlen(buffer)], "%11.3f", set->probe()->CellSize(i));
 
     strcat(buffer, "\n");

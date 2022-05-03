@@ -30,6 +30,7 @@ static const char *validProbeNames[] = {
 DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
 {
   int		i;
+  int		zeroBinOffset = 1;	// Default to older files which have it.
   NcAtt		*attr;
   NcVar		*avar;
 
@@ -60,6 +61,11 @@ DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
   attr = file->get_att("FlightDate");
   if (attr && attr->is_valid())
     flightDate = attr->as_string(0);
+  delete attr;
+
+  attr = file->get_att("SizeDistributionZeroBin");
+  if (attr && attr->is_valid() && strcmp(attr->as_string(0), "no") == 0)
+    zeroBinOffset = 0;
   delete attr;
 
   attr = file->get_att("WARNING");
@@ -99,65 +105,66 @@ DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
     if (avar->num_dims() >= 3 && validProbeName(avar->name()))
       {
       if (strncmp("AFSSP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new FSSP(file, avar);
+        probe[_nProbes++] = new FSSP(file, avar, zeroBinOffset);
       else
       if (strncmp("AF300", avar->name(), 5) == 0 ||
           strncmp("AS300", avar->name(), 5) == 0)
-        probe[_nProbes++] = new F300(file, avar);
+        probe[_nProbes++] = new F300(file, avar, zeroBinOffset);
       else
       if (strncmp("AASAS", avar->name(), 5) == 0 ||
           strncmp("APCAS", avar->name(), 5) == 0)
-        probe[_nProbes++] = new PCASP(file, avar);
+        probe[_nProbes++] = new PCASP(file, avar, zeroBinOffset);
       else
       if (strncmp("AS100", avar->name(), 5) == 0)
-        probe[_nProbes++] = new S100(file, avar);
+        probe[_nProbes++] = new S100(file, avar, zeroBinOffset);
       else
       if (strncmp("ACDP", avar->name(), 4) == 0)
-        probe[_nProbes++] = new CDP(file, avar);
+        probe[_nProbes++] = new CDP(file, avar, zeroBinOffset);
       else
       if (strncmp("AS200", avar->name(), 5) == 0)
-        probe[_nProbes++] = new S200(file, avar);
+        probe[_nProbes++] = new S200(file, avar, zeroBinOffset);
       else
       if (strncmp("AUHSAS", avar->name(), 6) == 0)
-        probe[_nProbes++] = new UHSAS(file, avar);
+        probe[_nProbes++] = new UHSAS(file, avar, zeroBinOffset);
       else
       if (strncmp("AHDC", avar->name(), 4) == 0)
-        probe[_nProbes++] = new HDC(file, avar);
+        probe[_nProbes++] = new HDC(file, avar, zeroBinOffset);
       else
       if (strncmp("A260X", avar->name(), 5) == 0)
-        probe[_nProbes++] = new X260(file, avar);
+        probe[_nProbes++] = new X260(file, avar, zeroBinOffset);
       else
       if (strncmp("AMASP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new F300(file, avar);
+        probe[_nProbes++] = new F300(file, avar, zeroBinOffset);
       else
 //      if (strncmp("AHVPS", avar->name(), 5) == 0)
-//        probe[_nProbes++] = new HVPS(file, avar);
+//        probe[_nProbes++] = new HVPS(file, avar, zeroBinOffset);
 //      else
       if (strncmp("A200X", avar->name(), 5) == 0)
-        probe[_nProbes++] = new X200(file, avar);
+        probe[_nProbes++] = new X200(file, avar, zeroBinOffset);
       else
       if (strncmp("A200Y", avar->name(), 5) == 0)
-        probe[_nProbes++] = new Y200(file, avar);
+        probe[_nProbes++] = new Y200(file, avar, zeroBinOffset);
       else
       if (strncmp("ACIP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new TwoDCIP(file, avar);
+        probe[_nProbes++] = new TwoDCIP(file, avar, zeroBinOffset);
       else
       if (strncmp("APIP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new TwoDPIP(file, avar);
+        probe[_nProbes++] = new TwoDPIP(file, avar, zeroBinOffset);
       else
       if (strncmp("A2DC", avar->name(), 4) == 0 ||
           strncmp("A1DC", avar->name(), 4) == 0)
-        probe[_nProbes++] = new TwoDC(file, avar);
+        probe[_nProbes++] = new TwoDC(file, avar, zeroBinOffset);
       else
       if (strncmp("A2DP", avar->name(), 4) == 0 ||
           strncmp("A1DP", avar->name(), 4) == 0)
-        probe[_nProbes++] = new TwoDP(file, avar);
+        probe[_nProbes++] = new TwoDP(file, avar, zeroBinOffset);
       else
       if (strncmp("A2D3", avar->name(), 4) == 0 ||	// 3V-CPI
-          strncmp("A1D3", avar->name(), 4) == 0)
-        probe[_nProbes++] = new TwoDS(file, avar);
+          strncmp("A1D3", avar->name(), 4) == 0 ||
+          strncmp("A1DS", avar->name(), 4) == 0)
+        probe[_nProbes++] = new TwoDS(file, avar, zeroBinOffset);
       else
-        probe[_nProbes++] = new Probe(file, avar);
+        probe[_nProbes++] = new Probe(file, avar, zeroBinOffset);
       }
     }
 

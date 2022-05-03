@@ -23,7 +23,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 class F300 : public Probe
 {
 public:
-	F300(NcFile *file, NcVar *av);
+	F300(NcFile *file, NcVar *av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);

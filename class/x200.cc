@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 
 
 /* -------------------------------------------------------------------- */
-X200::X200(NcFile *file, NcVar *av) : Probe200(file, av)
+X200::X200(NcFile *file, NcVar *av, int zbo) : Probe200(file, av, zbo)
 {
   NcAtt		*attr;
 

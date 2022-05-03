@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 
 
 /* -------------------------------------------------------------------- */
-CDP::CDP(NcFile *file, NcVar *av) : Probe100(file, av)
+CDP::CDP(NcFile *file, NcVar *av, int zbo) : Probe100(file, av, zbo)
 {
   NcAtt *attr;
 

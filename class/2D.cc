@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
 
 
 /* -------------------------------------------------------------------- */
-TwoDS::TwoDS(NcFile *file, NcVar *av) : TwoD(file, av)
+TwoDS::TwoDS(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 {
   _dof_const = 5.13;
 
@@ -25,7 +25,7 @@ TwoDS::TwoDS(NcFile *file, NcVar *av) : TwoD(file, av)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDCIP::TwoDCIP(NcFile *file, NcVar *av) : TwoD(file, av)
+TwoDCIP::TwoDCIP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.025;
@@ -34,7 +34,7 @@ TwoDCIP::TwoDCIP(NcFile *file, NcVar *av) : TwoD(file, av)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDPIP::TwoDPIP(NcFile *file, NcVar *av) : TwoD(file, av)
+TwoDPIP::TwoDPIP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.1;
@@ -43,7 +43,7 @@ TwoDPIP::TwoDPIP(NcFile *file, NcVar *av) : TwoD(file, av)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDC::TwoDC(NcFile *file, NcVar *av) : TwoD(file, av)
+TwoDC::TwoDC(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.025;
@@ -52,7 +52,7 @@ TwoDC::TwoDC(NcFile *file, NcVar *av) : TwoD(file, av)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDP::TwoDP(NcFile *file, NcVar *av) : TwoD(file, av)
+TwoDP::TwoDP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.2;
@@ -61,7 +61,7 @@ TwoDP::TwoDP(NcFile *file, NcVar *av) : TwoD(file, av)
 }
 
 /* -------------------------------------------------------------------- */
-TwoD::TwoD(NcFile *file, NcVar *av) : Probe200(file, av)
+TwoD::TwoD(NcFile *file, NcVar *av, int zbo) : Probe200(file, av, zbo)
 {
   NcAtt		*attr;
 

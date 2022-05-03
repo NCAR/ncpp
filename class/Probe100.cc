@@ -12,7 +12,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 
 
 /* -------------------------------------------------------------------- */
-Probe100::Probe100(NcFile *file, NcVar *av) : Probe(file, av)
+Probe100::Probe100(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
 {
   NcAtt		*attr;
 

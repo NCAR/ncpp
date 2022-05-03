@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2000
 
 
 /* -------------------------------------------------------------------- */
-S100::S100(NcFile *file, NcVar *av) : Probe100(file, av)
+S100::S100(NcFile *file, NcVar *av, int zbo) : Probe100(file, av, zbo)
 {
   NcAtt		*attr;
 

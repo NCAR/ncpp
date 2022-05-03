@@ -18,7 +18,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2017
 class HDC : public Probe100
 {
 public:
-	HDC(NcFile *file, NcVar *av);
+	HDC(NcFile *file, NcVar *av, int zbo);
 
   friend class EditDiameters;
 

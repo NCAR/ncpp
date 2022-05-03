@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2001
 
 
 /* -------------------------------------------------------------------- */
-S200::S200(NcFile *file, NcVar *av) : Probe(file, av)
+S200::S200(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
 {
   _concIdx = _dispIdx = _dbarIdx = _volIdx = -1;
 

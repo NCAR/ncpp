@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2003
 
 
 /* -------------------------------------------------------------------- */
-HVPS::HVPS(NcFile *file, NcVar *av) : Probe(file, av)
+HVPS::HVPS(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
 {
   _tasIdx = _concIdx = _dbarIdx = _lwIdx = _dispIdx = _dbzIdx = -1;
 

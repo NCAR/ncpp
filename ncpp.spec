@@ -1,7 +1,7 @@
 Summary: Spec file for ncpp
 Name: ncpp
-Version: 2.2
-Release: 6%{?dist}
+Version: 2.3
+Release: 0%{?dist}
 License: GPL
 Group: System Environment/Daemons
 Url: http://www.eol.ucar.edu/
@@ -48,6 +48,8 @@ rm -rf %{buildroot}
 %{_bindir}/%{name}
 
 %changelog
+* Mon May 2 2022 Chris Webster <cjw@ucar.edu> - 2.3-0
+- Add support for netCDF files with legacy size-distribution zero bin removed.
 * Sat Mar 13 2021 Chris Webster <cjw@ucar.edu> - 2.2-6
 - Maintenance for Macports builds
 * Sat Mar 13 2021 Chris Webster <cjw@ucar.edu> - 2.2-5

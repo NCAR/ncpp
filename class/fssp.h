@@ -20,7 +20,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 class FSSP : public Probe100
 {
 public:
-	FSSP(NcFile *file, NcVar *av);
+	FSSP(NcFile *file, NcVar *av, int zbo);
 
   friend class EditDiameters;
 

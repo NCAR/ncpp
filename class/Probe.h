@@ -22,7 +22,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 class Probe
 {
 public:
-	Probe(NcFile *file, NcVar *av);
+	Probe(NcFile *file, NcVar *av, int zbo);
 	virtual ~Probe();
 
   enum	ProbeType	{ NoProbe, FSSP, F300, PCASP, X260, X200, Y200, MASP, X300, TWODC, TWODP, TWODS, HVPS, S100, S200, S300, RDMA, CLIMET, CMCA, CDP, UHSAS, SIDII, CAPS, PDI, CIP, PIP, HDC };
@@ -40,6 +40,7 @@ public:
   size_t LastBin() const	{ return(_lastBin); }
 
   int ZeroBinOffset() const	{ return(_zeroBinOffset); }
+  void SetZeroBinOffset(int z)	{ _zeroBinOffset = z; }
 
   bool	HaveConcentrations() const	{ return(_cvar); }
 

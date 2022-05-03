@@ -20,7 +20,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
 class TwoD : public Probe200
 {
 public:
-	TwoD(NcFile *file, NcVar *av);
+	TwoD(NcFile *file, NcVar *av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);
@@ -32,30 +32,30 @@ public:
 class TwoDS : public TwoD
 {
 public:
-	TwoDS(NcFile *file, NcVar *av);
+	TwoDS(NcFile *file, NcVar *av, int zbo);
 };
 
 class TwoDC : public TwoD
 {
 public:
-	TwoDC(NcFile *file, NcVar *av);
+	TwoDC(NcFile *file, NcVar *av, int zbo);
 };
 
 class TwoDP : public TwoD
 {
 public:
-	TwoDP(NcFile *file, NcVar *av);
+	TwoDP(NcFile *file, NcVar *av, int zbo);
 };
 
 class TwoDCIP : public TwoD
 {
 public:
-	TwoDCIP(NcFile *file, NcVar *av);
+	TwoDCIP(NcFile *file, NcVar *av, int zbo);
 };
 
 class TwoDPIP : public TwoD
 {
 public:
-	TwoDPIP(NcFile *file, NcVar *av);
+	TwoDPIP(NcFile *file, NcVar *av, int zbo);
 };
 #endif

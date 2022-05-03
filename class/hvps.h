@@ -23,7 +23,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2003
 class HVPS : public Probe
 {
 public:
-	HVPS(NcFile *file, NcVar *av);
+	HVPS(NcFile *file, NcVar *av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);

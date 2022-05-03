@@ -20,7 +20,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 class Probe200 : public Probe
 {
 public:
-	Probe200(NcFile *file, NcVar *av);
+	Probe200(NcFile *file, NcVar *av, int zbo);
 
   friend class EditDiameters;
 

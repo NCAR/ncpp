@@ -46,7 +46,7 @@ static String fallback_resources[] =
   "*XmTextField.foreground:		black",
   "*XmForm.horizontalSpacing:		4",
   "*XmForm.verticalSpacing:		4",
-  "*canvasShell.title:			ncpp 2.2.6",
+  "*canvasShell.title:			ncpp 2.3.0",
   "*canvasShell.iconName:		ncpp",
   "*canvasShell.allowShellResize:	True",
   "*canvasShell.x:			0",
