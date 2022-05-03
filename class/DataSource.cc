@@ -1,12 +1,12 @@
 /*
 -------------------------------------------------------------------------
 OBJECT NAME:	DataSource.cc
- 
+
 FULL NAME:	Data source & type widgets
- 
+
 DESCRIPTION:	X window part for selecting file, probe & type (counts vs.
 		concentrations).
- 
+
 COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 -------------------------------------------------------------------------
 */
