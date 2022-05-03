@@ -27,7 +27,6 @@ void Titles::Update(const std::string fileName)
   Clear();
   Append(fileName.c_str());
   Append("\n\n");
- 
 
   if (file.is_valid() == false)
     {
