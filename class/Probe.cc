@@ -194,7 +194,8 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
     if (attr->num_vals() != nCells + 1 - ZeroBinOffset())
       fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%ld, expected=%d.\n", cname.c_str(), attr->num_vals(), nCells+1-ZeroBinOffset());
 
-    for (i = 0; i < attr->num_vals(); ++i)
+    int n = std::max((int)attr->num_vals(), (int)_diameter.size());
+    for (i = 0; i < n; ++i)
       _diameter[i] = attr->as_float(i);
     }
   else
