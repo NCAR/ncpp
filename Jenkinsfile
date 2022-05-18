@@ -17,8 +17,8 @@ pipeline {
     }
   }
   post {
-    success {
-      mail(to: 'cjw@ucar.edu taylort@ucar.edu', subject: 'ncpp Jenkinsfile build successful', body: 'ncpp Jenkinsfile build successful')
+    failure {
+      mail(to: 'cjw@ucar.edu taylort@ucar.edu', subject: 'ncpp Jenkinsfile build failed', body: 'ncpp Jenkinsfile build failed')
     }
   }
   options {
