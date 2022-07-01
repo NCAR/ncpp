@@ -18,7 +18,10 @@ pipeline {
   }
   post {
     failure {
-      mail(to: 'cjw@ucar.edu taylort@ucar.edu', subject: 'ncpp Jenkinsfile build failed', body: 'ncpp Jenkinsfile build failed')
+      emailext to: "cjw@ucar.edu janine@ucar.edu cdewerd@ucar.edu taylort@ucar.edu",
+      subject: "Jenkinsfile ncpp build failed",
+      body: "See console output attached",
+      attachLog: true
     }
   }
   options {
