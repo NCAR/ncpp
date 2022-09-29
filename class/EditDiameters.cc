@@ -124,6 +124,9 @@ void EditDiameters::SetProbeNames(DataFile *currFile)
   XmString      label;
   Arg           args[2];
 
+  if (currFile == 0)
+    return;
+
   for (i = 0; i < currFile->NumberOfProbes(); ++i)
     {
     XtSetSensitive(probeB[i], True);
