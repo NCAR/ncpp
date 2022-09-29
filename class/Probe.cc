@@ -170,6 +170,15 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
   if ((attr = _avar->get_att("SerialNumber")))
     _serialNum = attr->as_string(0);
 
+  if ((attr = _avar->get_att("CellSizeNote")))
+  {
+    std::string note = attr->as_string(0);
+    if (note.find("lower bin limits") != std::string::npos)
+      _zeroBinOffset = 0;
+    if (note.find("upper bin limits") != std::string::npos)
+      _zeroBinOffset = 1;
+  }
+
   if ((attr = _avar->get_att("_FillValue")))
     _missing_value = attr->as_float(0);
 

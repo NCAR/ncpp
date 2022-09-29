@@ -23,7 +23,7 @@ static const char *validProbeNames[] = {
 	"AMASP","A1DC","A2DC","A1DP","A2DP","AS100","AS200","AS300",
 	"ACDP", "ARDMA","ACLMT","ACMCA","AHVPS","AUHSAS","ASID","ACAPS",
 	"APDI", "A2D3", "ACIP", "APIP", "AHDC",
-	"A1DSH", "A1DSV", "A2DSH", "A2DSV", NULL };
+	"A1DSH", "A1DSV", "A2DSA", "A2DSR", NULL };
 
 
 /* -------------------------------------------------------------------- */
@@ -63,7 +63,7 @@ DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
     flightDate = attr->as_string(0);
   delete attr;
 
-  attr = file->get_att("SizeDistributionZeroBin");
+  attr = file->get_att("SizeDistributionLegacyZeroBin");
   if (attr && attr->is_valid() && strcmp(attr->as_string(0), "no") == 0)
     zeroBinOffset = 0;
   delete attr;
