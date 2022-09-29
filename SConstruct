@@ -9,6 +9,8 @@ env = Environment(tools = ['default', 'prefixoptions', 'openmotif', 'netcdfcxx',
 env.Append(CXXFLAGS='-std=c++11 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
 
 env.Append(CPPDEFINES=['PNG'])
+
+# Change default fonts for Ubuntu as the adobe courier is not available.
 #env.Append(CPPDEFINES=['UBUNTU'])
 
 env.Prepend(CPPPATH=['#/class'])
