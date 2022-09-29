@@ -14,12 +14,6 @@ static String fallback_resources[] =
   "*font10:             -misc-fixed-bold-r-*-*-10-*-*-*-*-*-iso8859-1",
 
   "*plRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
-  "*controlForm*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
-  "*printParmsRC*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
-  "*specOptForm*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
-  "*editSpecShell*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
-
-  "*plRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
   "*controlRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
   "*movieRC*fontList:		-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
   "*printParmsRC*fontList:	-misc-fixed-bold-r-*-*-12-*-*-*-*-*-iso8859-1",
@@ -254,7 +248,7 @@ static String fallback_resources[] =
   /*
    * Edit Parameter Window
    */
-  "*editXYShell.title:			Edit Movie Parameters",
+  "*editXYShell.title:			Edit Plot Parameters",
   "*editXYShell.x:			350",
   "*editXYShell.y:			270",
   /*
