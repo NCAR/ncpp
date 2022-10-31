@@ -286,13 +286,17 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 		_probe->Units().find("liter") != _probe->Units().npos))
         conc[dest] /= 1000;
 
+      int offset = j + 1;
+      if (_probe->ZeroBinOffset())
+        offset = j - 1;
+
       if (surface)
         surface[dest] = conc[dest] * 4.0 * M_PI *
-		pow((_probe->CellSize(j-1) + _probe->CellSize(j)) / 4.0, 2.0);
+		pow((_probe->CellSize(offset) + _probe->CellSize(j)) / 4.0, 2.0);
 
       if (volume)
         volume[dest] = conc[dest] * 4.0 / 3.0 * M_PI *
-		pow((_probe->CellSize(j-1) + _probe->CellSize(j)) / 4.0, 3.0);
+		pow((_probe->CellSize(offset) + _probe->CellSize(j)) / 4.0, 3.0);
       }
 
     if (_probe->DataRate() > 1)
