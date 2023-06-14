@@ -228,6 +228,10 @@ void EditDiameters::SetDiameters(Probe *probe)
       setSpex("Response Time", cnt++, ((Probe200 *)probe)->_responseTime);
 
       break;
+
+    case Probe::NoProbe:
+    default:
+      break;
     }
 
   for (; cnt < 12; ++cnt)
@@ -301,6 +305,10 @@ void EditDiameters::ApplyDiameters(Probe *probe)
       ((Probe200 *)probe)->_nDiodes = GetTextInt(text[cnt++]);
       ((Probe200 *)probe)->_armDistance = GetTextFloat(text[cnt++]);
       ((Probe200 *)probe)->_responseTime = GetTextFloat(text[cnt++]);
+      break;
+
+    case Probe::NoProbe:
+    default:
       break;
     }
 
