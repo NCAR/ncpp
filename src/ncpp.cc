@@ -148,7 +148,7 @@ static void ReadConfigFile()
   if ((p = getenv("HOME")) == NULL)
     return;
 
-  sprintf(buffer, "%s/.ncplotrc", p);
+  snprintf(buffer, BUFFSIZE, "%s/.ncplotrc", p);
 
   if ((fp = fopen(buffer, "r")) == NULL)
     return;

@@ -12,17 +12,14 @@ STATIC FNS:	none
 
 DESCRIPTION:	
 
-INPUT:		
-
-OUTPUT:		
-
-COPYRIGHT:	University Corporation for Atmospheric Research, 1997
+COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2023
 -------------------------------------------------------------------------
 */
 
 #include "define.h"
 
-static char	label[32];
+static const int LBL_SIZE = 32;
+static char	label[LBL_SIZE];
 
 /* -------------------------------------------------------------------- */
 std::string MakeTicLabel(float diff, int majorTics, double value)
@@ -31,24 +28,24 @@ std::string MakeTicLabel(float diff, int majorTics, double value)
   int		idiff = (int)diff;
 
   if (diff < 0.01)
-    sprintf(label, "%f", value);
+    snprintf(label, LBL_SIZE, "%f", value);
   else
   if (diff < 0.1)
-    sprintf(label, "%.4f", value);
+    snprintf(label, LBL_SIZE, "%.4f", value);
   else
   if (diff < 1.0)
-    sprintf(label, "%.3f", value);
+    snprintf(label, LBL_SIZE, "%.3f", value);
   else
   if (diff == (float)idiff && (idiff % majorTics) == 0)
-    sprintf(label, "%ld", (long)value);
+    snprintf(label, LBL_SIZE, "%ld", (long)value);
   else
   if (diff < 10.0)
-    sprintf(label, "%.2f", value);
+    snprintf(label, LBL_SIZE, "%.2f", value);
   else
   if (diff < 50.0)
-    sprintf(label, "%.1f", value);
+    snprintf(label, LBL_SIZE, "%.1f", value);
   else
-    sprintf(label, "%ld", (long)value);
+    snprintf(label, LBL_SIZE, "%ld", (long)value);
 
   tmp = label;
 
@@ -61,8 +58,8 @@ std::string MakeLogTicLabel(double value)
 {
   std::string	tmp;
 
-  sprintf(label, "10^%d", (int)rint(log10(value)));
-//  sprintf(label, "1.0E%+03d", value);
+  snprintf(label, LBL_SIZE, "10^%d", (int)rint(log10(value)));
+//  snprintf(label, LBL_SIZE, "1.0E%+03d", value);
 
   tmp = label;
 

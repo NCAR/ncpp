@@ -170,9 +170,9 @@ void EditDiameters::SetDiameters(Probe *probe)
 
   cnt = 0;
 
-  sprintf(buffer, "%lu", probe->FirstBin());
+  snprintf(buffer, BUFFSIZE, "%lu", probe->FirstBin());
   XmTextFieldSetString(text[cnt++], buffer);
-  sprintf(buffer, "%lu", probe->LastBin());
+  snprintf(buffer, BUFFSIZE, "%lu", probe->LastBin());
   XmTextFieldSetString(text[cnt++], buffer);
 
   nTxt = probe->VectorLength() / 16;
@@ -319,7 +319,7 @@ void EditDiameters::setSpex(const char *labelTxt, int cnt, float value)
   XmStringFree(label);
 
   XtSetSensitive(text[cnt], True);
-  sprintf(buff, "%g", value);
+  snprintf(buff, 32, "%g", value);
   XmTextFieldSetString(text[cnt], buff);
 
 }	/* END SETSPEX */

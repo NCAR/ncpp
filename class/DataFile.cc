@@ -42,7 +42,7 @@ DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
 
   if (file->is_valid() == false)
     {
-    sprintf(buffer, "Can't open %s.", fName);
+    snprintf(buffer, BUFFSIZE, "Can't open %s.", fName);
     ErrorMsg(buffer);
     return;
     }

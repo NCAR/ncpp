@@ -71,7 +71,7 @@ void MovieControl::SetAveragePeriod(int newRate)
   if (avRate <= 0)
     avRate = 1;
 
-  sprintf(tmp, "%d", avRate);
+  snprintf(tmp, 10, "%d", avRate);
   XmTextFieldSetString(averageText, tmp);
   setMgr.SetAverageRate(avRate);
 

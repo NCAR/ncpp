@@ -162,7 +162,7 @@ void EditPlotParms::addPanelButtons(Widget parent)
 
   for (i = 0; i < nPanels; ++i)
     {
-    sprintf(buffer, "%d", i+1);
+    snprintf(buffer, BUFFSIZE, "%d", i+1);
     panelB[i] = XmCreateToggleButton(plRC, buffer, NULL, 0);
     }
 

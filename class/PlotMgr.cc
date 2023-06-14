@@ -441,16 +441,16 @@ void PlotManager::SetParms(int idx)
   XmToggleButtonSetState(ew->xAxis.logScale, p->xAxis.logScale, false);
   XmToggleButtonSetState(ew->xAxis.invertAxis, p->xAxis.invertAxis, false);
 
-  sprintf(genSpace, "%d", p->xAxis.nMajorTics);
+  snprintf(genSpace, 32, "%d", p->xAxis.nMajorTics);
   XmTextFieldSetString(ew->xAxis.nMajorTics, genSpace);
 
-  sprintf(genSpace, "%d", p->xAxis.nMinorTics);
+  snprintf(genSpace, 32, "%d", p->xAxis.nMinorTics);
   XmTextFieldSetString(ew->xAxis.nMinorTics, genSpace);
 
-  sprintf(genSpace, "%e", p->xAxis.min);
+  snprintf(genSpace, 32, "%e", p->xAxis.min);
   XmTextFieldSetString(ew->xAxis.min, genSpace);
 
-  sprintf(genSpace, "%e", p->xAxis.max);
+  snprintf(genSpace, 32, "%e", p->xAxis.max);
   XmTextFieldSetString(ew->xAxis.max, genSpace);
 
   XtSetSensitive(ew->xAxis.label, !p->AutoLabels);
@@ -467,16 +467,16 @@ void PlotManager::SetParms(int idx)
     XmToggleButtonSetState(ew->yAxis[i].logScale, p->yAxis.logScale, false);
     XmToggleButtonSetState(ew->yAxis[i].invertAxis, p->yAxis.invertAxis, false);
 
-    sprintf(genSpace, "%d", p->yAxis.nMajorTics);
+    snprintf(genSpace, 32, "%d", p->yAxis.nMajorTics);
     XmTextFieldSetString(ew->yAxis[i].nMajorTics, genSpace);
 
-    sprintf(genSpace, "%d", p->yAxis.nMinorTics);
+    snprintf(genSpace, 32, "%d", p->yAxis.nMinorTics);
     XmTextFieldSetString(ew->yAxis[i].nMinorTics, genSpace);
 
-    sprintf(genSpace, "%e", p->yAxis.min);
+    snprintf(genSpace, 32, "%e", p->yAxis.min);
     XmTextFieldSetString(ew->yAxis[i].min, genSpace);
 
-    sprintf(genSpace, "%e", p->yAxis.max);
+    snprintf(genSpace, 32, "%e", p->yAxis.max);
     XmTextFieldSetString(ew->yAxis[i].max, genSpace);
 
     XtSetSensitive(ew->yAxis[i].label, !p->AutoLabels);
@@ -493,16 +493,16 @@ void PlotManager::SetParms(int idx)
     XmToggleButtonSetState(ew->zAxis.logScale, p->zAxis.logScale, false);
     XmToggleButtonSetState(ew->zAxis.invertAxis, p->zAxis.invertAxis, false);
 
-    sprintf(genSpace, "%d", p->zAxis.nMajorTics);
+    snprintf(genSpace, 32, "%d", p->zAxis.nMajorTics);
     XmTextFieldSetString(ew->zAxis.nMajorTics, genSpace);
 
-    sprintf(genSpace, "%d", p->zAxis.nMinorTics);
+    snprintf(genSpace, 32, "%d", p->zAxis.nMinorTics);
     XmTextFieldSetString(ew->zAxis.nMinorTics, genSpace);
 
-    sprintf(genSpace, "%e", p->zAxis.min);
+    snprintf(genSpace, 32, "%e", p->zAxis.min);
     XmTextFieldSetString(ew->zAxis.min, genSpace);
 
-    sprintf(genSpace, "%e", p->zAxis.max);
+    snprintf(genSpace, 32, "%e", p->zAxis.max);
     XmTextFieldSetString(ew->zAxis.max, genSpace);
 
     XtSetSensitive(ew->zAxis.label, !p->AutoLabels);

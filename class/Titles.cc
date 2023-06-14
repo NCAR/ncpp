@@ -30,7 +30,7 @@ void Titles::Update(const std::string fileName)
 
   if (file.is_valid() == false)
     {
-    sprintf(buffer, "Can't open %s.", fileName.c_str());
+    snprintf(buffer, BUFFSIZE, "Can't open %s.", fileName.c_str());
     ErrorMsg(buffer);
     return;
     }
@@ -45,7 +45,7 @@ void Titles::Update(const std::string fileName)
     if ((attr = var->get_att("long_name")))
       title = attr->as_string(0);
 
-    sprintf(buffer, "%-16s %s\n", var->name(), title);
+    snprintf(buffer, BUFFSIZE, "%-16s %s\n", var->name(), title);
     Append(buffer);
     }
 

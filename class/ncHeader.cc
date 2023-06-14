@@ -25,10 +25,10 @@ void ncHeader::Update(const std::string fileName)
   Append(fileName.c_str());
   Append("\n\n");
 
-  sprintf(command, "ncdump -h %s", fileName.c_str());
+  snprintf(command, 256, "ncdump -h %s", fileName.c_str());
   if ((pp = popen(command, "r")) == NULL)
     {
-    sprintf(buffer, "Can't open pipe [%s]", command);
+    snprintf(buffer, BUFFSIZE, "Can't open pipe [%s]", command);
     ErrorMsg(buffer);
     }
 

@@ -209,7 +209,7 @@ void Panel::printLabels(PlotInfo& plot, PostScript& pen)
 
   if (xAxis.label.length() > 0)
     {
-    sprintf(buffer, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
+    snprintf(buffer, BUFFSIZE, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
 	dimsPS.LV + ((dimsPS.HD * plot.nCols) >> 1),
 	xAxis.label.c_str(),
 	dimsPS.TH - (dimsPS.VD * plot.nRows) - plot.ps.xLabelOffset);
@@ -220,7 +220,7 @@ void Panel::printLabels(PlotInfo& plot, PostScript& pen)
 
   if (yAxis.label.length() > 0)
     {
-    sprintf(buffer, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
+    snprintf(buffer, BUFFSIZE, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
 	dimsPS.LV - plot.ps.yLabelOffset,
 	yAxis.label.c_str(),
 	dimsPS.TH - ((dimsPS.VD * plot.nRows) >> 1));
@@ -559,7 +559,7 @@ void Panel::yTicsLabelsPS(PlotInfo& plot, PostScript& pen, bool labels)
         ticLabel = MakeTicLabel(yDiff, yAxis.nMajorTics, value);
         }
 
-      sprintf(buffer, "%d (%s) stringwidth pop sub %d moveto\n",
+      snprintf(buffer, BUFFSIZE, "%d (%s) stringwidth pop sub %d moveto\n",
 	plot.ps.yTicLabelOffset, ticLabel.c_str(), y-10);
       pen.Issue(buffer);
       pen.ShowStr(ticLabel);
@@ -663,7 +663,7 @@ void Panel::xTicsLabelsPS(PlotInfo& plot, PostScript& pen, bool labels)
         ticLabel = MakeTicLabel(xDiff, xAxis.nMajorTics, value);
         }
 
-      sprintf(buffer, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
+      snprintf(buffer, BUFFSIZE, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
 	x, ticLabel.c_str(), plot.ps.xTicLabelOffset);
       pen.Issue(buffer);
       pen.ShowStr(ticLabel);
@@ -843,9 +843,9 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
   if (setNum >= 0)
     {
     if (dt == COUNTS || total > 10.0)
-      sprintf(buffer, "%6d", (int)total);
+      snprintf(buffer, BUFFSIZE, "%6d", (int)total);
     else
-      sprintf(buffer, "%6.3f", total);
+      snprintf(buffer, BUFFSIZE, "%6.3f", total);
 
     pen.DrawText(surface, dimsX.RV-40, dimsX.TH+15+(setNum*12), buffer);
     }
@@ -955,9 +955,9 @@ void Panel::PrintHistogram(DataSet *set, int setNum, int idx, DataType dt, PostS
   if (setNum >= 0)
     {
     if (dt == COUNTS || total > 10.0)
-      sprintf(buffer, "%6d", (int)total);
+      snprintf(buffer, BUFFSIZE, "%6d", (int)total);
     else
-      sprintf(buffer, "%6.3f", total);
+      snprintf(buffer, BUFFSIZE, "%6.3f", total);
 
     pen.MoveTo(dimsPS.RV-35, dimsPS.TH+15);
     pen.ShowStr(buffer);

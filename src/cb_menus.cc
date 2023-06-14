@@ -146,7 +146,7 @@ static void SavePS(Widget w, XtPointer client, XtPointer call)
 
   if (access(PSoutFile, F_OK) == 0)
     {
-    sprintf(buffer, "Overwrite file %s", PSoutFile);
+    snprintf(buffer, BUFFSIZE, "Overwrite file %s", PSoutFile);
     new XmWarn(application->Shell(), buffer, PrintPS, NULL);
     }
   else
@@ -200,7 +200,7 @@ void confirmPNG(Widget w, XtPointer client, XtPointer call)
 
   if (access(pngOutFile, F_OK) == 0)
     {
-    sprintf(buffer, "Overwrite file %s", pngOutFile);
+    snprintf(buffer, BUFFSIZE, "Overwrite file %s", pngOutFile);
     new XmWarn(application->Shell(), buffer, SavePNG_OK, NULL);
     }
   else

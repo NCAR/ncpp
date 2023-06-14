@@ -210,7 +210,7 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
   else
     {
     std::cout << "Cell diameters for " << cname << " not present in file, using defaults.\n";
-    sprintf(buffer, "Cell diameters for %s not present in file, using defaults.", cname.c_str());
+    snprintf(buffer, BUFFSIZE, "Cell diameters for %s not present in file, using defaults.", cname.c_str());
 
     ErrorMsg(buffer);
 
@@ -378,10 +378,10 @@ int Probe::SetEditWindow(Widget txt[])
 
   cnt = 0;
 
-  sprintf(buffer, "%ld", FirstBin());
+  snprintf(buffer, BUFFSIZE, "%ld", FirstBin());
   XmTextFieldSetString(txt[cnt++], buffer);
 
-  sprintf(buffer, "%ld", LastBin());
+  snprintf(buffer, BUFFSIZE, "%ld", LastBin());
   XmTextFieldSetString(txt[cnt++], buffer);
 
 

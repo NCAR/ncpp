@@ -71,7 +71,7 @@ void PlotInfo::UpdateSubtitle(DataSet *set)
 
   char tmp[40];
 
-  sprintf(tmp, ", %d second average", sets.AveragingRate());
+  snprintf(tmp, 40, ", %d second average", sets.AveragingRate());
   temp += tmp;
 
   if (idx == subTitle.npos)
@@ -496,7 +496,7 @@ void PlotInfo::printTitles(PostScript& pen)
   if (title.length())
     {
     pen.SetFont(80);
-    sprintf(buffer, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
+    snprintf(buffer, BUFFSIZE, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
 		offset, title.c_str(), ps.titleOffset);
     pen.Issue(buffer);
 
@@ -506,7 +506,7 @@ void PlotInfo::printTitles(PostScript& pen)
   if (subTitle.length())
     {
     pen.SetFont(60);
-    sprintf(buffer, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
+    snprintf(buffer, BUFFSIZE, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
 		offset, subTitle.c_str(), ps.subTitleOffset);
     pen.Issue(buffer);
 
@@ -521,7 +521,7 @@ void PlotInfo::printTitles(PostScript& pen)
   if (warning)
     {
     pen.SetFont(40);
-    sprintf(buffer, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
+    snprintf(buffer, BUFFSIZE, "%d (%s) stringwidth pop 2 div sub %d moveto\n",
 		offset, prelimWarning.c_str(), ps.subTitleOffset-40);
     pen.Issue(buffer);
 
