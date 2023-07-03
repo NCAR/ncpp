@@ -31,7 +31,7 @@ span.comment { background-color: #88FF88; font-style: italic; }
 <body bgcolor="ffffff">
 
 <h1 align=CENTER>NCPP User's Guide</h1>
-<h1 align=CENTER>Version 2.3.0</h1>
+<h1 align=CENTER>Version 2.3.2</h1>
 <hr>
 <h1 align=CENTER>Table Of Contents</h1>
 <ol type=A>
@@ -98,8 +98,8 @@ span.comment { background-color: #88FF88; font-style: italic; }
 <b>ncpp</b> is an interactive plotting tool for Unix/Linux workstations.
 <b>ncpp</b> allows the user to view histograms of PMS-1D
 and other size-distribution probe data stored in
-<a href="http://www.unidata.ucar.edu/software/netcdf/">netCDF</a>
-files that conform to the <a href="http://www.eol.ucar.edu/raf/Software/netCDF.html">NCAR-RAF/nimbus</a>
+<a href="https://www.unidata.ucar.edu/software/netcdf/">netCDF</a>
+files that conform to the <a href="https://www.eol.ucar.edu/raf/Software/netCDF.html">NCAR-RAF/nimbus</a>
 conventions.  Both Low-rate and Mixed-rate files are supported, and
 files where the data have been reduced below 1 sps (sample per second), e.g.,
 files run through <b>ncav</b>.
@@ -118,9 +118,9 @@ A few of its features are:
 <li>Publication quality [Encapsulated] [color] PostScript printouts.
 </ul>
 <p>
-<b>ncpp</b> was written at the <a href="http://www.eol.ucar.edu">Research
-Aviation Facility</a> of <a href="http://www.ncar.ucar.edu/">The National Center for Atmospheric Research</a> to view and analyze our particle probe histogram data.  The
-<a href="http://www.eol.ucar.edu/raf/Software/netCDF.html">NCAR-RAF/nimbus</a>
+<b>ncpp</b> was written at the <a href="https://www.eol.ucar.edu">Research
+Aviation Facility</a> of <a href="https://www.ncar.ucar.edu/">The National Center for Atmospheric Research</a> to view and analyze our particle probe histogram data.  The
+<a href="https://www.eol.ucar.edu/raf/Software/netCDF.html">NCAR-RAF/nimbus</a>
 conventions were designed to store multi-rate data, i.e., variable A may be
 stored at 5sps and variable B at 25sps.  Every effort has been made to make
 it "what you see is what you get" between the screen and printouts.
@@ -216,7 +216,7 @@ to let the user preview black-and-white print-outs.</dd>
 </dl>
 
   <td align=right>
-   <img src="http://www.eol.ucar.edu/raf/Software/ncpp_ctrl.png" align=right>
+   <img src="ncpp_ctrl.png" align=right>
   </td>
  </tr>
 </table>
@@ -250,7 +250,7 @@ than 24:00:00 (e.g. 1:00am start time should be entered as 25:00).
 
   </td>
   <td align=right>
-   <img src="http://www.eol.ucar.edu/raf/Software/ncpp_mov.png" align=right>
+   <img src="ncpp_mov.png" align=right>
   </td>
  </tr>
 </table>
@@ -324,7 +324,7 @@ black and white.</dd>
  <dd>This opens a pipe and sends PostScript commands to <b>lp(1)</b>.</dd>
 <p>
 <p>
- <dt><b>Save <a href="http://www.libpng.org/pub/png/">PNG</a></b>.</dt>
+ <dt><b>Save <a href="https://www.libpng.org/pub/png/">PNG</a></b>.</dt>
  <dd>This option allows you to save the plot image as a graphics file, which
 can then be used in web pages, etc.  You can adjust the size of the image
 saved by first sizing the plot canvas.</dd>
@@ -403,8 +403,6 @@ the plot trace colors.
 <li>If the menu and button text shows up as squares, then some fonts are missing.
 'yum install "xorg-x11-fonts-ISO8859-1*"' should solve the problem.
 <li>Invalid data files may cause a core dump.
-<li><b>ncpp</b> is expecting OAP probe concentration data to be in N/L and
-all others in N/cm3.
 <li>When viewing FSSP, the RANGE used for all panels is that for the first
 panel (i.e. if the RANGE changes in the panels you have displayed, the program
 will not pick this up, and you will be viewing wrong cell diameters for those
@@ -434,6 +432,6 @@ Research Aviation Facility.<br>
 <hr>
 <font size=2>
 Last update:
-Wed Mar 10 09:30:00 MDT 2021
+Mon Jul  3 15:35:08 MDT 2023
 </body>
 </html>
