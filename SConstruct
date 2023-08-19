@@ -84,3 +84,9 @@ env.Install('$INSTALL_PREFIX/bin', 'src/ncpp')
 if "publish" in COMMAND_LINE_TARGETS:
    pub = env.Install('$PUBLISH_PREFIX', ["src/ncpp.html"])
    env.Alias('publish', pub)
+
+env.SetHelp()
+env.AddHelp("""
+Targets:
+publish:  Copy html documentation to EOL web space : $PUBLISH_PREFIX.
+""")
