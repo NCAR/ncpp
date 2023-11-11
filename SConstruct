@@ -1,13 +1,15 @@
 #!python
 
 import os
+import eol_scons
 
 
 def ncpp(env):
     if env['PLATFORM'] == 'darwin' and env['HOST_ARCH'] == 'arm64':
         env['DEFAULT_OPT_PREFIX']='/opt/homebrew'
 
-    env.Require(['default', 'prefixoptions', 'openmotif', 'netcdfcxx', 'raf'])
+    env.Require(['default', 'prefixoptions', 'openmotif', 'netcdfcxx'])
+    SConscript('raf/tool_raf.py')
 
 env = Environment(GLOBAL_TOOLS = [ncpp])
 
@@ -90,8 +92,8 @@ if "publish" in COMMAND_LINE_TARGETS:
    pub = env.Install('$PUBLISH_PREFIX', ["src/ncpp.html"])
    env.Alias('publish', pub)
 
-env.SetHelp()
-env.AddHelp("""
-Targets:
-publish:  Copy html documentation to EOL web space : $PUBLISH_PREFIX.
-""")
+#env.SetHelp()
+#env.AddHelp("""
+#Targets:
+#publish:  Copy html documentation to EOL web space : $PUBLISH_PREFIX.
+#""")
