@@ -18,7 +18,7 @@ pipeline {
   }
   post {
     failure {
-      emailext to: "cjw@ucar.edu janine@ucar.edu cdewerd@ucar.edu taylort@ucar.edu",
+      emailext to: "cjw@ucar.edu janine@ucar.edu cdewerd@ucar.edu",
       subject: "Jenkinsfile ncpp build failed",
       body: "See console output attached",
       attachLog: true
