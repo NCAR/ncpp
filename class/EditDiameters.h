@@ -23,7 +23,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1998-9
 #include <Xm/ToggleB.h>
 #include "DataFile.h"
 #include "Probe.h"
-#include <raf/Window.h>
+#include "raf/Window.h"
 
 
 /* -------------------------------------------------------------------- */

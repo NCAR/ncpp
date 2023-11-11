@@ -15,8 +15,8 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 
 #include "define.h"
 
-#include <raf/Time.h>
-#include <raf/Window.h>
+#include "raf/Time.h"
+#include "raf/Window.h"
 
 #include <Xm/Form.h>
 #include <Xm/Frame.h>

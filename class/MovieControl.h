@@ -15,12 +15,12 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-8
 
 #include "define.h"
 
-#include <raf/rafTime.h>
-#include <raf/Application.h>
+#include "raf/rafTime.h"
+#include "raf/Application.h"
 #include "FileMgr.h"
 #include "PlotMgr.h"
 #include "SetMgr.h"
-#include <raf/Window.h>
+#include "raf/Window.h"
 
 #include <Xm/Form.h>
 #include <Xm/Frame.h>
