@@ -750,6 +750,7 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
   int		nPts = 0, startBin, endBin;
   XPoint	pts[600];
   double	datumX, datumY, xMin, xMax, yMin, yMax, total = 0.0;
+  double	missing_value = set->probe()->FillValue();
 
   xMin = xAxis.logScale ? log10(xAxis.min) : xAxis.min;
   yMin = yAxis.logScale ? log10(yAxis.min) : yAxis.min;
@@ -780,22 +781,21 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
       case COUNTS:
         datumX = (double)i;
         datumY = set->Accumulation(idx, i);
-        total += datumY;
+        if (datumY >= 0) total += datumY;
         break;
       case CONCENTRATION:
         datumY = set->Concentration(idx, i);
-        total += datumY * set->NormalizeFactor(i);
+        if (datumY != missing_value) total += datumY * set->NormalizeFactor(i);
         break;
       case SURFACE:
         datumY = set->Surface(idx, i);
-        total += datumY * set->NormalizeFactor(i);
+        if (datumY != missing_value) total += datumY * set->NormalizeFactor(i);
         break;
       case VOLUME:
         datumY = set->Volume(idx, i);
-        total += datumY * set->NormalizeFactor(i);
+        if (datumY != missing_value) total += datumY * set->NormalizeFactor(i);
         break;
       }
-
 
     if (xAxis.logScale)
       datumX = log10(datumX);
@@ -840,7 +840,7 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
   pen.SetClipping(dimsX.LV, dimsX.TH, dimsX.HD, dimsX.VD);
   pen.DrawLines(surface, pts, nPts);
 
-  if (setNum >= 0)
+  if (setNum >= 0)	// Data in corner (ditc).
     {
     if (dt == COUNTS || total > 10.0)
       snprintf(buffer, BUFFSIZE, "%6d", (int)total);
