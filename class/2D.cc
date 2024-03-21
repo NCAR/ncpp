@@ -25,6 +25,17 @@ TwoDS::TwoDS(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 }
 
 /* -------------------------------------------------------------------- */
+TwoDH::TwoDH(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
+{
+  _dof_const = 8.0;
+
+  if (_resolution == 0)
+    _resolution = 0.150;
+  if (_armDistance == 0)
+    _armDistance = 162.5;
+}
+
+/* -------------------------------------------------------------------- */
 TwoDCIP::TwoDCIP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)

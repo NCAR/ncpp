@@ -106,7 +106,8 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
   if (_name.find("2D3") != _name.npos || _name.find("2DS") != _name.npos)
     _type = TWODS;
   else
-  if (_name.find("HVPS") != _name.npos)
+//  if (_name.find("HVPS") != _name.npos)
+  if (_name.find("2DH") != _name.npos)
     _type = HVPS;
   else
   if (_name.find("RDMA") != _name.npos)

@@ -35,6 +35,12 @@ public:
 	TwoDS(NcFile *file, NcVar *av, int zbo);
 };
 
+class TwoDH : public TwoD
+{
+public:
+	TwoDH(NcFile *file, NcVar *av, int zbo);
+};
+
 class TwoDC : public TwoD
 {
 public:

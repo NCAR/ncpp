@@ -23,7 +23,7 @@ static const char *validProbeNames[] = {
 	"AMASP","A1DC","A2DC","A1DP","A2DP","AS100","AS200","AS300",
 	"ACDP", "ARDMA","ACLMT","ACMCA","AHVPS","AUHSAS","ASID","ACAPS",
 	"APDI", "A2D3", "ACIP", "APIP", "AHDC",
-	"A1DSH", "A1DSV", "A2DSA", "A2DSR", NULL };
+	"A1DSH", "A1DSV", "A2DSA", "A2DSR", "A2DH", NULL };
 
 
 /* -------------------------------------------------------------------- */
@@ -159,9 +159,14 @@ DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
           strncmp("A1DP", avar->name(), 4) == 0)
         probe[_nProbes++] = new TwoDP(file, avar, zeroBinOffset);
       else
+      if (strncmp("A2DH", avar->name(), 4) == 0 ||	// HVPS
+          strncmp("A1DH", avar->name(), 4) == 0)
+        probe[_nProbes++] = new TwoDH(file, avar, zeroBinOffset);
+      else
       if (strncmp("A2D3", avar->name(), 4) == 0 ||	// 3V-CPI
           strncmp("A1D3", avar->name(), 4) == 0 ||
-          strncmp("A1DS", avar->name(), 4) == 0)
+          strncmp("A1DS", avar->name(), 4) == 0 ||
+          strncmp("A2DS", avar->name(), 4) == 0)
         probe[_nProbes++] = new TwoDS(file, avar, zeroBinOffset);
       else
         probe[_nProbes++] = new Probe(file, avar, zeroBinOffset);
