@@ -282,7 +282,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 
       // Convert #/L data to #/cm3 so we have consistant data.
       if (((conc && conc[dest] != _probe->FillValue())) &&
-		(_probe->Units().find("/L") != _probe->Units().npos ||
+		(_probe->Units().find("L") != _probe->Units().npos ||
 		_probe->Units().find("liter") != _probe->Units().npos))
         conc[dest] /= 1000;
 
