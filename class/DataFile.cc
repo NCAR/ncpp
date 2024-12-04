@@ -11,7 +11,6 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2013
 */
 
 #include "DataFile.h"
-#include <netcdf.hh>
 
 #include <unistd.h>
 

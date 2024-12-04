@@ -14,7 +14,6 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2003
 #define HVPS_H
 
 #include "define.h"
-#include <netcdf.hh>
 
 #include "Probe.h"
 
