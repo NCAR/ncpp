@@ -8,7 +8,7 @@ def ncpp(env):
     if env['PLATFORM'] == 'darwin' and env['HOST_ARCH'] == 'arm64':
         env['DEFAULT_OPT_PREFIX']='/opt/homebrew'
 
-    env.Require(['default', 'prefixoptions', 'openmotif', 'netcdfcxx', 'raf'])
+    env.Require(['default', 'prefixoptions', 'openmotif', 'netcdfcxx'])
 
 env = Environment(GLOBAL_TOOLS = [ncpp])
 
