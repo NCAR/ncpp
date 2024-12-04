@@ -8,8 +8,7 @@ def ncpp(env):
     if env['PLATFORM'] == 'darwin' and env['HOST_ARCH'] == 'arm64':
         env['DEFAULT_OPT_PREFIX']='/opt/homebrew'
 
-    env.Require(['default', 'prefixoptions', 'openmotif', 'netcdfcxx'])
-    SConscript('raf/tool_raf.py')
+    env.Require(['default', 'prefixoptions', 'openmotif', 'netcdfcxx', 'raf'])
 
 env = Environment(GLOBAL_TOOLS = [ncpp])
 
