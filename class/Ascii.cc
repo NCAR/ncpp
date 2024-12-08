@@ -36,14 +36,14 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
     strcat(buffer, "\n  Cell diameter end points (um)\n");
 
     if (set->probe()->ZeroBinOffset() > 0)
-      sprintf(&buffer[strlen(buffer)], "      %11.3f", set->probe()->CellSize(0));
+      snprintf(&buffer[strlen(buffer)], 64, "      %11.3f", set->probe()->CellSize(0));
     else
       {
       nCells += 1;
-      sprintf(&buffer[strlen(buffer)], "%-6.3f", set->probe()->CellSize(0));
+      snprintf(&buffer[strlen(buffer)], 64, "%-6.3f", set->probe()->CellSize(0));
       }
     for (i = 1; i < nCells; ++i)
-      sprintf(&buffer[strlen(buffer)], "%11.3f", set->probe()->CellSize(i));
+      snprintf(&buffer[strlen(buffer)], 64, "%11.3f", set->probe()->CellSize(i));
 
     strcat(buffer, "\n");
     Append(buffer);
@@ -59,11 +59,11 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
         long sum = 0;
         for (j = 0; j < set->probe()->VectorLength(); ++j)
           {
-          sprintf(&buffer[strlen(buffer)], "%11.0f", set->Accumulation(i, j));
+          snprintf(&buffer[strlen(buffer)], 64, "%11.0f", set->Accumulation(i, j));
           sum += (long)set->Accumulation(i, j);
           }
 
-        sprintf(&buffer[strlen(buffer)], "  total=%7ld\n", sum);
+        snprintf(&buffer[strlen(buffer)], 64, "  total=%7ld\n", sum);
         Append(buffer);
         buffer[0] = '\0';
         }
@@ -83,14 +83,14 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
 
         for (; j <= set->probe()->LastBin(); ++j)
           {
-          sprintf(&buffer[strlen(buffer)], "%11.3e", set->Concentration(i, j));
+          snprintf(&buffer[strlen(buffer)], 64, "%11.3e", set->Concentration(i, j));
           sum += set->Concentration(i, j);
           }
 
         for (; j < set->probe()->VectorLength(); ++j)
           strcat(buffer, dashes);
 
-        sprintf(&buffer[strlen(buffer)], "  total=%e\n", sum);
+        snprintf(&buffer[strlen(buffer)], 64, "  total=%e\n", sum);
         Append(buffer);
         buffer[0] = '\0';
         }
@@ -110,14 +110,14 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
 
         for (; j <= set->probe()->LastBin(); ++j)
           {
-          sprintf(&buffer[strlen(buffer)], "%11.3e", set->Surface(i, j));
+          snprintf(&buffer[strlen(buffer)], 64, "%11.3e", set->Surface(i, j));
           sum += set->Surface(i, j);
           }
 
         for (; j < set->probe()->VectorLength(); ++j)
           strcat(buffer, dashes);
 
-        sprintf(&buffer[strlen(buffer)], "  total=%e\n", sum);
+        snprintf(&buffer[strlen(buffer)], 64, "  total=%e\n", sum);
         Append(buffer);
         buffer[0] = '\0';
         }
@@ -137,14 +137,14 @@ void Ascii::Update(SetManager& sets, PlotManager *plotMgr)
 
         for (; j <= set->probe()->LastBin(); ++j)
           {
-          sprintf(&buffer[strlen(buffer)], "%11.3e", set->Volume(i, j));
+          snprintf(&buffer[strlen(buffer)], 64, "%11.3e", set->Volume(i, j));
           sum += set->Volume(i, j);
           }
 
         for (; j < set->probe()->VectorLength(); ++j)
           strcat(buffer, dashes);
 
-        sprintf(&buffer[strlen(buffer)], "  total=%e\n", sum);
+        snprintf(&buffer[strlen(buffer)], 64, "  total=%e\n", sum);
         Append(buffer);
         buffer[0] = '\0';
         }
