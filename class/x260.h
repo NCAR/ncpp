@@ -20,7 +20,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 class X260 : public Probe200
 {
 public:
-	X260(NcFile *file, NcVar *av, int zbo);
+	X260(NcFile *file, NcVar &av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);

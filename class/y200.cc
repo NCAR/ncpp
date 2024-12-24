@@ -14,17 +14,17 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 
 
 /* -------------------------------------------------------------------- */
-Y200::Y200(NcFile *file, NcVar *av, int zbo) : Probe200(file, av, zbo)
+Y200::Y200(NcFile *file, NcVar &av, int zbo) : Probe200(file, av, zbo)
 {
-  NcAtt *attr;
+  NcVarAtt attr;
 
-  if ((attr = _avar->get_att("nDiodes")))
-    _nDiodes = attr->as_int(0);
+  if (!(_avar.getAtt("nDiodes")).isNull())
+    attr.getValues(&_nDiodes);
   else
     _nDiodes = 24;
 
-  if ((attr = _avar->get_att("ArmDistance")))
-    _armDistance = attr->as_float(0);
+  if (!(_avar.getAtt("ArmDistance")).isNull())
+    attr.getValues(&_armDistance);
   else
     _armDistance = 263.0;
 

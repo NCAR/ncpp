@@ -20,7 +20,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2001
 class UHSAS : public Probe
 {
 public:
-	UHSAS(NcFile *file, NcVar *av, int zbo);
+	UHSAS(NcFile *file, NcVar &av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);

@@ -29,6 +29,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 
 #include "raf/rafTime.h"
 
+class NcFile;
 
 /* -------------------------------------------------------------------- */
 class DataFile
@@ -37,38 +38,36 @@ public:
 	DataFile(const char fName[]);
 	~DataFile();
 
-  const std::string&	FileName() const	{ return(fileName); }
-  const std::string&	ProjectName() const	{ return(projName); }
-  const std::string&	FlightNumber() const	{ return(flightNum); }
-  const std::string&	FlightDate() const	{ return(flightDate); }
+  const std::string&	FileName() const	{ return(_fileName); }
+  const std::string&	ProjectName() const	{ return(_projName); }
+  const std::string&	FlightNumber() const	{ return(_flightNum); }
+  const std::string&	FlightDate() const	{ return(_flightDate); }
 
-  FlightClock	StartTime()	const	{ return(startTime); }
-  FlightClock	EndTime()	const	{ return(endTime); }
+  FlightClock	StartTime()	const	{ return(_startTime); }
+  FlightClock	EndTime()	const	{ return(_endTime); }
 
   size_t	NumberOfProbes() const	{ return(_nProbes); }
 
-  bool  operator==(DataFile& rhs) { return(fileName == rhs.fileName); }
-  bool  operator==(const DataFile& rhs) { return(fileName == rhs.fileName); }
+  bool  operator==(DataFile& rhs) { return(_fileName == rhs._fileName); }
+  bool  operator==(const DataFile& rhs) { return(_fileName == rhs._fileName); }
 
-  bool  isPreliminaryData()	{ return prelimData; }
+  bool  isPreliminaryData()	{ return _prelimData; }
 
   Probe		*probe[MAX_PROBES];
 
 private:
-  NcFile	*file;
+  netCDF::NcFile	*_file;
 
-  NcError	*err;
-
-  std::string	fileName;
-  std::string	projName, flightNum, flightDate;
+  std::string	_fileName;
+  std::string	_projName, _flightNum, _flightDate;
 
   size_t	_nProbes;
 
-  FlightClock	startTime, endTime;
+  FlightClock	_startTime, _endTime;
 
   bool	validProbeName(const char target[]) const;
 
-  bool  prelimData;
+  bool  _prelimData;
 
 };	// END DATAFILE.H
 

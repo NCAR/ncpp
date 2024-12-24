@@ -14,17 +14,17 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 
 
 /* -------------------------------------------------------------------- */
-FSSP::FSSP(NcFile *file, NcVar *av, int zbo) : Probe100(file, av, zbo)
+FSSP::FSSP(NcFile *file, NcVar &av, int zbo) : Probe100(file, av, zbo)
 {
-  NcAtt		*attr;
+  NcVarAtt		attr;
 
-  if ((attr = _cvar->get_att("BeamDiameter")) || (attr = _avar->get_att("BeamDiameter")))
-    _beamDiameter = attr->as_float(0);
+  if (!(_cvar.getAtt("BeamDiameter")).isNull() || !(_avar.getAtt("BeamDiameter")).isNull())
+    attr.getValues(&_beamDiameter);
   else
     _beamDiameter = 0.19;
 
-  if ((attr = _cvar->get_att("DepthOfField")) || (attr = _avar->get_att("DepthOfField")))
-    _DOF = attr->as_float(0);
+  if (!(_cvar.getAtt("DepthOfField")).isNull() || !(_avar.getAtt("DepthOfField")).isNull())
+    attr.getValues(&_DOF);
   else
     _DOF = 2.81;
 
@@ -32,10 +32,10 @@ FSSP::FSSP(NcFile *file, NcVar *av, int zbo) : Probe100(file, av, zbo)
 
   for (size_t i = 0; i < _otherVars.size(); ++i)
     {
-    if (strncmp(_otherVars[i]->name(), "FACT", 4) == 0)
+    if (_otherVars[i].getName().starts_with("FACT"))
       _actIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "FBMFR", 5) == 0)
+    if (_otherVars[i].getName().starts_with("FBMFR"))
       _bmFrIdx = i;
     }
 

@@ -12,43 +12,43 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 
 
 /* -------------------------------------------------------------------- */
-Probe100::Probe100(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
+Probe100::Probe100(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo)
 {
-  NcAtt		*attr;
+  NcVarAtt		attr;
 
-  if ((attr = _cvar->get_att("Density")) || (attr = _avar->get_att("Density")))
-    _DENS = attr->as_float(0);
+  if (!(_cvar.getAtt("Density")).isNull() || !(_avar.getAtt("Density")).isNull())
+    attr.getValues(&_DENS);
   else
     _DENS = 1.0;
 
-  if ((attr = _cvar->get_att("PLWfactor")) || (attr = _avar->get_att("PLWfactor")))
-    _PLWfac = attr->as_float(0);
+  if (!(_cvar.getAtt("PLWfactor")).isNull() || !(_avar.getAtt("PLWfactor")).isNull())
+    attr.getValues(&_PLWfac);
   else
     _PLWfac = 1.0e-6;
 
-  if ((attr = _cvar->get_att("DBZfactor")) || (attr = _avar->get_att("DBZfactor")))
-    _DBZfac = attr->as_float(0);
+  if (!(_cvar.getAtt("DBZfactor")).isNull() || !(_avar.getAtt("DBZfactor")).isNull())
+    attr.getValues(&_DBZfac);
   else
     _DBZfac = 1.0e6;
 
   for (size_t i = 0; i < _otherVars.size(); ++i)
     {
-    if (strcmp(_otherVars[i]->name(), "TASX") == 0)
+    if (_otherVars[i].getName().compare("TASX") == 0)
       _tasIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "CONC", 4) == 0)
+    if (_otherVars[i].getName().starts_with("CONC"))
       _concIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "PLWC", 4) == 0)
+    if (_otherVars[i].getName().starts_with("PLWC"))
       _lwIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DBZ", 3) == 0)
+    if (_otherVars[i].getName().starts_with("DBZ"))
       _dbzIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DBAR", 4) == 0)
+    if (_otherVars[i].getName().starts_with("DBAR"))
       _dbarIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DISP", 4) == 0)
+    if (_otherVars[i].getName().starts_with("DISP"))
       _dispIdx = i;
     }
 

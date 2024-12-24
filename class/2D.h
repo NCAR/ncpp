@@ -15,53 +15,51 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
 
 #include "Probe200.h"
 
-
 /* -------------------------------------------------------------------- */
 class TwoD : public Probe200
 {
 public:
-	TwoD(NcFile *file, NcVar *av, int zbo);
+	TwoD(NcFile *file, NcVar &av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);
 
 };
 
-
 // SPEC 2DS and/or 3V-CPI
 class TwoDS : public TwoD
 {
 public:
-	TwoDS(NcFile *file, NcVar *av, int zbo);
+	TwoDS(NcFile *file, NcVar &av, int zbo);
 };
 
 class TwoDH : public TwoD
 {
 public:
-	TwoDH(NcFile *file, NcVar *av, int zbo);
+	TwoDH(NcFile *file, NcVar &av, int zbo);
 };
 
 class TwoDC : public TwoD
 {
 public:
-	TwoDC(NcFile *file, NcVar *av, int zbo);
+	TwoDC(NcFile *file, NcVar &av, int zbo);
 };
 
 class TwoDP : public TwoD
 {
 public:
-	TwoDP(NcFile *file, NcVar *av, int zbo);
+	TwoDP(NcFile *file, NcVar &av, int zbo);
 };
 
 class TwoDCIP : public TwoD
 {
 public:
-	TwoDCIP(NcFile *file, NcVar *av, int zbo);
+	TwoDCIP(NcFile *file, NcVar &av, int zbo);
 };
 
 class TwoDPIP : public TwoD
 {
 public:
-	TwoDPIP(NcFile *file, NcVar *av, int zbo);
+	TwoDPIP(NcFile *file, NcVar &av, int zbo);
 };
 #endif
