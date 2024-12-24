@@ -31,11 +31,11 @@ void VarsWin::Update(SetManager& sets, PlotManager *plotMgr)
 
     for (size_t i = 0; i < set->probe()->nOtherVars(); ++i)
       {
-      sprintf(&buffer[strlen(buffer)], "  %-12s", set->probe()->OtherVarName(i));
+      snprintf(&buffer[strlen(buffer)], 64, "  %-12s", set->probe()->OtherVarName(i));
 
       for (size_t j = 0; j < sets.NumberRecords(); ++j)
         {
-	sprintf(&buffer[strlen(buffer)], "%10.3f", set->OtherVar(i, j));
+	snprintf(&buffer[strlen(buffer)], 64, "%10.3f", set->OtherVar(i, j));
         }
 
       strcat(buffer, "\n");

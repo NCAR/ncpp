@@ -408,7 +408,7 @@ int Probe::SetEditWindow(Widget txt[])
     buffer[0] = '\0';
 
     for (j = 0; j < 16; ++j)
-      sprintf(&buffer[strlen(buffer)], "%5g ", CellSize((i*16)+j));
+      snprintf(&buffer[strlen(buffer)], 24, "%5g ", CellSize((i*16)+j));
 
     XmTextFieldSetString(txt[cnt++], buffer);
     }

@@ -19,6 +19,7 @@ DESCRIPTION:
 #include <string>
 #include <iostream>
 
+#define register
 #include <Xm/Xm.h>
 
 #ifndef ERR

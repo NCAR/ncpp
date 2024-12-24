@@ -8,9 +8,11 @@ def ncpp(env):
     if env['PLATFORM'] == 'darwin' and env['HOST_ARCH'] == 'arm64':
         env['DEFAULT_OPT_PREFIX']='/opt/homebrew'
 
-    env.Require(['default', 'prefixoptions', 'openmotif', 'netcdfcxx4'])
+    env.Require(['default', 'prefixoptions'])
 
 env = Environment(GLOBAL_TOOLS = [ncpp])
+
+env.Require(['openmotif', 'netcdfcxx4', 'raf'])
 
 env.Append(CXXFLAGS='-std=c++20 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
 
@@ -21,11 +23,10 @@ env.Append(CPPDEFINES=['PNG'])
 
 env.Prepend(CPPPATH=['#/class'])
 
-env.Append(LIBS=['raf'])
 env.Append(LIBS=['png'])
 env.Append(LIBS=['z'])
 
-env.Append(LIBPATH=['#/raf'])
+#env.Append(LIBPATH=['#/raf'])
 env['PUBLISH_PREFIX'] = '/net/www/docs/raf/Software'
 
 
