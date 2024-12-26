@@ -37,9 +37,8 @@ static const char *validProbeNames[] = {
 /* -------------------------------------------------------------------- */
 DataFile::DataFile(const char fName[]) : _fileName(fName), _nProbes(0)
 {
-  int		i;
-  int		zeroBinOffset = 1;	// Default to older files which have it.
-  NcGroupAtt	attr;
+  int		    zeroBinOffset = 1;	// Default to older files which have it.
+  NcGroupAtt	    attr;
 
 
   // Open Input File
@@ -103,88 +102,85 @@ DataFile::DataFile(const char fName[]) : _fileName(fName), _nProbes(0)
 
   /* Scan variables for PMS1D vectors.
    */
-/*
- * @TODO port this loop!
-  multimap<std::string, NcVar> vars = _file->getVars();
-  for (i = 0; i < vars.size(); ++i)
-    {
-    NcVar avar = vars[i]; 
+  std::multimap<std::string, NcVar> vars = _file->getVars();
+  for (auto it = vars.begin(); it != vars.end(); ++it)
+  {
+    NcVar avar = it->second;
 
-    if (strcmp(avar->name(), "base_time") == 0 ||
-        strcmp(avar->name(), "time_offset") == 0)
+    if (avar.getName().compare("base_time") == 0 ||
+        avar.getName().compare("time_offset") == 0)
       continue;
 
-    if (avar->num_dims() >= 3 && validProbeName(avar->name()))
+    if (avar.getDimCount() >= 3 && validProbeName(avar.getName().c_str()))
       {
-      if (strncmp("AFSSP", avar->name(), 5) == 0)
+      if (avar.getName().compare("AFSSP") == 0)
         probe[_nProbes++] = new FSSP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AF300", avar->name(), 5) == 0 ||
-          strncmp("AS300", avar->name(), 5) == 0)
+      if (avar.getName().compare("AF300") == 0 ||
+           avar.getName().compare("AS300") == 0)
         probe[_nProbes++] = new F300(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AASAS", avar->name(), 5) == 0 ||
-          strncmp("APCAS", avar->name(), 5) == 0)
+      if (avar.getName().compare("AASAS") == 0 ||
+           avar.getName().compare("APCAS") == 0)
         probe[_nProbes++] = new PCASP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AS100", avar->name(), 5) == 0)
+      if (avar.getName().compare("AS100") == 0)
         probe[_nProbes++] = new S100(_file, avar, zeroBinOffset);
       else
-      if (strncmp("ACDP", avar->name(), 4) == 0)
+      if (avar.getName().compare("ACDP") == 0)
         probe[_nProbes++] = new CDP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AS200", avar->name(), 5) == 0)
+      if (avar.getName().compare("AS200") == 0)
         probe[_nProbes++] = new S200(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AUHSAS", avar->name(), 6) == 0)
+      if (avar.getName().compare("AUHSAS") == 0)
         probe[_nProbes++] = new UHSAS(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AHDC", avar->name(), 4) == 0)
+      if (avar.getName().compare("AHDC") == 0)
         probe[_nProbes++] = new HDC(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A260X", avar->name(), 5) == 0)
+      if (avar.getName().compare("A260X") == 0)
         probe[_nProbes++] = new X260(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AMASP", avar->name(), 5) == 0)
+      if (avar.getName().compare("AMASP") == 0)
         probe[_nProbes++] = new F300(_file, avar, zeroBinOffset);
       else
-//      if (strncmp("AHVPS", avar->name(), 5) == 0)
+//      if ( avar.getName().compare("AHVPS") == 0)
 //        probe[_nProbes++] = new HVPS(_file, avar, zeroBinOffset);
 //      else
-      if (strncmp("A200X", avar->name(), 5) == 0)
+      if (avar.getName().compare("A200X") == 0)
         probe[_nProbes++] = new X200(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A200Y", avar->name(), 5) == 0)
+      if (avar.getName().compare("A200Y") == 0)
         probe[_nProbes++] = new Y200(_file, avar, zeroBinOffset);
       else
-      if (strncmp("ACIP", avar->name(), 5) == 0)
+      if (avar.getName().compare("ACIP") == 0)
         probe[_nProbes++] = new TwoDCIP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("APIP", avar->name(), 5) == 0)
+      if (avar.getName().compare("APIP") == 0)
         probe[_nProbes++] = new TwoDPIP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2DC", avar->name(), 4) == 0 ||
-          strncmp("A1DC", avar->name(), 4) == 0)
+      if (avar.getName().compare("A2DC") == 0 ||
+          avar.getName().compare("A1DC") == 0)
         probe[_nProbes++] = new TwoDC(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2DP", avar->name(), 4) == 0 ||
-          strncmp("A1DP", avar->name(), 4) == 0)
+      if (avar.getName().compare("A2DP") == 0 ||
+          avar.getName().compare("A1DP") == 0)
         probe[_nProbes++] = new TwoDP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2DH", avar->name(), 4) == 0 ||	// HVPS
-          strncmp("A1DH", avar->name(), 4) == 0)
+      if (avar.getName().compare("A2DH") == 0 ||	// HVPS
+          avar.getName().compare("A1DH") == 0)
         probe[_nProbes++] = new TwoDH(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2D3", avar->name(), 4) == 0 ||	// 3V-CPI
-          strncmp("A1D3", avar->name(), 4) == 0 ||
-          strncmp("A1DS", avar->name(), 4) == 0 ||
-          strncmp("A2DS", avar->name(), 4) == 0)
+      if (avar.getName().compare("A2D3") == 0 ||	// 3V-CPI
+          avar.getName().compare("A1D3") == 0 ||
+          avar.getName().compare("A1DS") == 0 ||
+          avar.getName().compare("A2DS") == 0)
         probe[_nProbes++] = new TwoDS(_file, avar, zeroBinOffset);
       else
         probe[_nProbes++] = new Probe(_file, avar, zeroBinOffset);
       }
     }
-  */
 
 }	/* END CONSTRUCTOR */
 
