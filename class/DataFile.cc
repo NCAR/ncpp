@@ -55,17 +55,18 @@ DataFile::DataFile(const char fName[]) : _fileName(fName), _nProbes(0)
   attr = _file->getAtt("project");
   if (attr.isNull()){
     attr = (_file->getAtt("ProjectName"));
-  }else if (! attr.isNull())
-    _projName = attr.getName();
+  }else if (!attr.isNull()){
+    formatAttribute(attr, _projName);
+  }
 
   attr = _file->getAtt("FlightNumber");
   if (! attr.isNull()){
-    attr.getValues(&_flightNum);
+    formatAttribute(attr, _flightNum);
   }
 
   attr = _file->getAtt("FlightDate");
   if (! attr.isNull())
-    attr.getValues(&_flightDate);
+    formatAttribute(attr, _flightDate);
   
   attr = _file->getAtt("SizeDistributionLegacyZeroBin");
   if (!attr.isNull())
@@ -194,6 +195,15 @@ DataFile::~DataFile()
 
 }	/* END DESTRUCTOR */
 
+/* -------------------------------------------------------------------- */
+void DataFile::formatAttribute(const netCDF::NcGroupAtt attr, std::string& attName)
+{    
+  size_t len = attr.getAttLength(); 
+  std::vector<char> buffer(len + 1); 
+  attr.getValues(buffer.data());    
+  buffer[len] = '\0';               
+  attName = std::string(buffer.data()); 
+}       /* END FORMATATTRIBUTE */
 /* -------------------------------------------------------------------- */
 bool DataFile::validProbeName(const char target[]) const
 {

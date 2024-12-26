@@ -66,6 +66,8 @@ private:
   FlightClock	_startTime, _endTime;
 
   bool	validProbeName(const char target[]) const;
+  
+  void formatAttribute(const netCDF::NcGroupAtt attr, std::string& attName);
 
   bool  _prelimData;
 
