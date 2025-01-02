@@ -59,7 +59,8 @@ Probe::Probe(NcFile *file, NcVar &av, int zbo) : _avar(av), _firstBin(0), _lastB
   NcVarAtt	attr;
 printf("Probe::ctor\n");
 printf("  ::ctor name=%s\n", _avar.getName().c_str());
-  _name = _avar.getName()[1];	// <<<< What is this?
+  _name = _avar.getName().substr(1);
+  //printf("  ::ctor name=%s\n", _name.c_str());
 
   cname = "C"; cname += _name;
   _cvar = file->getVar(cname.c_str());
@@ -489,7 +490,7 @@ void Probe::getAttributeValue(std::string attribute, size_t * value){
 void Probe::getAttributeValue(std::string attribute, float * value){
   NcVarAtt attr =_cvar.getAtt(attribute); 
   if (!attr.isNull()){
-    attr.getValues(&value);
+    attr.getValues(value);
   }
   printf("[%s] = %f \n ", attribute.c_str(), *value);
 }

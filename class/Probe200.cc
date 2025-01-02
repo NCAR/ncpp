@@ -19,7 +19,7 @@ Probe200::Probe200(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo), _nD
 {
   NcVarAtt attr;
 
-  if (!(_avar.getAtt("ResponseTime")).isNull())
+  if (!(attr = _avar.getAtt("ResponseTime")).isNull())
     attr.getValues(&_responseTime );
   else
     _responseTime = 0.35;
