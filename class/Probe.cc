@@ -55,10 +55,11 @@ Probe::Probe(NcFile *file, NcVar &av, int zbo) : _avar(av), _firstBin(0), _lastB
   std::string	cname;
   int		i;
   char		*location;
-  NcVar 	var;
-  NcVarAtt		attr;
-
-  _name = _avar.getName()[1];
+  NcVar		var;
+  NcVarAtt	attr;
+printf("Probe::ctor\n");
+printf("  ::ctor name=%s\n", _avar.getName().c_str());
+  _name = _avar.getName()[1];	// <<<< What is this?
 
   cname = "C"; cname += _name;
   _cvar = file->getVar(cname.c_str());

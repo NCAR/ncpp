@@ -15,7 +15,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 Probe100::Probe100(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo)
 {
   NcVarAtt		attr;
-
+printf("Probe100::ctor\n");
   if (!(_cvar.getAtt("Density")).isNull() || !(_avar.getAtt("Density")).isNull())
     attr.getValues(&_DENS);
   else

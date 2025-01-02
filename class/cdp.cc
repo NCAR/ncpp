@@ -17,7 +17,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 CDP::CDP(NcFile *file, NcVar &av, int zbo) : Probe100(file, av, zbo)
 {
   NcVarAtt attr;
-
+printf("CDP::ctor\n");
   if (!(_cvar.getAtt("BeamDiameter")).isNull() || !(_avar.getAtt("BeamDiameter")).isNull())
     attr.getValues(&_beamDiameter);
   else
