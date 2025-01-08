@@ -18,12 +18,12 @@ S100::S100(NcFile *file, NcVar &av, int zbo) : Probe100(file, av, zbo)
 {
   NcVarAtt		attr;
 
-  if (!(_cvar.getAtt("BeamDiameter")).isNull() || !(_avar.getAtt("BeamDiameter")).isNull())
+  if (!(attr = _cvar.getAtt("BeamDiameter")).isNull() || !(attr = _avar.getAtt("BeamDiameter")).isNull())
     attr.getValues(&_beamDiameter);
   else
     _beamDiameter = 0.19;
 
-  if (!(_cvar.getAtt("DepthOfField")).isNull() || !(_avar.getAtt("DepthOfField")).isNull())
+  if (!(attr = _cvar.getAtt("DepthOfField")).isNull() || !(attr = _avar.getAtt("DepthOfField")).isNull())
     attr.getValues(&_DOF);
   else
     _DOF = 3.05;

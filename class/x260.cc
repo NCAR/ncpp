@@ -20,12 +20,12 @@ X260::X260(NcFile *file, NcVar &av, int zbo) : Probe200(file, av, zbo)
 
   _resolution = 0.01;
 
-  if (!(_avar.getAtt("nDiodes")).isNull())
+  if (!(attr = _avar.getAtt("nDiodes")).isNull())
     attr.getValues(&_nDiodes);
   else
     _nDiodes = 64;
 
-  if (!(_avar.getAtt("ArmDistance")).isNull())
+  if (!(attr = _avar.getAtt("ArmDistance")).isNull())
     attr.getValues(&_armDistance);
   else
     _armDistance = 61.0;

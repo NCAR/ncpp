@@ -18,12 +18,12 @@ Y200::Y200(NcFile *file, NcVar &av, int zbo) : Probe200(file, av, zbo)
 {
   NcVarAtt attr;
 
-  if (!(_avar.getAtt("nDiodes")).isNull())
+  if (!(attr = _avar.getAtt("nDiodes")).isNull())
     attr.getValues(&_nDiodes);
   else
     _nDiodes = 24;
 
-  if (!(_avar.getAtt("ArmDistance")).isNull())
+  if (!(attr = _avar.getAtt("ArmDistance")).isNull())
     attr.getValues(&_armDistance);
   else
     _armDistance = 263.0;

@@ -23,7 +23,7 @@ X200::X200(NcFile *file, NcVar &av, int zbo) : Probe200(file, av, zbo)
   else
     _nDiodes = 15;
 
-  if (!(_avar.getAtt("ArmDistance")).isNull())
+  if (!(attr = _avar.getAtt("ArmDistance")).isNull())
     attr.getValues(&_armDistance);
   else
     _armDistance = 61.0;

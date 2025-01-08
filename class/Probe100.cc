@@ -16,17 +16,17 @@ Probe100::Probe100(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo)
 {
   NcVarAtt		attr;
 printf("Probe100::ctor\n");
-  if (!(_cvar.getAtt("Density")).isNull() || !(_avar.getAtt("Density")).isNull())
+  if (!(attr = _cvar.getAtt("Density")).isNull() || !(attr = _avar.getAtt("Density")).isNull())
     attr.getValues(&_DENS);
   else
     _DENS = 1.0;
 
-  if (!(_cvar.getAtt("PLWfactor")).isNull() || !(_avar.getAtt("PLWfactor")).isNull())
+  if (!(attr = _cvar.getAtt("PLWfactor")).isNull() || !(attr = _avar.getAtt("PLWfactor")).isNull())
     attr.getValues(&_PLWfac);
   else
     _PLWfac = 1.0e-6;
 
-  if (!(_cvar.getAtt("DBZfactor")).isNull() || !(_avar.getAtt("DBZfactor")).isNull())
+  if (!(attr = _cvar.getAtt("DBZfactor")).isNull() || !(attr = _avar.getAtt("DBZfactor")).isNull())
     attr.getValues(&_DBZfac);
   else
     _DBZfac = 1.0e6;
