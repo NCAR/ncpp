@@ -6,7 +6,7 @@ FULL NAME:	Probe Class
 
 DESCRIPTION:	
 
-COPYRIGHT:	University Corporation for Atmospheric Research, 1997-9
+COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 -------------------------------------------------------------------------
 */
 
@@ -165,7 +165,7 @@ printf("  ::ctor name=%s\n", _avar.getName().c_str());
 
   if (_cvar.isNull())
     return;
-  
+
   getAttributeValue("units", _units);
   getAttributeValue("SerialNumber", _serialNum);
 
@@ -183,7 +183,7 @@ printf("  ::ctor name=%s\n", _avar.getName().c_str());
       _zeroBinOffset = 1;
   }
 
-  
+
   if (!(attr = _cvar.getAtt("FirstBin")).isNull() || !(attr = _avar.getAtt("FirstBin")).isNull())
     attr.getValues(&_firstBin);
   else
@@ -277,9 +277,9 @@ printf("  ::ctor name=%s\n", _avar.getName().c_str());
     std::cerr << "Probe.cc: variable " << _name << " has no location!\n";
     }
   std::multimap<std::string, NcVar> varList = file->getVars();
-  for (auto it = varList.begin(); it != varList.end(); ++it) 
+  for (auto it = varList.begin(); it != varList.end(); ++it)
     {
-    var = it->second; 
+    var = it->second;
 
     if (var.getDimCount()< 3 &&
        (var.getName().ends_with(location) || var.getName().compare("TASX") == 0))
@@ -306,7 +306,7 @@ bool Probe::ReadCounts(long start[], const long count[], float *data)
 {
   if (_avar.isNull())
     return(false);
-  
+
   std::vector< size_t > s,c;
   //time,subsample,vector length = 3 dimensions
   for (int i = 0; i < 3; i++){
@@ -324,7 +324,7 @@ bool Probe::ReadConcen(long start[], const long count[], float *data)
   if (_cvar.isNull())
     return(false);
 
-  std::vector< size_t > s,c; 
+  std::vector< size_t > s,c;
   for (int i = 0; i < 3; i++){
     s.push_back(start[i]);
     c.push_back(count[i]);
@@ -348,7 +348,7 @@ bool Probe::ReadOtherVar(size_t idx, long start[], const long count[], float *da
   if (idx >= _otherVars.size())
     return(false);
 
-  std::vector< size_t > s,c; 
+  std::vector< size_t > s,c;
   //@TODO only covers low rate data, needs 2nd dimension for 25hz
   s.push_back(start[0]);
   c.push_back(count[0]);
@@ -467,8 +467,9 @@ int Probe::ApplyEditWindow(Widget text[])
 }	/* END APPLYEDITWINDOW */
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, std::string & value){
-  NcVarAtt attr =_cvar.getAtt(attribute); 
+void Probe::getAttributeValue(std::string attribute, std::string & value)
+{
+  NcVarAtt attr =_cvar.getAtt(attribute);
   if (!attr.isNull()){
     attr.getValues(value);
   }
@@ -476,8 +477,9 @@ void Probe::getAttributeValue(std::string attribute, std::string & value){
 }
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, size_t * value){
-  NcVarAtt attr =_cvar.getAtt(attribute); 
+void Probe::getAttributeValue(std::string attribute, size_t * value)
+{
+  NcVarAtt attr =_cvar.getAtt(attribute);
   unsigned int rc;
   if (!attr.isNull()){
     attr.getValues(&rc);
@@ -487,8 +489,9 @@ void Probe::getAttributeValue(std::string attribute, size_t * value){
 }
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, float * value){
-  NcVarAtt attr =_cvar.getAtt(attribute); 
+void Probe::getAttributeValue(std::string attribute, float * value)
+{
+  NcVarAtt attr =_cvar.getAtt(attribute);
   if (!attr.isNull()){
     attr.getValues(value);
   }
@@ -496,13 +499,15 @@ void Probe::getAttributeValue(std::string attribute, float * value){
 }
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, std::vector<float> & value){
-  NcVarAtt attr =_cvar.getAtt(attribute); 
-  float rc[512]; 
+void Probe::getAttributeValue(std::string attribute, std::vector<float> & value)
+{
+  NcVarAtt attr =_cvar.getAtt(attribute);
+  float rc[512];
   if (!attr.isNull()){
     attr.getValues(rc);
+/// @TODO need to get nValues and value.push_back() the list
   }
-  //printf("%f \n ", value);
+  printf("flt array %f \n ", value[0]);
 }
 
 /* -------------------------------------------------------------------- */
