@@ -2,9 +2,9 @@
 -------------------------------------------------------------------------
 OBJECT NAME:	DataFile.h
 
-FULL NAME:	Data File Class
+FULL NAME:	netCDF Data File Class
 
-COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
+COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 -------------------------------------------------------------------------
 */
 
@@ -55,8 +55,13 @@ public:
   bool  operator==(DataFile& rhs) { return(_fileName == rhs._fileName); }
   bool  operator==(const DataFile& rhs) { return(_fileName == rhs._fileName); }
 
+  /**
+   * The netCDF file has a global attirbute marking it as prelininary data.
+   * @returns true/false if it was found.
+   */
   bool  isPreliminaryData()	{ return _prelimData; }
 
+  /// List of Probes found in the file.
   Probe		*probe[MAX_PROBES];
 
 private:
@@ -69,9 +74,15 @@ private:
 
   FlightClock	_startTime, _endTime;
 
+  /**
+   * ncpp only works against a fixed set of Probe variable names.  This method
+   * validates the name against a fixed list.
+   * See list in DataFile.cc
+   */
   bool	validProbeName(const char target[]) const;
 
-  void formatAttribute(const netCDF::NcGroupAtt attr, std::string& attName);
+  /// Read netCDF string attributes and make sure properly null terminated.
+  void getStringAttribute(const netCDF::NcGroupAtt attr, std::string& attName);
 
   bool  _prelimData;
 
