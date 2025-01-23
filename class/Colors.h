@@ -4,8 +4,6 @@ OBJECT NAME:	Colors.h
 
 FULL NAME:	Colors
 
-TYPE:		
-
 DESCRIPTION:	Provide a series of Colors that are always the same for
 		both X & PostScript.
 
@@ -32,6 +30,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2000
 #endif
 
 /* -------------------------------------------------------------------- */
+/**
+ * Simple class to manage display colors for each Probe.  Maintains a fixed list
+ * of colors that can be iterated through.
+ */
 class Colors
 {
 public:

@@ -45,38 +45,56 @@ public:
   size_t DataRate() const	{ return(_dataRate); }
   float FillValue() const	{ return _missing_value; }
 
+//@{
+  /// Return start and last of the size-distribution to display.
   size_t FirstBin() const	{ return(_firstBin); }
   size_t LastBin() const	{ return(_lastBin); }
-
+//@}
+//@{
+  /// If the file has the legacy (pre 2022) zeroth bin, use an offset of one.
   int ZeroBinOffset() const	{ return(_zeroBinOffset); }
   void SetZeroBinOffset(int z)	{ _zeroBinOffset = z; }
+//@}
 
-  /// Do we have a matching concentration to a found counts varaible.
+  /// Do we have a matching concentration to a found counts variable.
   bool	HaveConcentrations() const	{ return(!_cvar.isNull()); }
 
   virtual float CellSize(int idx) const	{ return(_diameter[idx]); }
   virtual float BinWidth(int idx) const	{ return(_binWidth[idx]); }
 
-  /// Read the raw counts data from the netCDF File.
+  /// Read the raw counts data from the netCDF File.  The "A" var
   bool	ReadCounts(long start[], const long count[], float *data);
 
-  /// Read the concentration data from the netCDF File.
+  /// Read the concentration data from the netCDF File.  The "C" var
   bool	ReadConcen(long start[], const long count[], float *data);
 
   virtual void	UpdateCellDiams(const int first, const int last,
 		const float *newDiams);
 
 
-  /// Compute a concentration instead of reading it from the netCDF file.
+  /**
+   * Compute concentrations and otherVars instead of reading them from the
+   * netCDF file.
+   */
   virtual void ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);
 
+  /**
+   * Appears unused.  The FSSP / S100 has four size ranges, we've only ever
+   * used the first.
+   */
   virtual void SetRange(int)	{}
 
+//@{
+  /// Number of ancillary variables.
   size_t	nOtherVars()			{ return(_otherVars.size()); }
+  /// Retrieve a specific ancillary variable name
+  /// @TODO this returning a warning on clang "returns temporary data"
   const char	*OtherVarName(size_t idx)	{ return(_otherVars[idx].getName().c_str()); }
 
+  /// Read ancillary variable data from the netCDF file.
   bool	ReadOtherVar(size_t idx, long start[], const long count[], float *data);
+//@}
 
   virtual int	SetEditWindow(Widget txt[]);
   virtual int	ApplyEditWindow(Widget txt[]);
@@ -86,10 +104,22 @@ public:
   bool	operator==(const Probe& rhs) { return(_name == rhs._name); }
 
 protected:
+//@{
+  /**
+   * Methods to retrieve netCDF attributes of various data types.  These will trap
+   * any exceptions that the netCDF API will throw.
+   @param var the variable to get the attribute from
+   @param target the attribute name to get
+   @param output the variable to place the attribute, this is the return data
+   @param defaultValue is the value to use if the attribute does not exist
+   @returns true/false as to success of reading attribute (i.e. did it exist)
+   */
   bool getStringAttribute(NcVar& var, const char target[], std::string& output);
   bool getIntAttribute(NcVar& var, const char target[], int& output, int defaultValue = 0);
   bool getFloatAttribute(NcVar& var, const char target[], float& output, float defaultValue = 0.0);
   bool getVectorOfFloatAttributes(NcVar& var, const char target[], std::vector<float>& output);
+//@}
+  /// Compute bin widths.
   virtual void	ComputeWidths();
 
   NcVar		_avar, _cvar;		// netCDF variable ID.

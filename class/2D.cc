@@ -4,9 +4,9 @@ OBJECT NAME:	2D.cc
 
 FULL NAME:	2D Class
 
-DESCRIPTION:	Probe classes for 2DC, 2DP, and 2DS/3V-CPI.
+DESCRIPTION:	Probe classes for Optical Array Probes (OAP).
 
-COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
+COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2025
 -------------------------------------------------------------------------
 */
 

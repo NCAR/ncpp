@@ -6,7 +6,7 @@ FULL NAME:	2D
 
 TYPE:		Derived class for 2DC, 2DP, and 2DS (3V-CPI).
 
-COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
+COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2025
 -------------------------------------------------------------------------
 */
 
@@ -16,6 +16,11 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
 #include "Probe200.h"
 
 /* -------------------------------------------------------------------- */
+/**
+ * Probe class for OAP probes.  All calculations are the same for these probes.
+ * Individual sub-classes will just default values for resolution and number of
+ * diodes.
+ */
 class TwoD : public Probe200
 {
 public:
@@ -33,6 +38,7 @@ public:
 	TwoDS(NcFile *file, NcVar &av, int zbo);
 };
 
+// HVPS
 class TwoDH : public TwoD
 {
 public:
@@ -51,6 +57,7 @@ public:
 	TwoDP(NcFile *file, NcVar &av, int zbo);
 };
 
+// DMT CIP/PIP
 class TwoDCIP : public TwoD
 {
 public:

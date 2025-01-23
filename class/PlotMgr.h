@@ -32,7 +32,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-9
 
 /* -------------------------------------------------------------------- */
 /**
- * This is the View (of the Model, View, Controller).  This is the GUI 
+ * This is the View (of the Model, View, Controller).  This is the GUI
  * and callbacks for the main canvas and options on the control window.
  */
 class PlotManager : public WinForm, public DataSource
