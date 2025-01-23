@@ -32,6 +32,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 class NcFile;
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to hold information about an open file.  This includes a list of
+ * Probes.
+ */
 class DataFile
 {
 public:
@@ -66,7 +70,7 @@ private:
   FlightClock	_startTime, _endTime;
 
   bool	validProbeName(const char target[]) const;
-  
+
   void formatAttribute(const netCDF::NcGroupAtt attr, std::string& attName);
 
   bool  _prelimData;

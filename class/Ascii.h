@@ -21,6 +21,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1998
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class for display ASCII data.  This pops up a basic text widget and fills
+ * it with the ASCII data from what is being displayed on the plot windows.
+ */
 class Ascii : public TextWindow
 {
 public:

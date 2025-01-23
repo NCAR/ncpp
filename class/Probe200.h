@@ -17,6 +17,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * intermediate class between Probe and all PMS2D, or OAP style probes.
+ * This includes the 260X, 2DC, 2DP, 2DS, and HVPS.
+ */
 class Probe200 : public Probe
 {
 public:

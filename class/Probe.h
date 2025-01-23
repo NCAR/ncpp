@@ -23,6 +23,10 @@ using namespace netCDF;
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * The base class for all probes.  Contains all metadata and methods to read
+ * the data.
+ */
 class Probe
 {
 public:
@@ -47,17 +51,23 @@ public:
   int ZeroBinOffset() const	{ return(_zeroBinOffset); }
   void SetZeroBinOffset(int z)	{ _zeroBinOffset = z; }
 
+  /// Do we have a matching concentration to a found counts varaible.
   bool	HaveConcentrations() const	{ return(!_cvar.isNull()); }
 
   virtual float CellSize(int idx) const	{ return(_diameter[idx]); }
   virtual float BinWidth(int idx) const	{ return(_binWidth[idx]); }
 
+  /// Read the raw counts data from the netCDF File.
   bool	ReadCounts(long start[], const long count[], float *data);
+
+  /// Read the concentration data from the netCDF File.
   bool	ReadConcen(long start[], const long count[], float *data);
 
   virtual void	UpdateCellDiams(const int first, const int last,
 		const float *newDiams);
 
+
+  /// Compute a concentration instead of reading it from the netCDF file.
   virtual void ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);
 
@@ -96,7 +106,8 @@ protected:
 
   float		_missing_value;
 
-  /* Files prior to 2022 had a zeroth bin (e.g. 31 instead of 30).  This will be
+  /**
+   * Files prior to 2022 had a zeroth bin (e.g. 31 instead of 30).  This will be
    * used as an offset to index with.  Set to 0 for new files, set to 1 for old
    * files.
    */

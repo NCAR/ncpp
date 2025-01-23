@@ -15,6 +15,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * intermediate class between Probe and all PMS1D scattering style probes.
+ * This includes FSSP, CDP, PCASP, UHSAS, F300, and others.
+ */
 class Probe100 : public Probe
 {
 public:

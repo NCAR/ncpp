@@ -22,6 +22,9 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2001
 class Panel;
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to manage the DataSets that are being plotted.
+ */
 class SetManager
 {
 public:

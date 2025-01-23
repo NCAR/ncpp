@@ -17,6 +17,9 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2001
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to support calculations for a DMT UHSAS probe.
+ */
 class UHSAS : public Probe
 {
 public:

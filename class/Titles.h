@@ -20,6 +20,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class for the variable names, units and titles window.
+ * View Menu -> Variable Titles.
+ */
 class Titles : public TextWindow
 {
 public:
