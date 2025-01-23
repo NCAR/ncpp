@@ -18,16 +18,8 @@ CDP::CDP(NcFile *file, NcVar &av, int zbo) : Probe100(file, av, zbo)
 {
   NcVarAtt attr;
 printf("CDP::ctor\n");
-  if (!(attr = _cvar.getAtt("BeamDiameter")).isNull() || !(attr = _avar.getAtt("BeamDiameter")).isNull())
-    attr.getValues(&_beamDiameter);
-  else
-    _beamDiameter = 0.2;
-
-  if (!(attr = _cvar.getAtt("DepthOfField")).isNull() || !(attr = _avar.getAtt("DepthOfField")).isNull())
-    attr.getValues(&_DOF);
-  else
-    _DOF = 1.2;
-
+  getFloatAttribute(_avar, "BeamDiameter", _beamDiameter, 0.2) || getFloatAttribute(_cvar, "BeamDiameter", _beamDiameter, 0.2);
+  getFloatAttribute(_avar, "DepthOfField", _DOF, 1.2) || getFloatAttribute(_cvar, "DepthOfField", _DOF, 1.2);
 }	/* END CONSTRUCTOR */
 
 /* -------------------------------------------------------------------- */

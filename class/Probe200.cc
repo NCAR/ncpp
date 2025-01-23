@@ -19,31 +19,13 @@ Probe200::Probe200(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo), _nD
 {
   NcVarAtt attr;
 
-  if (!(attr = _avar.getAtt("ResponseTime")).isNull())
-    attr.getValues(&_responseTime );
-  else
-    _responseTime = 0.35;
+  getFloatAttribute(_avar, "ResponseTime", _responseTime);
+  getIntAttribute(_avar, "nDiodes", _nDiodes, 32);
 
-  if (!(attr = _avar.getAtt("nDiodes")).isNull())
-    attr.getValues(&_nDiodes );
-  else
-    _nDiodes = 32;
+  getFloatAttribute(_cvar, "PLWfactor", _PLWfac, 1.0e-9) || getFloatAttribute(_avar, "PLWfactor", _PLWfac, 1.0e-9); 
 
-  if (!(attr = _cvar.getAtt("PLWfactor")).isNull() || !(attr = _avar.getAtt("PLWfactor")).isNull())
-    attr.getValues(&_PLWfac );
-  else
-    _PLWfac = 1.0e-9;
-
-  if (!(attr = _cvar.getAtt("Density")).isNull() || !(attr = _avar.getAtt("Density")).isNull())
-    attr.getValues(&_DENS );
-  else
-    _DENS = 1.0;
-
-  if (!(attr = _cvar.getAtt("DBZfactor")).isNull() || !(attr = _avar.getAtt("DBZfactor")).isNull())
-    attr.getValues(&_DBZfac );
-  else
-    _DBZfac = 1.0e3;
-
+  getFloatAttribute(_cvar, "Density", _DENS, 1.0) || getFloatAttribute(_avar, "Density", _DENS, 1.0); 
+  getFloatAttribute(_cvar, "DBZfactor", _DBZfac, 1.0e3) || getFloatAttribute(_avar, "DBZfactor", _DBZfac, 1.0e3); 
 
   _radius.resize(VectorLength());
   _esw.resize(VectorLength());

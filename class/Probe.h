@@ -16,10 +16,8 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 #include "define.h"
 
 #include <vector>
-#include <ncFile.h>
-#include <ncVar.h>
-#include <ncDim.h>
-#include <ncAtt.h>
+#include <string>
+#include <netcdf>
 
 using namespace netCDF;
 
@@ -49,7 +47,7 @@ public:
   int ZeroBinOffset() const	{ return(_zeroBinOffset); }
   void SetZeroBinOffset(int z)	{ _zeroBinOffset = z; }
 
-  bool	HaveConcentrations() const	{ return(_cvar.isNull()); }
+  bool	HaveConcentrations() const	{ return(!_cvar.isNull()); }
 
   virtual float CellSize(int idx) const	{ return(_diameter[idx]); }
   virtual float BinWidth(int idx) const	{ return(_binWidth[idx]); }
@@ -78,19 +76,19 @@ public:
   bool	operator==(const Probe& rhs) { return(_name == rhs._name); }
 
 protected:
-  void getAttributeValue(std::string attribute, std::string & retVal);
-  void getAttributeValue(std::string attribute, size_t * retVal);
-  void getAttributeValue(std::string attribute, float * retVal);
-  void getAttributeValue(std::string attribute, std::vector<float> & retVal);
+  bool getStringAttribute(NcVar& var, const char target[], std::string& output);
+  bool getIntAttribute(NcVar& var, const char target[], int& output, int defaultValue = 0);
+  bool getFloatAttribute(NcVar& var, const char target[], float& output, float defaultValue = 0.0);
+  bool getVectorOfFloatAttributes(NcVar& var, const char target[], std::vector<float>& output);
   virtual void	ComputeWidths();
 
   NcVar		_avar, _cvar;		// netCDF variable ID.
   std::vector<NcVar > _otherVars;	// Hskping & Derived Vars for action box
 
   ProbeType	_type;
-  std::string	_name;
-  std::string	_serialNum;
-  std::string	_units;
+  std::string  _name;
+  std::string  _serialNum;
+  std::string  _units;
 
   size_t _vectorLength;
   size_t _dataRate;

@@ -165,16 +165,22 @@ printf("  ::ctor name=%s\n", _avar.getName().c_str());
 
   if (_cvar.isNull())
     return;
+  // if getXAttribute has errorhandling, is the bool return value used anywhere
+  // except down in the probes?
+  getStringAttribute(_avar, "units", _units);
+  getStringAttribute(_avar, "SerialNumber", _serialNum);
 
-  getAttributeValue("units", _units);
-  getAttributeValue("SerialNumber", _serialNum);
-
-  getAttributeValue("_FillValue", &_missing_value);
-  getAttributeValue("FirstBin", &_firstBin);
-  getAttributeValue("LastBin", &_lastBin);
+  std::string fillValue;
+  getStringAttribute(_avar, "_FillValue", fillValue);
+  int bin = 0;
+  getIntAttribute(_avar, "FirstBin", bin);
+  _firstBin = bin;
+  bin = 0;
+  getIntAttribute(_avar, "LastBin", bin);
+  _lastBin = bin;
 
   std::string note;
-  getAttributeValue("CellSizeNote", note); // is this in avar or cvar?
+  getStringAttribute(_avar, "CellSizeNote", note); // is this in avar or cvar?
   if (note.size() > 0)
   {
     if (note.find("lower bin limits") != std::string::npos)
@@ -329,6 +335,9 @@ bool Probe::ReadConcen(long start[], const long count[], float *data)
     s.push_back(start[i]);
     c.push_back(count[i]);
   }
+  for (int i = 0; i < 3; i++){
+    std::cout<< start[i] << " :start[i] " << count[i] << std::endl;
+  }
   _cvar.getVar(s, c, data);
   return true;
 
@@ -467,47 +476,104 @@ int Probe::ApplyEditWindow(Widget text[])
 }	/* END APPLYEDITWINDOW */
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, std::string & value)
+bool Probe::getStringAttribute(NcVar& var, const char target[], std::string& output)
 {
-  NcVarAtt attr =_cvar.getAtt(attribute);
-  if (!attr.isNull()){
-    attr.getValues(value);
+  NcVarAtt attr;
+ 
+  try
+  {
+    attr = var.getAtt(target);
+    if (!attr.isNull())
+    {
+       int len = attr.getAttLength();
+       char buff[1024];
+       attr.getValues(buff);
+       buff[len] = '\0';
+       output = buff;
+    }
   }
-  printf("[%s] = [%s] \n ", attribute.c_str(), value.c_str());
+  catch(const netCDF::exceptions::NcException& e)
+  {
+    output.clear();
+    //std::cerr << "Probe::getStringAttribute returning false. Attribute " 
+    //<< target << " not found error"<< std::endl; 
+    return false;
+  }
+  return true;
 }
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, size_t * value)
+bool Probe::getIntAttribute(NcVar& var, const char target[], int& output, int defaultValue)
 {
-  NcVarAtt attr =_cvar.getAtt(attribute);
-  unsigned int rc;
-  if (!attr.isNull()){
-    attr.getValues(&rc);
-    *value = (size_t)rc;
+  NcVarAtt attr;
+  try 
+  {
+    attr = var.getAtt(target);
+    if(!attr.isNull())
+    {
+      int vals[32];
+      attr.getValues(vals);
+      output = vals[0];
+    }
   }
-  printf("[%s] = %lu \n ", attribute.c_str(), *value);
+  catch(const netCDF::exceptions::NcException& e)
+  {
+    output = defaultValue;
+    //std::cerr << "Probe::getIntAttribute returning false. Attribute " << target << " not found" << std::endl;
+    return false;
+  }
+  return true;
 }
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, float * value)
+bool Probe::getFloatAttribute(NcVar& var, const char target[], float& output, float defaultValue)
 {
-  NcVarAtt attr =_cvar.getAtt(attribute);
-  if (!attr.isNull()){
-    attr.getValues(value);
+  NcVarAtt attr;
+  try 
+  {
+    attr = var.getAtt(target);
+    if (!attr.isNull())
+    {
+      float vals[32];
+      attr.getValues(vals);
+      output = vals[0];
+    }
   }
-  printf("[%s] = %f \n ", attribute.c_str(), *value);
+  catch(const netCDF::exceptions::NcException& e)
+  {
+    output = defaultValue;
+    //std::cerr << "Probe::getFloatAttribute returning false. Attribute " << target << " not found" << std::endl;
+    return false;
+  }
+  return true;
 }
 
 /* -------------------------------------------------------------------- */
-void Probe::getAttributeValue(std::string attribute, std::vector<float> & value)
+bool Probe::getVectorOfFloatAttributes(NcVar& var, const char target[], std::vector<float>& output)
 {
-  NcVarAtt attr =_cvar.getAtt(attribute);
-  float rc[512];
-  if (!attr.isNull()){
-    attr.getValues(rc);
-/// @TODO need to get nValues and value.push_back() the list
+  NcVarAtt attr;
+  try
+  {
+    attr = var.getAtt(target);
+
+    if (!attr.isNull())
+    {
+      int len = attr.getAttLength();
+      float vals[len];
+      attr.getValues(vals);
+      for (int i = 0; i < len; ++i)
+        output.push_back(vals[i]);
+      output.shrink_to_fit();
+    }
   }
-  printf("flt array %f \n ", value[0]);
+  catch(const netCDF::exceptions::NcException& e)
+  {
+    output.clear(); 
+    // is target null terminated?
+    //std::cerr << "Probe::getVecorOfFloatAttribute returning false. Attribute " << target << " not found" << std::endl;
+    return false;
+  }
+  return true;
 }
 
 /* -------------------------------------------------------------------- */

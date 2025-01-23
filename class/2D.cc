@@ -74,11 +74,10 @@ TwoDP::TwoDP(NcFile *file, NcVar &av, int zbo) : TwoD(file, av, zbo)
 /* -------------------------------------------------------------------- */
 TwoD::TwoD(NcFile *file, NcVar &av, int zbo) : Probe200(file, av, zbo)
 {
-  if ((_avar.getAtt("Resolution")).isNull())
-    _resolution = float(0) / 1000;
+  getFloatAttribute(_avar, "Resolution", _resolution);
+  getFloatAttribute(_avar, "ArmDistance", _armDistance);
 
-  if (_avar.getAtt("ArmDistance").isNull())
-    _armDistance = float(0);
+  _resolution /= 1000;
 
   ComputeWidths();
 
