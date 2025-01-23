@@ -88,8 +88,8 @@ public:
 //@{
   /// Number of ancillary variables.
   size_t	nOtherVars()			{ return(_otherVars.size()); }
+/// @TODO this returning a warning on clang "returns temporary data"
   /// Retrieve a specific ancillary variable name
-  /// @TODO this returning a warning on clang "returns temporary data"
   const char	*OtherVarName(size_t idx)	{ return(_otherVars[idx].getName().c_str()); }
 
   /// Read ancillary variable data from the netCDF file.
@@ -108,11 +108,12 @@ protected:
   /**
    * Methods to retrieve netCDF attributes of various data types.  These will trap
    * any exceptions that the netCDF API will throw.
-   @param var the variable to get the attribute from
-   @param target the attribute name to get
-   @param output the variable to place the attribute, this is the return data
-   @param defaultValue is the value to use if the attribute does not exist
-   @returns true/false as to success of reading attribute (i.e. did it exist)
+   *
+   * @param var the variable to get the attribute from
+   * @param target the attribute name to get
+   * @param output the variable to place the attribute, this is the return data
+   * @param defaultValue is the value to use if the attribute does not exist
+   * @returns true/false as to success of reading attribute (i.e. did it exist)
    */
   bool getStringAttribute(NcVar& var, const char target[], std::string& output);
   bool getIntAttribute(NcVar& var, const char target[], int& output, int defaultValue = 0);
@@ -122,8 +123,13 @@ protected:
   /// Compute bin widths.
   virtual void	ComputeWidths();
 
-  NcVar		_avar, _cvar;		// netCDF variable ID.
-  std::vector<NcVar > _otherVars;	// Hskping & Derived Vars for action box
+  /// Raw histogram variable in the netCDF file.
+  NcVar		_avar;
+  /// Concentrations size-distribution variable in the netCDF file.
+  NcVar		_cvar;
+
+  /// netCDF ancillary and derived variables for this probe.
+  std::vector<NcVar > _otherVars;
 
   ProbeType	_type;
   std::string  _name;
