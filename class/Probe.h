@@ -88,9 +88,8 @@ public:
 //@{
   /// Number of ancillary variables.
   size_t	nOtherVars()			{ return(_otherVars.size()); }
-/// @TODO this returning a warning on clang "returns temporary data"
   /// Retrieve a specific ancillary variable name
-  const char	*OtherVarName(size_t idx)	{ return(_otherVars[idx].getName().c_str()); }
+  std::string OtherVarName(size_t idx)	{ return(_otherVars[idx].getName()); }
 
   /// Read ancillary variable data from the netCDF file.
   bool	ReadOtherVar(size_t idx, long start[], const long count[], float *data);

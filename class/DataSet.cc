@@ -252,7 +252,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 
       otherVars[j][i] /= avRate;
 
-      if (strncmp(_probe->OtherVarName(j), "FRNG", 4) == 0)
+      if (_probe->OtherVarName(j).starts_with("FRNG"))
         _probe->SetRange((int)otherVars[j][0]);
       }
 
