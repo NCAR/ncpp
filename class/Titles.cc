@@ -45,9 +45,20 @@ void Titles::Update(const std::string fileName)
 
 //    units = var->get_att("units")->as_string(0);
 
-    attr = var.getAtt("long_name");
-    if (!attr.isNull())
-      attr.getValues(title);
+    try
+    {
+      attr = var.getAtt("long_name");
+      if (!attr.isNull())
+      {
+         int len = attr.getAttLength();
+         attr.getValues(title);
+         title[len] = '\0';
+      }
+    }
+    catch(const netCDF::exceptions::NcException& e)
+    {
+      title[0] = 0;
+    }
 
     snprintf(buffer, BUFFSIZE, "%-16s %s\n", var.getName().c_str(), title);
     Append(buffer);
