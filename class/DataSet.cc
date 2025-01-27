@@ -25,6 +25,7 @@ DataSet::DataSet(DataFile *df, Probe *prb, FlightClock& start, int nRecs, DataTy
   conc = surface = volume = NULL;
 
   computeConc = False;
+  minAccum = maxAccum = minConc = maxConc = minSurf = maxSurf = minVol = maxVol = 0.0;
 
   nRecords = nRecs;
   nWords = _probe->DataRate() * _probe->VectorLength() * nRecs;
