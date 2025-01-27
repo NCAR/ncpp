@@ -752,6 +752,9 @@ void Panel::DrawHistogram(DataSet *set, int setNum, int idx, DataType dt, Drawab
   double	datumX, datumY, xMin, xMax, yMin, yMax, total = 0.0;
   double	missing_value = set->probe()->FillValue();
 
+  if (dt != COUNTS && set->probe()->HaveConcentrations() == false)
+    return;
+
   xMin = xAxis.logScale ? log10(xAxis.min) : xAxis.min;
   yMin = yAxis.logScale ? log10(yAxis.min) : yAxis.min;
   xMax = xAxis.logScale ? log10(xAxis.max) : xAxis.max;
