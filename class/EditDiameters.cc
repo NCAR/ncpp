@@ -186,7 +186,7 @@ void EditDiameters::SetDiameters(Probe *probe)
     XtSetSensitive(text[cnt], True);
 
     for (j = 0; j < 16 && (i*16)+j < probe->VectorLength(); ++j)
-      snprintf(&buffer[strlen(buffer)], 7, "%5g ", probe->CellSize((i*16)+j));
+      snprintf(&buffer[strlen(buffer)], 15, "%5g ", probe->CellSize((i*16)+j));
 
     XmTextFieldSetString(text[cnt++], buffer);
     }
