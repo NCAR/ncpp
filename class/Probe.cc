@@ -57,10 +57,9 @@ Probe::Probe(NcFile *file, NcVar &av, int zbo) : _avar(av), _firstBin(0), _lastB
   char		*location;
   NcVar		var;
   NcVarAtt	attr;
-printf("Probe::ctor\n");
-printf("  ::ctor name=%s\n", _avar.getName().c_str());
+//printf("Probe::ctor - avar.name=[%s]\n", _avar.getName().c_str());
   _name = _avar.getName().substr(1);
-  //printf("  ::ctor name=%s\n", _name.c_str());
+//printf("  ::ctor cvar.name=%s\n", _name.c_str());
 
   cname = "C"; cname += _name;
   _cvar = file->getVar(cname.c_str());
@@ -334,9 +333,6 @@ bool Probe::ReadConcen(long start[], const long count[], float *data)
   for (int i = 0; i < 3; i++){
     s.push_back(start[i]);
     c.push_back(count[i]);
-  }
-  for (int i = 0; i < 3; i++){
-    std::cout<< start[i] << " :start[i] " << count[i] << std::endl;
   }
   _cvar.getVar(s, c, data);
   return true;

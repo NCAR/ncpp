@@ -17,9 +17,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 CDP::CDP(NcFile *file, NcVar &av, int zbo) : Probe100(file, av, zbo)
 {
   NcVarAtt attr;
-printf("CDP::ctor\n");
+
   getFloatAttribute(_avar, "BeamDiameter", _beamDiameter, 0.2) || getFloatAttribute(_cvar, "BeamDiameter", _beamDiameter, 0.2);
   getFloatAttribute(_avar, "DepthOfField", _DOF, 1.2) || getFloatAttribute(_cvar, "DepthOfField", _DOF, 1.2);
+
 }	/* END CONSTRUCTOR */
 
 /* -------------------------------------------------------------------- */

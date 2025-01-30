@@ -18,14 +18,14 @@ const float Probe200::DiodeDiameter = 0.2;
 Probe200::Probe200(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo), _nDiodes(0), _resolution(0), _dof_const(2.37)
 {
   NcVarAtt attr;
-
+//printf("Probe200::ctor\n");
   getFloatAttribute(_avar, "ResponseTime", _responseTime);
   getIntAttribute(_avar, "nDiodes", _nDiodes, 32);
 
-  getFloatAttribute(_cvar, "PLWfactor", _PLWfac, 1.0e-9) || getFloatAttribute(_avar, "PLWfactor", _PLWfac, 1.0e-9); 
+  getFloatAttribute(_cvar, "PLWfactor", _PLWfac, 1.0e-9) || getFloatAttribute(_avar, "PLWfactor", _PLWfac, 1.0e-9);
 
-  getFloatAttribute(_cvar, "Density", _DENS, 1.0) || getFloatAttribute(_avar, "Density", _DENS, 1.0); 
-  getFloatAttribute(_cvar, "DBZfactor", _DBZfac, 1.0e3) || getFloatAttribute(_avar, "DBZfactor", _DBZfac, 1.0e3); 
+  getFloatAttribute(_cvar, "Density", _DENS, 1.0) || getFloatAttribute(_avar, "Density", _DENS, 1.0);
+  getFloatAttribute(_cvar, "DBZfactor", _DBZfac, 1.0e3) || getFloatAttribute(_avar, "DBZfactor", _DBZfac, 1.0e3);
 
   _radius.resize(VectorLength());
   _esw.resize(VectorLength());
