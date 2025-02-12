@@ -12,6 +12,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 
 #include "Probe.h"
 
+//#include "raf/NCExtensions.h"
 #include <Xm/TextF.h>
 #include <ncFile.h>
 
@@ -470,107 +471,6 @@ int Probe::ApplyEditWindow(Widget text[])
   return(cnt);
 
 }	/* END APPLYEDITWINDOW */
-
-/* -------------------------------------------------------------------- */
-bool Probe::getStringAttribute(NcVar& var, const char target[], std::string& output)
-{
-  NcVarAtt attr;
- 
-  try
-  {
-    attr = var.getAtt(target);
-    if (!attr.isNull())
-    {
-       int len = attr.getAttLength();
-       char buff[1024];
-       attr.getValues(buff);
-       buff[len] = '\0';
-       output = buff;
-    }
-  }
-  catch(const netCDF::exceptions::NcException& e)
-  {
-    output.clear();
-    //std::cerr << "Probe::getStringAttribute returning false. Attribute " 
-    //<< target << " not found error"<< std::endl; 
-    return false;
-  }
-  return true;
-}
-
-/* -------------------------------------------------------------------- */
-bool Probe::getIntAttribute(NcVar& var, const char target[], int& output, int defaultValue)
-{
-  NcVarAtt attr;
-  try 
-  {
-    attr = var.getAtt(target);
-    if(!attr.isNull())
-    {
-      int vals[32];
-      attr.getValues(vals);
-      output = vals[0];
-    }
-  }
-  catch(const netCDF::exceptions::NcException& e)
-  {
-    output = defaultValue;
-    //std::cerr << "Probe::getIntAttribute returning false. Attribute " << target << " not found" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-/* -------------------------------------------------------------------- */
-bool Probe::getFloatAttribute(NcVar& var, const char target[], float& output, float defaultValue)
-{
-  NcVarAtt attr;
-  try 
-  {
-    attr = var.getAtt(target);
-    if (!attr.isNull())
-    {
-      float vals[32];
-      attr.getValues(vals);
-      output = vals[0];
-    }
-  }
-  catch(const netCDF::exceptions::NcException& e)
-  {
-    output = defaultValue;
-    //std::cerr << "Probe::getFloatAttribute returning false. Attribute " << target << " not found" << std::endl;
-    return false;
-  }
-  return true;
-}
-
-/* -------------------------------------------------------------------- */
-bool Probe::getVectorOfFloatAttributes(NcVar& var, const char target[], std::vector<float>& output)
-{
-  NcVarAtt attr;
-  try
-  {
-    attr = var.getAtt(target);
-
-    if (!attr.isNull())
-    {
-      int len = attr.getAttLength();
-      float vals[len];
-      attr.getValues(vals);
-      for (int i = 0; i < len; ++i)
-        output.push_back(vals[i]);
-      output.shrink_to_fit();
-    }
-  }
-  catch(const netCDF::exceptions::NcException& e)
-  {
-    output.clear(); 
-    // is target null terminated?
-    //std::cerr << "Probe::getVecorOfFloatAttribute returning false. Attribute " << target << " not found" << std::endl;
-    return false;
-  }
-  return true;
-}
 
 /* -------------------------------------------------------------------- */
 Probe::~Probe() { }

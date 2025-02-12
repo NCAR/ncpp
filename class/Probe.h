@@ -18,6 +18,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 #include <vector>
 #include <string>
 #include <netcdf>
+#include "raf/NCExtensions.h"
 
 using namespace netCDF;
 
@@ -103,22 +104,6 @@ public:
   bool	operator==(const Probe& rhs) { return(_name == rhs._name); }
 
 protected:
-//@{
-  /**
-   * Methods to retrieve netCDF attributes of various data types.  These will trap
-   * any exceptions that the netCDF API will throw.
-   *
-   * @param var the variable to get the attribute from
-   * @param target the attribute name to get
-   * @param output the variable to place the attribute, this is the return data
-   * @param defaultValue is the value to use if the attribute does not exist
-   * @returns true/false as to success of reading attribute (i.e. did it exist)
-   */
-  bool getStringAttribute(NcVar& var, const char target[], std::string& output);
-  bool getIntAttribute(NcVar& var, const char target[], int& output, int defaultValue = 0);
-  bool getFloatAttribute(NcVar& var, const char target[], float& output, float defaultValue = 0.0);
-  bool getVectorOfFloatAttributes(NcVar& var, const char target[], std::vector<float>& output);
-//@}
   /// Compute bin widths.
   virtual void	ComputeWidths();
 
