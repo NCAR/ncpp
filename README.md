@@ -19,18 +19,18 @@ ncpp is available via [MacPorts](https://www.macports.org/) or follow the [MacOS
 
 ### Dependencies
 
-Redhat
+Redhat / CentOS / Alma
 ```
-openmotif-devel (motif-devel CentOS 8 & Fedora)
+openmotif-devel (motif-devel CentOS 8 & later)
 netcdf-devel
-netcdf-cxx-devel
+netcdf-cxx4-devel
 xorg-x11-fonts-ISO8859-1-75dpi
 xorg-x11-fonts-ISO8859-1-100dpi
 ```
 
 Ubuntu Focal (20.04)
 ```
-libnetcdf-cxx-legacy-dev
+libnetcdf-cxx4-dev
 libmotif-dev
 libnetcdf-dev
 ```
