@@ -112,78 +112,78 @@ void PostageWindow::createXwindow(Widget parent)
   Arg           args[4];
   Cardinal      n;
   Widget        frame[4], RC[4], title[4], plRC[4], label;
- 
+
   n = 0;
   frame[0] = XmCreateFrame(Window(), "timeFrame", args, 0);
   frame[1] = XmCreateFrame(Window(), "controlFrame", args, 0);
   frame[2] = XmCreateFrame(Window(), "parmsFrame", args, 0);
   XtManageChildren(frame, 3);
- 
+
   n = 0;
   title[0] = XmCreateLabel(frame[0], "timeTitle", args, 0);
   title[1] = XmCreateLabel(frame[1], "controlTitle", args, 0);
   title[2] = XmCreateLabel(frame[2], "parmsTitle", args, 0);
   XtManageChild(title[0]); XtManageChild(title[1]);
   XtManageChild(title[2]);
- 
+
   n = 0;
   RC[0] = XmCreateRowColumn(frame[0], "timeRC", args, 0);
   RC[1] = XmCreateRowColumn(frame[1], "controlRC", args, 0);
   RC[2] = XmCreateRowColumn(frame[2], "parmsRC", args, n);
   XtManageChild(RC[0]); XtManageChild(RC[1]);
   XtManageChild(RC[2]);
- 
- 
- 
+
+
+
 /* Start & End Time widgets.
  */
   n = 0;
   plRC[0] = XmCreateRowColumn(RC[0], "plRC", args, n);
   plRC[1] = XmCreateRowColumn(RC[0], "plRC", args, n);
   XtManageChildren(plRC, 2);
- 
+
   n = 0;
   label = XmCreateLabel(plRC[0], "Start time", args, n);
   XtManageChild(label);
- 
+
   n = 0;
   timeText[0] = XmCreateTextField(plRC[0], "timeText", args, n);
   XtManageChild(timeText[0]);
   XtAddCallback(timeText[0], XmNlosingFocusCallback, ValidateTime, NULL);
   XtAddCallback(timeText[0], XmNlosingFocusCallback, ApplyPostageTime, NULL);
- 
+
   n = 0;
   label = XmCreateLabel(plRC[0], " End time", args, n);
   XtManageChild(label);
- 
+
   n = 0;
   timeText[1] = XmCreateTextField(plRC[0], "timeText", args, n);
   XtManageChild(timeText[1]);
   XtAddCallback(timeText[1], XmNlosingFocusCallback, ValidateTime, NULL);
   XtAddCallback(timeText[1], XmNlosingFocusCallback, ApplyPostageTime, NULL);
 
- 
+
   n = 0;
   label = XmCreateLabel(plRC[1], "Averaging period :", args, n);
   XtManageChild(label);
- 
+
   n = 0;
   averageText = XmCreateTextField(plRC[1], "averageText", args, n);
   XtAddCallback(averageText, XmNlosingFocusCallback, ValidateInteger, NULL);
   XtManageChild(averageText);
- 
+
   n = 0;
   label = XmCreateLabel(plRC[1], "seconds", args, n);
   XtManageChild(label);
- 
- 
- 
+
+
+
 /* Start, Stop, Reset, Step buttons.
  */
   n = 0;
   plRC[0] = XmCreateRowColumn(RC[1], "pgButtRC", args, n);
   XtManageChild(plRC[0]);
- 
+
   n = 0;
   butt[0] = XmCreatePushButton(plRC[0], "Start", args, n);
   butt[1] = XmCreatePushButton(plRC[0], "Stop", args, n);
@@ -194,12 +194,12 @@ void PostageWindow::createXwindow(Widget parent)
   XtAddCallback(butt[1], XmNactivateCallback, StopMovie, NULL);
   XtAddCallback(butt[2], XmNactivateCallback, StepBkd, NULL);
   XtAddCallback(butt[3], XmNactivateCallback, StepFwd, NULL);
- 
+
   n = 0;
   timeScale = XmCreateScale(RC[0], "timeScale", args, n);
   XtManageChild(timeScale);
   XtAddCallback(timeScale, XmNvalueChangedCallback, SetScaleTime, NULL);
- 
+
   n = 0;
   speedScale = XmCreateScale(RC[1], "speedScale", args, n);
   XtManageChild(speedScale);

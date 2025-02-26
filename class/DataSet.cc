@@ -24,7 +24,8 @@ DataSet::DataSet(DataFile *df, Probe *prb, FlightClock& start, int nRecs, DataTy
   accum = NULL;
   conc = surface = volume = NULL;
 
-  computeConc = False;
+  computeConc = false;
+  minAccum = maxAccum = minConc = maxConc = minSurf = maxSurf = minVol = maxVol = 0.0;
 
   nRecords = nRecs;
   nWords = _probe->DataRate() * _probe->VectorLength() * nRecs;
@@ -251,7 +252,7 @@ cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 
       otherVars[j][i] /= avRate;
 
-      if (strncmp(_probe->OtherVarName(j), "FRNG", 4) == 0)
+      if (_probe->OtherVarName(j).starts_with("FRNG"))
         _probe->SetRange((int)otherVars[j][0]);
       }
 

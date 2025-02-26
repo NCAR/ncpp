@@ -14,21 +14,14 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 
 
 /* -------------------------------------------------------------------- */
-X260::X260(NcFile *file, NcVar *av, int zbo) : Probe200(file, av, zbo)
+X260::X260(NcFile *file, NcVar &av, int zbo) : Probe200(file, av, zbo)
 {
-  NcAtt		*attr;
+  NcVarAtt	attr;
 
   _resolution = 0.01;
 
-  if ((attr = _avar->get_att("nDiodes")))
-    _nDiodes = attr->as_int(0);
-  else
-    _nDiodes = 64;
-
-  if ((attr = _avar->get_att("ArmDistance")))
-    _armDistance = attr->as_float(0);
-  else
-    _armDistance = 61.0;
+  getIntAttribute(_avar, "_nDiodes", _nDiodes, 64);
+  getFloatAttribute(_avar, "ArmDistance", _armDistance, 61.0);
 
   ComputeWidths();
 

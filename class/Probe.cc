@@ -6,13 +6,15 @@ FULL NAME:	Probe Class
 
 DESCRIPTION:	
 
-COPYRIGHT:	University Corporation for Atmospheric Research, 1997-9
+COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 -------------------------------------------------------------------------
 */
 
 #include "Probe.h"
 
+//#include "raf/NCExtensions.h"
 #include <Xm/TextF.h>
+#include <ncFile.h>
 
 static float	cdpDefSize[] =
 	{ 2.0, 3.0, 4.0, 5.0, 6.0, 7.0, 8.0, 9.0, 10.0, 11.0, 12.0,
@@ -49,23 +51,21 @@ static float	fsspDefSize[] =
 
 
 /* -------------------------------------------------------------------- */
-Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastBin(VectorLength()), _missing_value(-32767), _zeroBinOffset(zbo)
+Probe::Probe(NcFile *file, NcVar &av, int zbo) : _avar(av), _firstBin(0), _lastBin(VectorLength()), _missing_value(-32767), _zeroBinOffset(zbo)
 {
   std::string	cname;
   int		i;
   char		*location;
-  NcVar		*var;
-  NcAtt		*attr;
-
-  _name = &_avar->name()[1];
+  NcVar		var;
+  NcVarAtt	attr;
+//printf("Probe::ctor - avar.name=[%s]\n", _avar.getName().c_str());
+  _name = _avar.getName().substr(1);
+//printf("  ::ctor cvar.name=%s\n", _name.c_str());
 
   cname = "C"; cname += _name;
-  _cvar = file->get_var(cname.c_str());
+  _cvar = file->getVar(cname.c_str());
 
-  if (_cvar && !_cvar->is_valid())
-    _cvar = NULL;
-
-  if (_cvar == NULL)
+  if (_cvar.isNull())
     std::cerr << "  Concentrations (" << cname << ") not found.\n";
 
   _type = NoProbe;
@@ -154,8 +154,8 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
     std::cerr << "Probe:: No probe type for [" << _name << "]\n";
 
 
-  _dataRate = _avar->get_dim(1)->size();
-  _vectorLength = _avar->get_dim(2)->size();
+  _dataRate = _avar.getDim(1).getSize();
+  _vectorLength = _avar.getDim(2).getSize();
 
   int   nCells = Type() == FSSP ? 64 : VectorLength();
   _sampleVolume.resize(nCells);
@@ -163,50 +163,56 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
   _midPointDiam.resize(nCells);
   _binWidth.resize(nCells);
 
-  if (_cvar == 0)
+  if (_cvar.isNull())
     return;
+  // if getXAttribute has errorhandling, is the bool return value used anywhere
+  // except down in the probes?
+  getStringAttribute(_avar, "units", _units);
+  getStringAttribute(_avar, "SerialNumber", _serialNum);
 
-  _units = _cvar->get_att("units")->as_string(0);
+  std::string fillValue;
+  getStringAttribute(_avar, "_FillValue", fillValue);
+  int bin = 0;
+  getIntAttribute(_avar, "FirstBin", bin);
+  _firstBin = bin;
+  bin = 0;
+  getIntAttribute(_avar, "LastBin", bin);
+  _lastBin = bin;
 
-  if ((attr = _avar->get_att("SerialNumber")))
-    _serialNum = attr->as_string(0);
-
-  if ((attr = _avar->get_att("CellSizeNote")))
+  std::string note;
+  getStringAttribute(_avar, "CellSizeNote", note); // is this in avar or cvar?
+  if (note.size() > 0)
   {
-    std::string note = attr->as_string(0);
     if (note.find("lower bin limits") != std::string::npos)
       _zeroBinOffset = 0;
     if (note.find("upper bin limits") != std::string::npos)
       _zeroBinOffset = 1;
   }
 
-  if ((attr = _avar->get_att("_FillValue")))
-    _missing_value = attr->as_float(0);
 
-  if ((attr = _cvar->get_att("FirstBin")) || (attr = _avar->get_att("FirstBin")))
-    _firstBin = attr->as_short(0);
+  if (!(attr = _cvar.getAtt("FirstBin")).isNull() || !(attr = _avar.getAtt("FirstBin")).isNull())
+    attr.getValues(&_firstBin);
   else
     {
     _firstBin = 0;
     fprintf(stderr, "netCDF attribute FirstBin not found for %s, defaulting to %ld\n", cname.c_str(), _firstBin);
     }
 
-  if ((attr = _cvar->get_att("LastBin")) || (attr = _avar->get_att("LastBin")))
-    _lastBin = attr->as_short(0);
+  if (!(attr = _cvar.getAtt("LastBin")).isNull() || !(attr = _avar.getAtt("LastBin")).isNull())
+    attr.getValues(&_lastBin);
   else
     {
-    _lastBin = _avar->get_dim(2)->size()-1;
+    _lastBin = _avar.getDim(2).getSize()-1;
     fprintf(stderr, "netCDF attribute LastBin not found for %s, defaulting to %ld\n", cname.c_str(), _lastBin);
     }
 
-  if ((attr = _cvar->get_att("CellSizes")) || (attr = _avar->get_att("CellSizes")))
+  if (!(attr = _cvar.getAtt("CellSizes")).isNull() || !(attr = _avar.getAtt("CellSizes")).isNull())
     {
-    if (attr->num_vals() != nCells + 1 - ZeroBinOffset())
-      fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%ld, expected=%d.\n", cname.c_str(), attr->num_vals(), nCells+1-ZeroBinOffset());
+    size_t attLen = attr.getAttLength();
+    if (attLen != (size_t)nCells + 1 - ZeroBinOffset())
+      fprintf(stderr, "Warning: number of cell sizes in netCDF file does not match expected, variable: %s, file=%ld, expected=%d.\n", cname.c_str(), attLen, nCells+1-ZeroBinOffset());
 
-    int n = std::max((int)attr->num_vals(), (int)_diameter.size());
-    for (i = 0; i < n; ++i)
-      _diameter[i] = attr->as_float(i);
+    attr.getValues(&_diameter[0]);
     }
   else
     {
@@ -276,13 +282,13 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
     {
     std::cerr << "Probe.cc: variable " << _name << " has no location!\n";
     }
-
-  for (i = 0; i < file->num_vars(); ++i)
+  std::multimap<std::string, NcVar> varList = file->getVars();
+  for (auto it = varList.begin(); it != varList.end(); ++it)
     {
-    var = file->get_var(i);
+    var = it->second;
 
-    if (var->num_dims() < 3 &&
-       (strstr(var->name(), location) || strcmp(var->name(), "TASX") == 0))
+    if (var.getDimCount()< 3 &&
+       (var.getName().ends_with(location) || var.getName().compare("TASX") == 0))
       {
       _otherVars.push_back(var);
       }
@@ -304,22 +310,33 @@ Probe::Probe(NcFile *file, NcVar *av, int zbo) : _avar(av), _firstBin(0), _lastB
 /* -------------------------------------------------------------------- */
 bool Probe::ReadCounts(long start[], const long count[], float *data)
 {
-  if (_avar == NULL)
+  if (_avar.isNull())
     return(false);
 
-  _avar->set_cur(start);
-  return(_avar->get(data, count));
+  std::vector< size_t > s,c;
+  //time,subsample,vector length = 3 dimensions
+  for (int i = 0; i < 3; i++){
+    s.push_back(start[i]);
+    c.push_back(count[i]);
+  }
+  _avar.getVar(s, c, data);
+  return true;
 
 }	/* END READCOUNTS */
 
 /* -------------------------------------------------------------------- */
 bool Probe::ReadConcen(long start[], const long count[], float *data)
 {
-  if (_cvar == NULL)
+  if (_cvar.isNull())
     return(false);
 
-  _cvar->set_cur(start);
-  return(_cvar->get(data, count));
+  std::vector< size_t > s,c;
+  for (int i = 0; i < 3; i++){
+    s.push_back(start[i]);
+    c.push_back(count[i]);
+  }
+  _cvar.getVar(s, c, data);
+  return true;
 
 }	/* END READCONCEN */
 
@@ -327,7 +344,7 @@ bool Probe::ReadConcen(long start[], const long count[], float *data)
 void Probe::ComputeConcentration(float *accum, float *conc, long countV[],
 	const std::vector<float *> & otherVarData)
 {
-  std::cerr << "No Compute function at this time for " << _cvar->name() << ".\n";
+  std::cerr << "No Compute function at this time for " << _cvar.getName() << ".\n";
 
 }	/* END COMPUTECONCENTRATION */
 
@@ -337,8 +354,12 @@ bool Probe::ReadOtherVar(size_t idx, long start[], const long count[], float *da
   if (idx >= _otherVars.size())
     return(false);
 
-  _otherVars[idx]->set_cur(start);
-  return(_otherVars[idx]->get(data, count));
+  std::vector< size_t > s,c;
+  //@TODO only covers low rate data, needs 2nd dimension for 25hz
+  s.push_back(start[0]);
+  c.push_back(count[0]);
+  _otherVars[idx].getVar(s, c, data);
+  return true;
 
 }	/* END READOTHERVAR */
 

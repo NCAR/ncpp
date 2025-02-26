@@ -16,33 +16,32 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-8
 #include <cfloat>
 
 /* -------------------------------------------------------------------- */
-SetManager::SetManager() : numberSets(0), currentSet(0)
+SetManager::SetManager() :
+	_avRate(10), _nRecords(1), _dataType(CONCENTRATION),
+	_numberSets(0), _currentSet(0)
 {
-avRate = 10;
-nRecords = 1;
-dataType = CONCENTRATION;
 
 }	/* END CONTRUCTOR */
 
 /* -------------------------------------------------------------------- */
 void SetManager::Clear()
 {
-  for (size_t i = 0; i < numberSets; ++i)
+  for (size_t i = 0; i < _numberSets; ++i)
     delete set[i];
 
-  numberSets = 0;
-  currentSet = 0;
+  _numberSets = 0;
+  _currentSet = 0;
 
 }	/* END CLEAR */
 
 /* -------------------------------------------------------------------- */
 void SetManager::SetNumberRecords(size_t newCnt)
 {
-  nRecords = newCnt;
+  _nRecords = newCnt;
 
-  for (size_t i = 0; i < numberSets; ++i)
+  for (size_t i = 0; i < _numberSets; ++i)
     {
-    set[i]->ResizeData(nRecords);
+    set[i]->ResizeData(_nRecords);
     setEndTime(i);
     }
 
@@ -53,11 +52,11 @@ void SetManager::SetNumberRecords(size_t newCnt)
 /* -------------------------------------------------------------------- */
 void SetManager::SetStartTime(FlightClock newTime)
 {
-  currentTime = newTime;
+  _currentTime = newTime;
 
-  for (size_t i = 0; i < numberSets; ++i)
+  for (size_t i = 0; i < _numberSets; ++i)
     {
-    set[i]->startTime = currentTime;
+    set[i]->startTime = _currentTime;
     setEndTime(i);
     }
 
@@ -68,8 +67,8 @@ void SetManager::SetStartTime(FlightClock newTime)
 /* -------------------------------------------------------------------- */
 void SetManager::SetAverageRate(int newRate)
 {
-  avRate = newRate;
-  SetStartTime(currentTime);
+  _avRate = newRate;
+  SetStartTime(_currentTime);
   ReadAllSets();
 
 }	/* END SETAVERAGERATE */
@@ -80,10 +79,10 @@ void SetManager::SetDataTypes(DataType newDT)
   if (newDT & SURFACE || newDT & VOLUME)
     newDT |= CONCENTRATION;
 
-  dataType = newDT;
+  _dataType = newDT;
 
-  for (size_t i = 0; i < numberSets; ++i)
-    set[i]->SetDataTypes(dataType);
+  for (size_t i = 0; i < _numberSets; ++i)
+    set[i]->SetDataTypes(_dataType);
 
   ReadAllSets();
   findMinMax();
@@ -93,10 +92,10 @@ void SetManager::SetDataTypes(DataType newDT)
 /* -------------------------------------------------------------------- */
 void SetManager::SetNormalize(NormType n)
 {
-  normType = n;
+  _normType = n;
 
-  for (size_t i = 0; i < numberSets; ++i)
-    set[i]->SetNormalize(normType);
+  for (size_t i = 0; i < _numberSets; ++i)
+    set[i]->SetNormalize(_normType);
 
   findMinMax();
 
@@ -105,7 +104,7 @@ void SetManager::SetNormalize(NormType n)
 /* -------------------------------------------------------------------- */
 void SetManager::SetCompute(bool x)
 {
-  for (size_t i = 0; i < numberSets; ++i)
+  for (size_t i = 0; i < _numberSets; ++i)
     set[i]->SetCompute(x);
 
   ReadAllSets();
@@ -115,10 +114,10 @@ void SetManager::SetCompute(bool x)
 /* -------------------------------------------------------------------- */
 bool SetManager::Add(DataFile *file, Probe *prb)
 {
-  size_t idx = numberSets;
+  size_t idx = _numberSets;
 
   // All sets must have same data rate, reject ones that don't match the 1st.
-  if (numberSets > 0)
+  if (_numberSets > 0)
     {
     if (prb->DataRate() != set[0]->probe()->DataRate())
       {
@@ -127,11 +126,11 @@ bool SetManager::Add(DataFile *file, Probe *prb)
       }
     }
 
-  ++numberSets;
+  ++_numberSets;
 
-  set[idx] = new DataSet(file, prb, currentTime, nRecords, dataType, normType);
+  set[idx] = new DataSet(file, prb, _currentTime, _nRecords, _dataType, _normType);
   setEndTime(idx);
-  set[idx]->ReadData(nRecords, avRate);
+  set[idx]->ReadData(_nRecords, _avRate);
 
   findMinMax();
 
@@ -144,15 +143,15 @@ void SetManager::Delete(DataFile *file, Probe *prb)
 {
   size_t i;
 
-  for (i = 0; i < numberSets; ++i)
+  for (i = 0; i < _numberSets; ++i)
     if (file == set[i]->file() && prb == set[i]->probe())
       {
       delete set[i];
-      --numberSets;
+      --_numberSets;
       break;
       }
 
-  for (; i < numberSets; ++i)
+  for (; i < _numberSets; ++i)
     set[i] = set[i+1];
 
   findMinMax();
@@ -162,7 +161,7 @@ void SetManager::Delete(DataFile *file, Probe *prb)
 /* -------------------------------------------------------------------- */
 void SetManager::ReadCurrentSet()
 {
-  set[currentSet]->ReadData(nRecords, avRate);
+  set[_currentSet]->ReadData(_nRecords, _avRate);
 
   findMinMax();
 
@@ -171,8 +170,8 @@ void SetManager::ReadCurrentSet()
 /* -------------------------------------------------------------------- */
 void SetManager::ReadAllSets()
 {
-  for (size_t i = 0; i < numberSets; ++i)
-    set[i]->ReadData(nRecords, avRate);
+  for (size_t i = 0; i < _numberSets; ++i)
+    set[i]->ReadData(_nRecords, _avRate);
 
   findMinMax();
 
@@ -181,14 +180,14 @@ void SetManager::ReadAllSets()
 /* -------------------------------------------------------------------- */
 void SetManager::PageForward()
 {
-  currentTime += (nRecords * avRate) / FirstSet()->probe()->DataRate();
+  _currentTime += (_nRecords * _avRate) / FirstSet()->probe()->DataRate();
 
-  for (size_t i = 0; i < numberSets; ++i)
+  for (size_t i = 0; i < _numberSets; ++i)
     {
-    set[i]->startTime += (nRecords * avRate) / FirstSet()->probe()->DataRate();
-    set[i]->endTime = set[i]->startTime + ((nRecords * avRate) /
+    set[i]->startTime += (_nRecords * _avRate) / FirstSet()->probe()->DataRate();
+    set[i]->endTime = set[i]->startTime + ((_nRecords * _avRate) /
 		FirstSet()->probe()->DataRate());
-    set[i]->ReadData(nRecords, avRate);
+    set[i]->ReadData(_nRecords, _avRate);
     }
 
   findMinMax();
@@ -198,14 +197,14 @@ void SetManager::PageForward()
 /* -------------------------------------------------------------------- */
 void SetManager::PageBackward()
 {
-  currentTime -= (nRecords * avRate) / FirstSet()->probe()->DataRate();
+  _currentTime -= (_nRecords * _avRate) / FirstSet()->probe()->DataRate();
 
-  for (size_t i = 0; i < numberSets; ++i)
+  for (size_t i = 0; i < _numberSets; ++i)
     {
-    set[i]->startTime -= (nRecords * avRate) / FirstSet()->probe()->DataRate();
-    set[i]->endTime = set[i]->startTime + ((nRecords * avRate) /
+    set[i]->startTime -= (_nRecords * _avRate) / FirstSet()->probe()->DataRate();
+    set[i]->endTime = set[i]->startTime + ((_nRecords * _avRate) /
 		FirstSet()->probe()->DataRate());
-    set[i]->ReadData(nRecords, avRate);
+    set[i]->ReadData(_nRecords, _avRate);
     }
 
   findMinMax();
@@ -215,41 +214,41 @@ void SetManager::PageBackward()
 /* -------------------------------------------------------------------- */
 void SetManager::findMinMax()
 {
-  if (dataType & COUNTS)
+  if (_dataType & COUNTS)
     {
-    if (numberSets == 0)
+    if (_numberSets == 0)
       {
-      minBin = 0.0;
-      maxBin = 16.0;
-      minAccum = 0.0;
-      maxAccum = 10.0;
+      _minBin = 0.0;
+      _maxBin = 16.0;
+      _minAccum = 0.0;
+      _maxAccum = 10.0;
       }
     else
       {
-      minBin = 0;
-      maxBin = set[0]->probe()->VectorLength();
-      minAccum = set[0]->minAccum;
-      maxAccum = set[0]->maxAccum;
+      _minBin = 0;
+      _maxBin = set[0]->probe()->VectorLength();
+      _minAccum = set[0]->minAccum;
+      _maxAccum = set[0]->maxAccum;
 
-      for (size_t i = 1; i < numberSets; ++i)
+      for (size_t i = 1; i < _numberSets; ++i)
         {
-        minAccum = std::min(minAccum, set[i]->minAccum);
-        maxAccum = std::max(maxAccum, set[i]->maxAccum);
+        _minAccum = std::min(_minAccum, set[i]->minAccum);
+        _maxAccum = std::max(_maxAccum, set[i]->maxAccum);
 
-        maxBin = std::max(maxBin, (float)set[i]->probe()->VectorLength());
+        _maxBin = std::max(_maxBin, (float)set[i]->probe()->VectorLength());
         }
       }
     }
 
 
-  if (dataType & CONCENTRATION)
+  if (_dataType & CONCENTRATION)
     {
-    if (numberSets == 0)
+    if (_numberSets == 0)
       {
-      minCell = 0.0;
-      maxCell = 1.0;
-      minConc = 0.0;
-      maxConc = 10.0;
+      _minCell = 0.0;
+      _maxCell = 1.0;
+      _minConc = 0.0;
+      _maxConc = 10.0;
       }
     else
       {
@@ -257,79 +256,79 @@ void SetManager::findMinMax()
       Probe	*prb = set[0]->probe();
 
       for (i = 0; prb->CellSize(i) == 0; ++i);
-      minCell = prb->CellSize(i);
+      _minCell = prb->CellSize(i);
 
       for (i = prb->VectorLength()-1; prb->CellSize(i) == 0; --i);
-      maxCell = prb->CellSize(i);
+      _maxCell = prb->CellSize(i);
 
-      for (i = 1; i < numberSets; ++i)
+      for (i = 1; i < _numberSets; ++i)
         {
         prb = set[i]->probe();
 
-        minCell = std::min(minCell, prb->CellSize(0));
-        maxCell = std::max(maxCell, prb->CellSize(prb->VectorLength()-1));
+        _minCell = std::min(_minCell, prb->CellSize(0));
+        _maxCell = std::max(_maxCell, prb->CellSize(prb->VectorLength()-1));
         }
 
 
-      minConc = FLT_MAX;
-      maxConc = -FLT_MAX;
+      _minConc = FLT_MAX;
+      _maxConc = -FLT_MAX;
 
-      for (i = 0; i < numberSets; ++i)
+      for (i = 0; i < _numberSets; ++i)
         {
         if (set[i]->minConc > 0)
-          minConc = std::min(minConc, set[i]->minConc);
+          _minConc = std::min(_minConc, set[i]->minConc);
         if (set[i]->maxConc > 0)
-          maxConc = std::max(maxConc, set[i]->maxConc);
+          _maxConc = std::max(_maxConc, set[i]->maxConc);
         }
 
-      if (maxConc == -FLT_MAX)
-        maxConc = 1.0;
-      if (minConc == FLT_MAX)
-        minConc = maxConc / 1000;
+      if (_maxConc == -FLT_MAX)
+        _maxConc = 1.0;
+      if (_minConc == FLT_MAX)
+        _minConc = _maxConc / 1000;
       }
 
-    if (minCell == 0.0)
-      minCell = 0.1;
+    if (_minCell == 0.0)
+      _minCell = 0.1;
     }
 
 
-  if (dataType & SURFACE)
+  if (_dataType & SURFACE)
     {
-    if (numberSets == 0)
+    if (_numberSets == 0)
       {
-      minSurf = 0.0;
-      maxSurf = 10.0;
+      _minSurf = 0.0;
+      _maxSurf = 10.0;
       }
     else
       {
-      minSurf = set[0]->minSurf;
-      maxSurf = set[0]->maxSurf;
+      _minSurf = set[0]->minSurf;
+      _maxSurf = set[0]->maxSurf;
 
-      for (size_t i = 1; i < numberSets; ++i)
+      for (size_t i = 1; i < _numberSets; ++i)
         {
-        minSurf = std::min(minSurf, set[i]->minSurf);
-        maxSurf = std::max(maxSurf, set[i]->maxSurf);
+        _minSurf = std::min(_minSurf, set[i]->minSurf);
+        _maxSurf = std::max(_maxSurf, set[i]->maxSurf);
         }
       }
     }
 
 
-  if (dataType & VOLUME)
+  if (_dataType & VOLUME)
     {
-    if (numberSets == 0)
+    if (_numberSets == 0)
       {
-      minVol = 0.0;
-      maxVol = 10.0;
+      _minVol = 0.0;
+      _maxVol = 10.0;
       }
     else
       {
-      minVol = set[0]->minVol;
-      maxVol = set[0]->maxVol;
+      _minVol = set[0]->minVol;
+      _maxVol = set[0]->maxVol;
 
-      for (size_t i = 1; i < numberSets; ++i)
+      for (size_t i = 1; i < _numberSets; ++i)
         {
-        minVol = std::min(minVol, set[i]->minVol);
-        maxVol = std::max(maxVol, set[i]->maxVol);
+        _minVol = std::min(_minVol, set[i]->minVol);
+        _maxVol = std::max(_maxVol, set[i]->maxVol);
         }
       }
     }
@@ -340,10 +339,10 @@ void SetManager::findMinMax()
 void SetManager::setEndTime(size_t idx)
 {
   if (set[idx]->probe()->DataRate() == 1)
-    set[idx]->endTime = set[idx]->startTime + (nRecords * avRate);
+    set[idx]->endTime = set[idx]->startTime + (_nRecords * _avRate);
   else
     set[idx]->endTime = set[idx]->startTime +
-				(nRecords / set[idx]->probe()->DataRate());
+				(_nRecords / set[idx]->probe()->DataRate());
 
   if (set[idx]->endTime <= set[idx]->startTime)
     set[idx]->endTime = set[idx]->startTime + 1;

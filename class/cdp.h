@@ -15,10 +15,13 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to support calculations for a DMT Cloud Droplet Probe.
+ */
 class CDP : public Probe100
 {
 public:
-	CDP(NcFile *file, NcVar *av, int zbo);
+	CDP(NcFile *file, NcVar &av, int zbo);
 
   friend class EditDiameters;
 

@@ -25,6 +25,9 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Thin class that creates the main canvas window and the menus.
+ */
 class CanvasWindow : public WinForm
 {
 public:

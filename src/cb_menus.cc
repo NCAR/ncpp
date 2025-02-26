@@ -16,10 +16,6 @@ STATIC FNS:	Print()
 
 DESCRIPTION:	
 
-REFERENCES:	
-
-REFERENCED BY:	XtAppMainLoop()
-
 COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 -------------------------------------------------------------------------
 */
@@ -50,12 +46,12 @@ extern XmFile		*fileSel;
 /* -------------------------------------------------------------------- */
 void GetDataFileName(Widget w, XtPointer client, XtPointer call)
 {
-  static bool   firstTime = True;
+  static bool   firstTime = true;
 
   if (firstTime)
     {
     fileSel->QueryFile("Enter Data file to read:", DataPath, (XtCallbackProc)client);
-    firstTime = False;
+    firstTime = false;
     }
   else
     fileSel->QueryFile("Enter Data file to read:", NULL, (XtCallbackProc)client);

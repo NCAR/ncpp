@@ -14,28 +14,20 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2000
 
 
 /* -------------------------------------------------------------------- */
-S100::S100(NcFile *file, NcVar *av, int zbo) : Probe100(file, av, zbo)
+S100::S100(NcFile *file, NcVar &av, int zbo) : Probe100(file, av, zbo)
 {
-  NcAtt		*attr;
-
-  if ((attr = _cvar->get_att("BeamDiameter")) || (attr = _avar->get_att("BeamDiameter")))
-    _beamDiameter = attr->as_float(0);
-  else
-    _beamDiameter = 0.19;
-
-  if ((attr = _cvar->get_att("DepthOfField")) || (attr = _avar->get_att("DepthOfField")))
-    _DOF = attr->as_float(0);
-  else
-    _DOF = 3.05;
+  NcVarAtt		attr;
+  getFloatAttribute(_avar, "BeamDiameter", _beamDiameter, 0.19) || getFloatAttribute(_cvar, "BeamDiameter", _beamDiameter, 0.19);
+  getFloatAttribute(_avar, "DepthOfField", _DOF, 3.05) || getFloatAttribute(_cvar, "DepthOfField", _DOF, 3.05);
 
   _range = 0;	// For FSSP, all other probes must be 0.
 
   for (size_t i = 0; i < _otherVars.size(); ++i)
     {
-    if (strncmp(_otherVars[i]->name(), "REJAT", 5) == 0)
+    if (_otherVars[i].getName().starts_with("REJAT"))
       _rejATIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "OVFLW", 5) == 0)
+    if (_otherVars[i].getName().starts_with("OVFLW"))
       _oFlowIdx = i;
     }
 

@@ -20,6 +20,9 @@ class DataFile;
 class Probe;
 
 /* -------------------------------------------------------------------- */
+/**
+ * Information about a probe that is being plotted.
+ */
 class DataSet
 {
 public:
