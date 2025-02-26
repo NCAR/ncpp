@@ -1,7 +1,7 @@
 Summary: Spec file for ncpp
 Name: ncpp
-Version: 2.3
-Release: 2%{?dist}
+Version: 2.5
+Release: 0%{?dist}
 License: GPL
 Group: System Environment/Daemons
 Url: http://www.eol.ucar.edu/
@@ -11,7 +11,7 @@ BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
 Vendor: UCAR
 BuildArch: x86_64
 
-Requires: netcdf-cxx netcdf libpng
+Requires: netcdf-cxx4 netcdf libpng
 
 %if 0%{?rhel} <= 7
 BuildRequires: scons
