@@ -39,7 +39,7 @@ MovieControl::MovieControl(Widget parent) : WinForm(parent, "movie", RowColumn)
 
   delay = 0;
   nRows = nCols = 1;
-  movieRunning = False;
+  movieRunning = false;
 
 }	/* END CONSTRUCTOR */
 
@@ -163,7 +163,7 @@ void MovieControl::StepForward()
   if (currTime + avRate > endTime.Seconds())
     {
     currTime = endTime;
-    movieRunning = False;
+    movieRunning = false;
     }
   else
     setMgr.PageForward();
@@ -181,7 +181,7 @@ void MovieControl::StepBackward()
   if (currTime <= startTime)
     {
     currTime = startTime;
-    movieRunning = False;
+    movieRunning = false;
     }
   else
     setMgr.PageBackward();
@@ -286,7 +286,7 @@ void MovieControl::Start()
   if (setMgr.NumberOfSets() == 0)
     return;
 
-  movieRunning = True;
+  movieRunning = true;
 
   XtSetSensitive(butt[0], False);
   XtSetSensitive(butt[1], True);
@@ -314,7 +314,7 @@ void MovieControl::Start()
 /* -------------------------------------------------------------------- */
 void MovieControl::Stop()
 {
-  movieRunning = False;
+  movieRunning = false;
 
   XtSetSensitive(butt[0], True);
   XtSetSensitive(butt[1], False);

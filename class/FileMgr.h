@@ -20,6 +20,9 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to manage the list of open DataFiles.
+ */
 class FileManager
 {
 public:

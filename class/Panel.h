@@ -43,6 +43,9 @@ class PlotInfo;
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to render a panel on the main canvas window.
+ */
 class Panel
 {
 public:

@@ -21,6 +21,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1998
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class for displaying the "other variables" window.  These are the down
+ * stream scalar variables which this program can not plot.
+ */
 class VarsWin : public TextWindow
 {
 public:

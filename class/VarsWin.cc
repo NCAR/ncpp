@@ -31,7 +31,7 @@ void VarsWin::Update(SetManager& sets, PlotManager *plotMgr)
 
     for (size_t i = 0; i < set->probe()->nOtherVars(); ++i)
       {
-      snprintf(&buffer[strlen(buffer)], 64, "  %-12s", set->probe()->OtherVarName(i));
+      snprintf(&buffer[strlen(buffer)], 64, "  %-12s", set->probe()->OtherVarName(i).c_str());
 
       for (size_t j = 0; j < sets.NumberRecords(); ++j)
         {

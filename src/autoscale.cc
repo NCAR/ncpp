@@ -9,8 +9,6 @@ ENTRY POINTS:	AutoScaleAccum()
 		AutoScaleSurface()
 		AutoScaleVolume()
 
-STATIC FNS:	none
-
 DESCRIPTION:	
 
 COPYRIGHT:	University Corporation for Atmospheric Research, 1997
@@ -29,13 +27,13 @@ void AutoScaleAccum(SetManager& sets, Panel *panel)
 {
   if (panel->AutoScale)
     {
-    panel->xAxis.min = panel->xAxis.logScale ? 1.0 : sets.minBin;
-    panel->xAxis.max = panel->xAxis.logScale ? 100.0 : sets.maxBin;
- 
+    panel->xAxis.min = panel->xAxis.logScale ? 1.0 : sets._minBin;
+    panel->xAxis.max = panel->xAxis.logScale ? 100.0 : sets._maxBin;
+
     panel->yAxis.min = panel->yAxis.logScale ? 1.0 : 0.0;
 
-    if (sets.maxAccum > 0)
-      panel->yAxis.max = pow(10.0, ceil(log10((double)sets.maxAccum)));
+    if (sets._maxAccum > 0)
+      panel->yAxis.max = pow(10.0, ceil(log10((double)sets._maxAccum)));
 
     if (panel->yAxis.min == panel->yAxis.max)
       panel->yAxis.max += 1.0;
@@ -51,34 +49,34 @@ void AutoScaleConc(SetManager& sets, Panel *panel)
 
   if (panel->xAxis.logScale)
     {
-    panel->xAxis.min = pow(10.0, floor(log10(sets.minCell)));
-    panel->xAxis.max = pow(10.0, ceil(log10(sets.maxCell)));
+    panel->xAxis.min = pow(10.0, floor(log10(sets._minCell)));
+    panel->xAxis.max = pow(10.0, ceil(log10(sets._maxCell)));
     }
   else
     {
     panel->xAxis.min = 0.0;
-    panel->xAxis.max = sets.maxCell;
+    panel->xAxis.max = sets._maxCell;
     }
 
   if (panel->yAxis.logScale)
     {
-    if (sets.maxConc <= 0.0)
+    if (sets._maxConc <= 0.0)
       panel->yAxis.max = 1.0;
     else
-      panel->yAxis.max = pow(10.0, ceil(log10(sets.maxConc)));
+      panel->yAxis.max = pow(10.0, ceil(log10(sets._maxConc)));
 
-    if (sets.minConc <= 0.0)
+    if (sets._minConc <= 0.0)
       panel->yAxis.min = panel->yAxis.max / 10000;	// 5 decades less than max.
     else
-      panel->yAxis.min = pow(10.0, floor(log10(sets.minConc)));
+      panel->yAxis.min = pow(10.0, floor(log10(sets._minConc)));
     }
   else
     {
     panel->yAxis.min = 0.0;
-    panel->yAxis.max = sets.maxConc;
+    panel->yAxis.max = sets._maxConc;
     }
 
-  if (sets.maxConc == 0.0)
+  if (sets._maxConc == 0.0)
     panel->yAxis.max = 1.0;
 
   if (panel->yAxis.min == panel->yAxis.max)
@@ -94,30 +92,30 @@ void AutoScaleSurface(SetManager& sets, Panel *panel)
 
   if (panel->xAxis.logScale)
     {
-    panel->xAxis.min = pow(10.0, floor(log10(sets.minCell)));
-    panel->xAxis.max = pow(10.0, ceil(log10(sets.maxCell)));
+    panel->xAxis.min = pow(10.0, floor(log10(sets._minCell)));
+    panel->xAxis.max = pow(10.0, ceil(log10(sets._maxCell)));
     }
   else
     {
     panel->xAxis.min = 0.0;
-    panel->xAxis.max = sets.maxCell;
+    panel->xAxis.max = sets._maxCell;
     }
 
   if (panel->yAxis.logScale)
     {
-    if (sets.minConc <= 0.0)
+    if (sets._minConc <= 0.0)
       panel->yAxis.min = 0.01;
     else
-      panel->yAxis.min = pow(10.0, floor(log10(sets.minSurf)));
-    panel->yAxis.max = pow(10.0, ceil(log10(sets.maxSurf)));
+      panel->yAxis.min = pow(10.0, floor(log10(sets._minSurf)));
+    panel->yAxis.max = pow(10.0, ceil(log10(sets._maxSurf)));
     }
   else
     {
     panel->yAxis.min = 0.0;
-    panel->yAxis.max = sets.maxSurf;
+    panel->yAxis.max = sets._maxSurf;
     }
 
-  if (sets.maxSurf == 0.0)
+  if (sets._maxSurf == 0.0)
     panel->yAxis.max = 10.0;
 
   if (panel->yAxis.min == panel->yAxis.max)
@@ -133,30 +131,30 @@ void AutoScaleVolume(SetManager& sets, Panel *panel)
 
   if (panel->xAxis.logScale)
     {
-    panel->xAxis.min = pow(10.0, floor(log10(sets.minCell)));
-    panel->xAxis.max = pow(10.0, ceil(log10(sets.maxCell)));
+    panel->xAxis.min = pow(10.0, floor(log10(sets._minCell)));
+    panel->xAxis.max = pow(10.0, ceil(log10(sets._maxCell)));
     }
   else
     {
-    if (sets.minConc <= 0.0)
+    if (sets._minConc <= 0.0)
       panel->yAxis.min = 0.01;
     else
-      panel->yAxis.min = pow(10.0, floor(log10(sets.minVol)));
-    panel->xAxis.max = sets.maxCell;
+      panel->yAxis.min = pow(10.0, floor(log10(sets._minVol)));
+    panel->xAxis.max = sets._maxCell;
     }
 
   if (panel->yAxis.logScale)
     {
     panel->yAxis.min = 0.01;
-    panel->yAxis.max = pow(10.0, ceil(log10(sets.maxVol)));
+    panel->yAxis.max = pow(10.0, ceil(log10(sets._maxVol)));
     }
   else
     {
     panel->yAxis.min = 0.0;
-    panel->yAxis.max = sets.maxVol;
+    panel->yAxis.max = sets._maxVol;
     }
 
-  if (sets.maxVol == 0.0)
+  if (sets._maxVol == 0.0)
     panel->yAxis.max = 10.0;
 
   if (panel->yAxis.min == panel->yAxis.max)

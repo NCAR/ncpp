@@ -17,10 +17,13 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2001
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to support calculations for a DMT UHSAS probe.
+ */
 class UHSAS : public Probe
 {
 public:
-	UHSAS(NcFile *file, NcVar *av, int zbo);
+	UHSAS(NcFile *file, NcVar &av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);

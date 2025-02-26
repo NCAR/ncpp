@@ -20,7 +20,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 class PCASP : public Probe
 {
 public:
-	PCASP(NcFile *file, NcVar *av, int zbo);
+	PCASP(NcFile *file, NcVar &av, int zbo);
 
   void	ComputeConcentration(float *accum, float *conc, long countV[],
 		const std::vector<float *> & otherVarData);

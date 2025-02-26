@@ -14,12 +14,12 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2017
 
 
 /* -------------------------------------------------------------------- */
-HDC::HDC(NcFile *file, NcVar *av, int zbo) : Probe100(file, av, zbo)
+HDC::HDC(NcFile *file, NcVar &av, int zbo) : Probe100(file, av, zbo)
 {
-  NcAtt *attr;
+  NcVarAtt attr;
 
-  if ((attr = _cvar->get_att("SampleVolume")) || (attr = _avar->get_att("SampleVolume")))
-      _sampleVol = attr->as_float(0);
+  if (!(_cvar.getAtt("SampleVolume")).isNull() || !(_avar.getAtt("SampleVolume")).isNull())
+      attr.getValues(&_sampleVol);
   else
       _sampleVol = 13;
 

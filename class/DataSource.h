@@ -20,6 +20,11 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * This class creates the widgets for the data source.  Data file radio
+ * buttons, probe radio buttons, and plot type radio buttons.  Plot type
+ * being Accumulations, Concentration, Surface area, or volume.
+ */
 class DataSource
 {
 public:

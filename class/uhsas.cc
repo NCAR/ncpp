@@ -14,25 +14,25 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2001
 
 
 /* -------------------------------------------------------------------- */
-UHSAS::UHSAS(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
+UHSAS::UHSAS(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo)
 {
   _concIdx = _dispIdx = _dbarIdx = _volIdx = -1;
 
   for (size_t i = 0; i < _otherVars.size(); ++i)
     {
-    if (strncmp(_otherVars[i]->name(), "UFLWC", 5) == 0)
+    if (_otherVars[i].getName().starts_with("UFLWC"))
       _flowIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "CONC", 4) == 0)
+    if (_otherVars[i].getName().starts_with("CONC"))
       _concIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DISP", 4) == 0)
+    if (_otherVars[i].getName().starts_with("DISP"))
       _dispIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DBAR", 4) == 0)
+    if (_otherVars[i].getName().starts_with("DBAR"))
       _dbarIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "PVOL", 4) == 0)
+    if (_otherVars[i].getName().starts_with("PVOL"))
       _volIdx = i;
     }
 }	/* END CONSTRUCTOR */

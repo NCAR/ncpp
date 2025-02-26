@@ -20,7 +20,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 class X200 : public Probe200
 {
 public:
-	X200(NcFile *file, NcVar *av, int zbo);
+	X200(NcFile *file, NcVar &av, int zbo);
 
 private:
 

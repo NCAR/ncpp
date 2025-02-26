@@ -4,9 +4,9 @@ OBJECT NAME:	2D.cc
 
 FULL NAME:	2D Class
 
-DESCRIPTION:	Probe classes for 2DC, 2DP, and 2DS/3V-CPI.
+DESCRIPTION:	Probe classes for Optical Array Probes (OAP).
 
-COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
+COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2025
 -------------------------------------------------------------------------
 */
 
@@ -14,7 +14,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 2000-2013
 
 
 /* -------------------------------------------------------------------- */
-TwoDS::TwoDS(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
+TwoDS::TwoDS(NcFile *file, NcVar &av, int zbo) : TwoD(file, av, zbo)
 {
   _dof_const = 5.13;
 
@@ -25,7 +25,7 @@ TwoDS::TwoDS(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDH::TwoDH(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
+TwoDH::TwoDH(NcFile *file, NcVar &av, int zbo) : TwoD(file, av, zbo)
 {
   _dof_const = 8.0;
 
@@ -36,7 +36,7 @@ TwoDH::TwoDH(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDCIP::TwoDCIP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
+TwoDCIP::TwoDCIP(NcFile *file, NcVar &av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.025;
@@ -45,7 +45,7 @@ TwoDCIP::TwoDCIP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDPIP::TwoDPIP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
+TwoDPIP::TwoDPIP(NcFile *file, NcVar &av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.1;
@@ -54,7 +54,7 @@ TwoDPIP::TwoDPIP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDC::TwoDC(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
+TwoDC::TwoDC(NcFile *file, NcVar &av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.025;
@@ -63,7 +63,7 @@ TwoDC::TwoDC(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 }
 
 /* -------------------------------------------------------------------- */
-TwoDP::TwoDP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
+TwoDP::TwoDP(NcFile *file, NcVar &av, int zbo) : TwoD(file, av, zbo)
 {
   if (_resolution == 0)
     _resolution = 0.2;
@@ -72,23 +72,20 @@ TwoDP::TwoDP(NcFile *file, NcVar *av, int zbo) : TwoD(file, av, zbo)
 }
 
 /* -------------------------------------------------------------------- */
-TwoD::TwoD(NcFile *file, NcVar *av, int zbo) : Probe200(file, av, zbo)
+TwoD::TwoD(NcFile *file, NcVar &av, int zbo) : Probe200(file, av, zbo)
 {
-  NcAtt		*attr;
+  getFloatAttribute(_avar, "Resolution", _resolution);
+  getFloatAttribute(_avar, "ArmDistance", _armDistance);
 
-  if ((attr = _avar->get_att("Resolution")))
-    _resolution = attr->as_float(0) / 1000;
-
-  if ((attr = _avar->get_att("ArmDistance")))
-    _armDistance = attr->as_float(0);
+  _resolution /= 1000;
 
   ComputeWidths();
 
   for (size_t i = 0; i < _otherVars.size(); ++i)
     {
     // Search here.  Probe200 search turns up shado-or conc.
-    if (strncmp(_otherVars[i]->name(), "CONC1D", 6) == 0 ||
-        strncmp(_otherVars[i]->name(), "CONC2D", 6) == 0)
+    if (_otherVars[i].getName().starts_with("CONC1D") ||
+        _otherVars[i].getName().starts_with("CONC2D"))
       _concIdx = i;
     }
 

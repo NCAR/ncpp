@@ -2,9 +2,9 @@
 -------------------------------------------------------------------------
 OBJECT NAME:	DataFile.h
 
-FULL NAME:	Data File Class
+FULL NAME:	netCDF Data File Class
 
-COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
+COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 -------------------------------------------------------------------------
 */
 
@@ -29,46 +29,62 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 
 #include "raf/rafTime.h"
 
+class NcFile;
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to hold information about an open file.  This includes a list of
+ * Probes.
+ */
 class DataFile
 {
 public:
 	DataFile(const char fName[]);
 	~DataFile();
 
-  const std::string&	FileName() const	{ return(fileName); }
-  const std::string&	ProjectName() const	{ return(projName); }
-  const std::string&	FlightNumber() const	{ return(flightNum); }
-  const std::string&	FlightDate() const	{ return(flightDate); }
+  const std::string&	FileName() const	{ return(_fileName); }
+  const std::string&	ProjectName() const	{ return(_projName); }
+  const std::string&	FlightNumber() const	{ return(_flightNum); }
+  const std::string&	FlightDate() const	{ return(_flightDate); }
 
-  FlightClock	StartTime()	const	{ return(startTime); }
-  FlightClock	EndTime()	const	{ return(endTime); }
+  FlightClock	StartTime()	const	{ return(_startTime); }
+  FlightClock	EndTime()	const	{ return(_endTime); }
 
   size_t	NumberOfProbes() const	{ return(_nProbes); }
 
-  bool  operator==(DataFile& rhs) { return(fileName == rhs.fileName); }
-  bool  operator==(const DataFile& rhs) { return(fileName == rhs.fileName); }
+  bool  operator==(DataFile& rhs) { return(_fileName == rhs._fileName); }
+  bool  operator==(const DataFile& rhs) { return(_fileName == rhs._fileName); }
 
-  bool  isPreliminaryData()	{ return prelimData; }
+  /**
+   * The netCDF file has a global attirbute marking it as prelininary data.
+   * @returns true/false if it was found.
+   */
+  bool  isPreliminaryData()	{ return _prelimData; }
 
+  /// List of Probes found in the file.
   Probe		*probe[MAX_PROBES];
 
 private:
-  NcFile	*file;
+  netCDF::NcFile	*_file;
 
-  NcError	*err;
-
-  std::string	fileName;
-  std::string	projName, flightNum, flightDate;
+  std::string	_fileName;
+  std::string	_projName, _flightNum, _flightDate;
 
   size_t	_nProbes;
 
-  FlightClock	startTime, endTime;
+  FlightClock	_startTime, _endTime;
 
+  /**
+   * ncpp only works against a fixed set of Probe variable names.  This method
+   * validates the name against a fixed list.
+   * See list in DataFile.cc
+   */
   bool	validProbeName(const char target[]) const;
 
-  bool  prelimData;
+  /// Read netCDF string attributes and make sure properly null terminated.
+  void getStringAttribute(const netCDF::NcGroupAtt attr, std::string& attName);
+
+  bool  _prelimData;
 
 };	// END DATAFILE.H
 

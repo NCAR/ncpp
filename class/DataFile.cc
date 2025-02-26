@@ -4,16 +4,22 @@ OBJECT NAME:	DataFile.cc
 
 FULL NAME:	netCDF Data File Class
 
-DESCRIPTION:	
-
-COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2013
+COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 -------------------------------------------------------------------------
 */
 
 #include "DataFile.h"
-#include <netcdf.hh>
 
 #include <unistd.h>
+
+#include <ncFile.h>
+#include <ncDim.h>
+#include <ncVar.h>
+#include <ncAtt.h>
+#include <ncGroupAtt.h>
+//#include <ncType.h>
+//#include <ncString.h>
+//#include <exception> //error handling
 
 /* Put into config file. */
 
@@ -27,149 +33,160 @@ static const char *validProbeNames[] = {
 
 
 /* -------------------------------------------------------------------- */
-DataFile::DataFile(const char fName[]) : fileName(fName), _nProbes(0)
+DataFile::DataFile(const char fName[]) : _fileName(fName), _nProbes(0)
 {
-  int		i;
-  int		zeroBinOffset = 1;	// Default to older files which have it.
-  NcAtt		*attr;
-  NcVar		*avar;
-
-  err = new NcError(NcError::silent_nonfatal);
+  int		    zeroBinOffset = 1;	// Default to older files which have it.
+  NcGroupAtt	    attr;
 
 
   // Open Input File
-  file = new NcFile(fName);
+  _file = new netCDF::NcFile(fName, netCDF::NcFile::read);
 
-  if (file->is_valid() == false)
-    {
+  if (_file->isNull())
+  {
     snprintf(buffer, BUFFSIZE, "Can't open %s.", fName);
     ErrorMsg(buffer);
     return;
-    }
+  }
 
-  if ((attr = file->get_att("project")) == 0)
-    attr = file->get_att("ProjectName");
-  if (attr && attr->is_valid())
-    projName = attr->as_string(0);
-  delete attr;
 
-  attr = file->get_att("FlightNumber");
-  if (attr && attr->is_valid())
-    flightNum = attr->as_string(0);
-  delete attr;
+  // Read in global attributes.
 
-  attr = file->get_att("FlightDate");
-  if (attr && attr->is_valid())
-    flightDate = attr->as_string(0);
-  delete attr;
+  attr = _file->getAtt("project");
+  if (attr.isNull()){
+    attr = (_file->getAtt("ProjectName"));
+  }else if (!attr.isNull()){
+    getStringAttribute(attr, _projName);
+  }
 
-  attr = file->get_att("SizeDistributionLegacyZeroBin");
-  if (attr && attr->is_valid() && strcmp(attr->as_string(0), "no") == 0)
-    zeroBinOffset = 0;
-  delete attr;
+  attr = _file->getAtt("FlightNumber");
+  if (! attr.isNull()){
+    getStringAttribute(attr, _flightNum);
+  }
 
-  attr = file->get_att("WARNING");
-  if (attr && attr->is_valid())
-    prelimData = true;
+  attr = _file->getAtt("FlightDate");
+  if (! attr.isNull())
+    getStringAttribute(attr, _flightDate);
+
+  // This will really only show up in post-2022 files.
+  attr = _file->getAtt("SizeDistributionLegacyZeroBin");
+  if (!attr.isNull())
+  {
+    std::string zeroAttr;
+    attr.getValues(zeroAttr);
+    if (zeroAttr.compare("no") == 0)
+      zeroBinOffset = 0;
+  }
+
+  attr = _file->getAtt("WARNING");
+  if (attr.isNull())
+    _prelimData = false;
   else
-    prelimData = false;
-  delete attr;
+    _prelimData = true;
 
-  attr = file->get_att("TimeInterval");
-  if (attr && attr->is_valid())
-    {
-    startTime = attr->as_string(0);
-    endTime = strchr(attr->as_string(0), '-')+1;
-    }
+  attr = _file->getAtt("TimeInterval");
+  if (!attr.isNull())
+  {
+    char ti[128];
+    attr.getValues(ti);
+    _startTime = ti;
+    _endTime = strchr(ti, '-')+1;
+  }
   else
-    {
+  {
     ErrorMsg("netCDF attribute TimeInterval not found, this could be a problem.");
-    }
-  delete attr;
+  }
 
 
   // Bump up endTime if we have midnight roll-over.
-  if (endTime < startTime)
-    endTime += 86400;
+  if (_endTime < _startTime)
+    _endTime += 86400;
 
-  /* Scan variables for PMS1D vectors.
+
+  /* Scan netCDF variable list for probe raw data histogram.  At this time ncpp
+   * expects both the raw data histogram and the concentration
+   * size-distrobution histogram.  e.g. ACDP & CCDP for a CDP probe.
+   * If you find the raw histogram, go ahead and create a Probe The Probe
+   * constructor will look for the concentration variable.
    */
-  for (i = 0; i < file->num_vars(); ++i)
-    {
-    avar = file->get_var(i);
+  std::multimap<std::string, NcVar> vars = _file->getVars();
+  for (auto it = vars.begin(); it != vars.end(); ++it)
+  {
+    NcVar avar = it->second;
 
-    if (strcmp(avar->name(), "base_time") == 0 ||
-        strcmp(avar->name(), "time_offset") == 0)
+    if (avar.getName().compare("base_time") == 0 ||
+        avar.getName().compare("time_offset") == 0)
       continue;
 
-    if (avar->num_dims() >= 3 && validProbeName(avar->name()))
+    if (avar.getDimCount() >= 3 && validProbeName(avar.getName().c_str()))
       {
-      if (strncmp("AFSSP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new FSSP(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AFSSP") == true)
+        probe[_nProbes++] = new FSSP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AF300", avar->name(), 5) == 0 ||
-          strncmp("AS300", avar->name(), 5) == 0)
-        probe[_nProbes++] = new F300(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AF300") == true ||	// F300
+           avar.getName().starts_with("AS300") == true)		// DMT upgraded F300
+        probe[_nProbes++] = new F300(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AASAS", avar->name(), 5) == 0 ||
-          strncmp("APCAS", avar->name(), 5) == 0)
-        probe[_nProbes++] = new PCASP(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AASAS") == true ||
+           avar.getName().starts_with("APCAS") == true)
+        probe[_nProbes++] = new PCASP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AS100", avar->name(), 5) == 0)
-        probe[_nProbes++] = new S100(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AS100") == true)	// DMT upgraded FSSP
+        probe[_nProbes++] = new S100(_file, avar, zeroBinOffset);
       else
-      if (strncmp("ACDP", avar->name(), 4) == 0)
-        probe[_nProbes++] = new CDP(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("ACDP") == true)
+        probe[_nProbes++] = new CDP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AS200", avar->name(), 5) == 0)
-        probe[_nProbes++] = new S200(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AS200") == true)	// DMT upgraded PCASP
+        probe[_nProbes++] = new S200(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AUHSAS", avar->name(), 6) == 0)
-        probe[_nProbes++] = new UHSAS(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AUHSAS") == true)
+        probe[_nProbes++] = new UHSAS(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AHDC", avar->name(), 4) == 0)
-        probe[_nProbes++] = new HDC(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AHDC") == true)	// I don't know.  Did UWyo add this?
+        probe[_nProbes++] = new HDC(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A260X", avar->name(), 5) == 0)
-        probe[_nProbes++] = new X260(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("A260X") == true)
+        probe[_nProbes++] = new X260(_file, avar, zeroBinOffset);
       else
-      if (strncmp("AMASP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new F300(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("AMASP") == true)	// Briefly, around 2000.  INDOEX era.
+        probe[_nProbes++] = new F300(_file, avar, zeroBinOffset);
       else
-//      if (strncmp("AHVPS", avar->name(), 5) == 0)
-//        probe[_nProbes++] = new HVPS(file, avar, zeroBinOffset);
+//  I believe this is old, 1990's, HVPS.  Which we didn't really use.
+//      if ( avar.getName().starts_with("AHVPS") == true)
+//        probe[_nProbes++] = new HVPS(_file, avar, zeroBinOffset);
 //      else
-      if (strncmp("A200X", avar->name(), 5) == 0)
-        probe[_nProbes++] = new X200(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("A200X") == true)	// Doubt we've flow one
+        probe[_nProbes++] = new X200(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A200Y", avar->name(), 5) == 0)
-        probe[_nProbes++] = new Y200(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("A200Y") == true)	// Doubt we've flow one
+        probe[_nProbes++] = new Y200(_file, avar, zeroBinOffset);
       else
-      if (strncmp("ACIP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new TwoDCIP(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("ACIP") == true)	// DMT CIP
+        probe[_nProbes++] = new TwoDCIP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("APIP", avar->name(), 5) == 0)
-        probe[_nProbes++] = new TwoDPIP(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("APIP") == true)	// DMT PIP
+        probe[_nProbes++] = new TwoDPIP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2DC", avar->name(), 4) == 0 ||
-          strncmp("A1DC", avar->name(), 4) == 0)
-        probe[_nProbes++] = new TwoDC(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("A2DC") == true ||	// 2DC using center-in algo (process2d)
+          avar.getName().starts_with("A1DC") == true)	// 2DC using entire-in algo (nimbus)
+        probe[_nProbes++] = new TwoDC(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2DP", avar->name(), 4) == 0 ||
-          strncmp("A1DP", avar->name(), 4) == 0)
-        probe[_nProbes++] = new TwoDP(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("A2DP") == true ||
+          avar.getName().starts_with("A1DP") == true)
+        probe[_nProbes++] = new TwoDP(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2DH", avar->name(), 4) == 0 ||	// HVPS
-          strncmp("A1DH", avar->name(), 4) == 0)
-        probe[_nProbes++] = new TwoDH(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("A2DH") == true ||	// HVPS (center-in)
+          avar.getName().starts_with("A1DH") == true)	// HVPS (entire-in)
+        probe[_nProbes++] = new TwoDH(_file, avar, zeroBinOffset);
       else
-      if (strncmp("A2D3", avar->name(), 4) == 0 ||	// 3V-CPI
-          strncmp("A1D3", avar->name(), 4) == 0 ||
-          strncmp("A1DS", avar->name(), 4) == 0 ||
-          strncmp("A2DS", avar->name(), 4) == 0)
-        probe[_nProbes++] = new TwoDS(file, avar, zeroBinOffset);
+      if (avar.getName().starts_with("A2D3") == true ||	// SPEC 3V-CPI
+          avar.getName().starts_with("A1D3") == true ||
+          avar.getName().starts_with("A1DS") == true ||
+          avar.getName().starts_with("A2DS") == true)	// SPEC 2DS
+        probe[_nProbes++] = new TwoDS(_file, avar, zeroBinOffset);
       else
-        probe[_nProbes++] = new Probe(file, avar, zeroBinOffset);
+        probe[_nProbes++] = new Probe(_file, avar, zeroBinOffset);
       }
     }
 
@@ -181,11 +198,20 @@ DataFile::~DataFile()
   for (size_t i = 0; i < _nProbes; ++i)
     delete probe[i];
 
-  delete err;
-  delete file;
+  delete _file;
 
 }	/* END DESTRUCTOR */
 
+/* -------------------------------------------------------------------- */
+void DataFile::getStringAttribute(const netCDF::NcGroupAtt attr, std::string& attName)
+{
+  size_t len = attr.getAttLength();
+  std::vector<char> buffer(len + 1);
+  attr.getValues(buffer.data());
+  buffer[len] = '\0';
+  attName = std::string(buffer.data());
+
+}       /* END FORMATATTRIBUTE */
 /* -------------------------------------------------------------------- */
 bool DataFile::validProbeName(const char target[]) const
 {

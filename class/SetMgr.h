@@ -22,6 +22,9 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2001
 class Panel;
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class to manage the DataSets that are being plotted.
+ */
 class SetManager
 {
 public:
@@ -34,18 +37,18 @@ public:
 
   void		Clear();
 
-  size_t	NumberOfSets() const		{ return(numberSets); }
+  size_t	NumberOfSets() const		{ return(_numberSets); }
 
-  int		AveragingRate() const		{ return(avRate); }
+  int		AveragingRate() const		{ return(_avRate); }
   void		SetAverageRate(int newRate);
 
-  size_t	NumberRecords() const		{ return(nRecords); }
+  size_t	NumberRecords() const		{ return(_nRecords); }
   void		SetNumberRecords(size_t newCnt);
 
-  DataType	DataTypes() const		{ return(dataType); }
+  DataType	DataTypes() const		{ return(_dataType); }
   void		SetDataTypes(DataType newDT);
   void		SetNormalize(NormType newN);
-  NormType	GetNormalization() const	{ return(normType); }
+  NormType	GetNormalization() const	{ return(_normType); }
   void		SetCompute(bool x);
 
   void		SetStartTime(FlightClock start);
@@ -54,10 +57,10 @@ public:
   void		Delete(DataFile *file, Probe *prb);
 
   DataSet	*FirstSet()
-    { return(numberSets == 0 ? (DataSet *)NULL : set[currentSet = 0]); }
+    { return(_numberSets == 0 ? (DataSet *)NULL : set[_currentSet = 0]); }
 
   DataSet	*NextSet()
-    { return(++currentSet < numberSets ? set[currentSet] : (DataSet *)NULL); }
+    { return(++_currentSet < _numberSets ? set[_currentSet] : (DataSet *)NULL); }
 
 
   void	ReadCurrentSet();
@@ -67,21 +70,21 @@ public:
   void	PageBackward();
 
 private:
-  int		avRate;		// Averaging rate.
-  size_t	nRecords;	// Number records to display.
-  DataType	dataType;
-  NormType	normType;
+  int		_avRate;		// Averaging rate.
+  size_t	_nRecords;	// Number records to display.
+  DataType	_dataType;
+  NormType	_normType;
 
-  FlightClock	currentTime;	// StartTime to use for new data.
+  FlightClock	_currentTime;	// StartTime to use for new data.
 
-  size_t	numberSets;
-  size_t	currentSet;
+  size_t	_numberSets;
+  size_t	_currentSet;
 
   DataSet	*set[MAX_DATASETS];
 
-  float		minAccum, maxAccum, minBin, maxBin;
-  float		minConc, maxConc, minCell, maxCell;
-  float		minSurf, maxSurf, minVol, maxVol;
+  float		_minAccum, _maxAccum, _minBin, _maxBin;
+  float		_minConc, _maxConc, _minCell, _maxCell;
+  float		_minSurf, _maxSurf, _minVol, _maxVol;
 
   void		findMinMax(), setEndTime(size_t idx);
 

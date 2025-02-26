@@ -31,6 +31,10 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-8
 #include <Xm/TextF.h>
 
 /* -------------------------------------------------------------------- */
+/**
+ * Class for the movie control window.  This has the start time and averaging
+ * period, page fwd and backwards buttons, slider, and movie controls.
+ */
 class MovieControl : public WinForm
 {
 public:

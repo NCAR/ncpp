@@ -15,35 +15,17 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 const float Probe200::DiodeDiameter = 0.2;
 
 /* -------------------------------------------------------------------- */
-Probe200::Probe200(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo), _nDiodes(0), _resolution(0), _dof_const(2.37)
+Probe200::Probe200(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo), _nDiodes(0), _resolution(0), _dof_const(2.37)
 {
-  NcAtt *attr;
+  NcVarAtt attr;
+//printf("Probe200::ctor\n");
+  getFloatAttribute(_avar, "ResponseTime", _responseTime);
+  getIntAttribute(_avar, "nDiodes", _nDiodes, 32);
 
-  if ((attr = _avar->get_att("ResponseTime")))
-    _responseTime = attr->as_float(0);
-  else
-    _responseTime = 0.35;
+  getFloatAttribute(_cvar, "PLWfactor", _PLWfac, 1.0e-9) || getFloatAttribute(_avar, "PLWfactor", _PLWfac, 1.0e-9);
 
-  if ((attr = _avar->get_att("nDiodes")))
-    _nDiodes = attr->as_int(0);
-  else
-    _nDiodes = 32;
-
-  if ((attr = _cvar->get_att("PLWfactor")) || (attr = _avar->get_att("PLWfactor")))
-    _PLWfac = attr->as_float(0);
-  else
-    _PLWfac = 1.0e-9;
-
-  if ((attr = _cvar->get_att("Density")) || (attr = _avar->get_att("Density")))
-    _DENS = attr->as_float(0);
-  else
-    _DENS = 1.0;
-
-  if ((attr = _cvar->get_att("DBZfactor")) || (attr = _avar->get_att("DBZfactor")))
-    _DBZfac = attr->as_float(0);
-  else
-    _DBZfac = 1.0e3;
-
+  getFloatAttribute(_cvar, "Density", _DENS, 1.0) || getFloatAttribute(_avar, "Density", _DENS, 1.0);
+  getFloatAttribute(_cvar, "DBZfactor", _DBZfac, 1.0e3) || getFloatAttribute(_avar, "DBZfactor", _DBZfac, 1.0e3);
 
   _radius.resize(VectorLength());
   _esw.resize(VectorLength());
@@ -54,26 +36,25 @@ Probe200::Probe200(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo), _nD
   _deadTimeIdx = -1;
   for (size_t i = 0; i < _otherVars.size(); ++i)
     {
-    if (strcmp(_otherVars[i]->name(), "TASX") == 0)
+    if (_otherVars[i].getName().compare("TASX") == 0)
       _tasIdx = i;
 
-
-    if (strncmp(_otherVars[i]->name(), "CONC", 4) == 0)
+    if (_otherVars[i].getName().starts_with("CONC"))
       _concIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "PLWC", 4) == 0)
+    if (_otherVars[i].getName().starts_with("PLWC"))
       _lwIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DBAR", 4) == 0)
+    if (_otherVars[i].getName().starts_with("DBAR"))
       _dbarIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DISP", 4) == 0)
+    if (_otherVars[i].getName().starts_with("DISP"))
       _dispIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DBZ", 3) == 0)
+    if (_otherVars[i].getName().starts_with("DBZ"))
       _dbzIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DT", 2) == 0)
+    if (_otherVars[i].getName().starts_with("DT"))
       _deadTimeIdx = i;
     }
 

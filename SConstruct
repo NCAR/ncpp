@@ -12,9 +12,9 @@ def ncpp(env):
 
 env = Environment(GLOBAL_TOOLS = [ncpp])
 
-env.Require(['openmotif', 'netcdfcxx', 'raf'])
+env.Require(['openmotif', 'netcdfcxx4', 'raf'])
 
-env.Append(CXXFLAGS='-std=c++17 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
+env.Append(CXXFLAGS='-std=c++20 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
 
 env.Append(CPPDEFINES=['PNG'])
 

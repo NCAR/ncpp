@@ -15,10 +15,14 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999-2009
 
 
 /* -------------------------------------------------------------------- */
+/**
+ * intermediate class between Probe and all PMS1D forward scattering style
+ * probes.  This includes FSSP, CDP, SPP-100 and others.
+ */
 class Probe100 : public Probe
 {
 public:
-	Probe100(NcFile *file, NcVar *av, int zbo);
+	Probe100(NcFile *file, NcVar &av, int zbo);
 
   friend class EditDiameters;
 

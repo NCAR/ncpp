@@ -14,22 +14,22 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1999
 
 
 /* -------------------------------------------------------------------- */
-F300::F300(NcFile *file, NcVar *av, int zbo) : Probe(file, av, zbo)
+F300::F300(NcFile *file, NcVar &av, int zbo) : Probe(file, av, zbo)
 {
   _tasIdx = _concIdx = _dbarIdx = _volIdx = -1;
 
   for (size_t i = 0; i < _otherVars.size(); ++i)
     {
-    if (strcmp(_otherVars[i]->name(), "TASX") == 0)
+    if (_otherVars[i].getName().compare("TASX") == 0)
       _tasIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "CONC", 4) == 0)
+    if (_otherVars[i].getName().starts_with("CONC"))
       _concIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "DBAR", 4) == 0)
+    if (_otherVars[i].getName().starts_with("DBAR"))
       _dbarIdx = i;
 
-    if (strncmp(_otherVars[i]->name(), "PVOL", 4) == 0)
+    if (_otherVars[i].getName().starts_with("PVOL"))
       _volIdx = i;
     }
 }	/* END CONSTRUCTOR */
