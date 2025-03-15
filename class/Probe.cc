@@ -12,7 +12,6 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 
 #include "Probe.h"
 
-//#include "raf/NCExtensions.h"
 #include <Xm/TextF.h>
 #include <ncFile.h>
 

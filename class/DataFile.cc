@@ -17,9 +17,7 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2025
 #include <ncVar.h>
 #include <ncAtt.h>
 #include <ncGroupAtt.h>
-//#include <ncType.h>
-//#include <ncString.h>
-//#include <exception> //error handling
+
 
 /* Put into config file. */
 

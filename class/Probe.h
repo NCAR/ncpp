@@ -17,7 +17,6 @@ COPYRIGHT:	University Corporation for Atmospheric Research, 1997-2007
 
 #include <vector>
 #include <string>
-#include <netcdf>
 #include "raf/NCExtensions.h"
 
 using namespace netCDF;
