@@ -1,6 +1,5 @@
 #!python
 
-import os
 import eol_scons
 
 

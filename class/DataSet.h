@@ -55,7 +55,7 @@ public:
   DataFile *file() const { return _file; }
 
 private:
-  int	nWords, nRecords;
+  int	_nWords, _nRecords;
   float	*accum, minAccum, maxAccum;
   float	*conc, minConc, maxConc;
   float	*surface, minSurf, maxSurf;
@@ -63,7 +63,7 @@ private:
   std::vector<float *> otherVars;
   std::vector<float> normalization;
 
-  NormType	normType;
+  NormType	_normType;
 
   void	findMinMax();
 

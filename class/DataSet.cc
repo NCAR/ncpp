@@ -27,8 +27,8 @@ DataSet::DataSet(DataFile *df, Probe *prb, FlightClock& start, int nRecs, DataTy
   computeConc = false;
   minAccum = maxAccum = minConc = maxConc = minSurf = maxSurf = minVol = maxVol = 0.0;
 
-  nRecords = nRecs;
-  nWords = _probe->DataRate() * _probe->VectorLength() * nRecs;
+  _nRecords = nRecs;
+  _nWords = _probe->DataRate() * _probe->VectorLength() * nRecs;
   SetDataTypes(dt);
 
   normalization.resize(_probe->VectorLength());
@@ -48,7 +48,7 @@ void DataSet::SetDataTypes(DataType dt)
 {
   if (dt & COUNTS || computeConc) {
     if (!accum)
-      accum = new float[nWords];
+      accum = new float[_nWords];
     }
   else
     if (accum) {
@@ -58,7 +58,7 @@ void DataSet::SetDataTypes(DataType dt)
 
   if (_probe->HaveConcentrations() && dt & (CONCENTRATION | SURFACE | VOLUME)) {
     if (!conc)
-      conc = new float[nWords];
+      conc = new float[_nWords];
     }
   else
     if (conc) {
@@ -68,7 +68,7 @@ void DataSet::SetDataTypes(DataType dt)
 
   if (_probe->HaveConcentrations() && dt & SURFACE) {
     if (!surface)
-      surface = new float[nWords];
+      surface = new float[_nWords];
     }
   else
     if (surface) {
@@ -78,7 +78,7 @@ void DataSet::SetDataTypes(DataType dt)
 
   if (_probe->HaveConcentrations() && dt & VOLUME) {
     if (!volume)
-      volume = new float[nWords];
+      volume = new float[_nWords];
     }
   else
     if (volume) {
@@ -91,11 +91,11 @@ void DataSet::SetDataTypes(DataType dt)
 /* -------------------------------------------------------------------- */
 void DataSet::SetNormalize(NormType nt)
 {
-  normType = nt;
+  _normType = nt;
 
   for (size_t i = 0; i < _probe->VectorLength(); ++i)
     {
-    switch (normType)
+    switch (_normType)
       {
       case LINEAR:
         normalization[i] = _probe->BinWidth(i);
@@ -121,38 +121,38 @@ void DataSet::SetCompute(bool x)
   computeConc = x;
 
   if (computeConc && !accum)
-    accum = new float[nWords];
+    accum = new float[_nWords];
 
 }	/* END SETCOMPUTE */
 
 /* -------------------------------------------------------------------- */
 void DataSet::ResizeData(int nRecs)
 {
-  nRecords = nRecs;
-  nWords = _probe->DataRate() * _probe->VectorLength() * nRecs;
+  _nRecords = nRecs;
+  _nWords = _probe->DataRate() * _probe->VectorLength() * nRecs;
 
   if (accum)
     {
     delete [] accum;
-    accum = new float[nWords];
+    accum = new float[_nWords];
     }
 
   if (conc)
     {
     delete [] conc;
-    conc = new float[nWords];
+    conc = new float[_nWords];
     }
 
   if (surface)
     {
     delete [] surface;
-    surface = new float[nWords];
+    surface = new float[_nWords];
     }
 
   if (volume)
     {
     delete [] volume;
-    volume = new float[nWords];
+    volume = new float[_nWords];
     }
 
   for (size_t i = 0; i < _probe->nOtherVars(); ++i)
@@ -164,14 +164,14 @@ void DataSet::ResizeData(int nRecs)
 }	/* END RESIZEDATA */
 
 /* -------------------------------------------------------------------- */
-void DataSet::ReadData(int nRecs, int avRate)
+void DataSet::ReadData(int nPanels, int avRate)
 {
   long	startV[3], countV[3], nPoints;
   float	*accumBuff = NULL;
   float	*concBuff = NULL;
   std::vector<float *> timeSeriesData;
 
-  nRecords = nRecs;
+  _nRecords = nPanels;
 
   if (_probe->DataRate() > 1)
     avRate = 1;
@@ -194,39 +194,46 @@ void DataSet::ReadData(int nRecs, int avRate)
   nPoints = countV[0] * countV[1] * countV[2];
 
 /*
-cout << "nRecs = " << nRecs << ", avRate = " << avRate << "\n";
-cout << "Start[] = " << startV[0] << ", "<< startV[1]<<", "<< startV[2] << "\n";
-cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
+std::cout << "nPanels = " << nPanels << ", avRate = " << avRate << "\n";
+std::cout << "Start[] = " << startV[0] << ", "<< startV[1]<<", "<< startV[2] << "\n";
+std::cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << "\n";
 */
+
   if (accum)
     {
     accumBuff = new float[nPoints];
-    memset(accum, 0, nRecs * _probe->VectorLength() * sizeof(float));
+    memset(accum, 0, nPanels * _probe->VectorLength() * sizeof(float));
     }
 
   if (conc)
     {
     concBuff = new float[nPoints];
 
-    for (size_t i = 0; i < nRecs * _probe->VectorLength(); ++i)
+    for (size_t i = 0; i < nPanels * _probe->VectorLength(); ++i)
       conc[i] = _probe->FillValue();
 
-//    memset(conc, 0, nRecs * _probe->VectorLength() * sizeof(float));
+//    memset(conc, 0, nPanels * _probe->VectorLength() * sizeof(float));
     }
 
   if (surface)
-    memset(surface, 0, nRecs * _probe->VectorLength() * sizeof(float));
+    memset(surface, 0, nPanels * _probe->VectorLength() * sizeof(float));
 
   if (volume)
-    memset(volume, 0, nRecs * _probe->VectorLength() * sizeof(float));
+    memset(volume, 0, nPanels * _probe->VectorLength() * sizeof(float));
 
   timeSeriesData.resize(_probe->nOtherVars());
   for (size_t i = 0; i < _probe->nOtherVars(); ++i)
     timeSeriesData[i] = new float[avRate];
 
 
-  for (int i = 0; i < nRecs; ++i)
+  for (int i = 0; i < nPanels; ++i)
     {
+    if (startV[0] + avRate > _file->NumberOfRecords())
+      {
+      std::cout << "INFO: exceeding nRecords, breaking.\n";
+      break;
+      }
+
     if (accum)
       _probe->ReadCounts(startV, (const long *)countV, accumBuff);
 
@@ -389,7 +396,7 @@ void DataSet::findMinMax()
     minAccum = FLT_MAX;
     maxAccum = -FLT_MAX;
 
-    for (int i = 0; i < nRecords; ++i)
+    for (int i = 0; i < _nRecords; ++i)
       for (size_t j = 1; j < _probe->VectorLength(); ++j)
         {
         c = Accumulation(i, j);
@@ -404,7 +411,7 @@ void DataSet::findMinMax()
     minConc = FLT_MAX;
     maxConc = -FLT_MAX;
 
-    for (int i = 0; i < nRecords; ++i)
+    for (int i = 0; i < _nRecords; ++i)
       for (size_t j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
         {
         c = Concentration(i, j);
@@ -424,7 +431,7 @@ void DataSet::findMinMax()
     minSurf = FLT_MAX;
     maxSurf = -FLT_MAX;
 
-    for (int i = 0; i < nRecords; ++i)
+    for (int i = 0; i < _nRecords; ++i)
       for (size_t j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
         {
         c = Surface(i, j);
@@ -443,7 +450,7 @@ void DataSet::findMinMax()
     minVol = FLT_MAX;
     maxVol = -FLT_MAX;
 
-    for (int i = 0; i < nRecords; ++i)
+    for (int i = 0; i < _nRecords; ++i)
       for (size_t j = _probe->FirstBin(); j <= _probe->LastBin(); ++j)
         {
         c = Volume(i, j);
