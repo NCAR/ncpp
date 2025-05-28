@@ -50,6 +50,8 @@ public:
   FlightClock	StartTime()	const	{ return(_startTime); }
   FlightClock	EndTime()	const	{ return(_endTime); }
 
+  size_t	NumberOfRecords() const	{ return(_nRecords); }
+
   size_t	NumberOfProbes() const	{ return(_nProbes); }
 
   bool  operator==(DataFile& rhs) { return(_fileName == rhs._fileName); }
@@ -70,7 +72,7 @@ private:
   std::string	_fileName;
   std::string	_projName, _flightNum, _flightDate;
 
-  size_t	_nProbes;
+  size_t	_nProbes, _nRecords;
 
   FlightClock	_startTime, _endTime;
 

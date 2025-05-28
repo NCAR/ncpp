@@ -47,6 +47,7 @@ DataFile::DataFile(const char fName[]) : _fileName(fName), _nProbes(0)
     return;
   }
 
+ _nRecords = _file->getDim("Time").getSize();
 
   // Read in global attributes.
 
