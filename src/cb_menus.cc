@@ -230,13 +230,13 @@ void OpenURL(Widget w, XtPointer client, XtPointer call)
   switch ((long)client)
     {
     case 1:
-      opener("http://www.eol.ucar.edu");
+      opener("https://www.eol.ucar.edu");
       break;
     case 2:
-      opener("http://www.eol.ucar.edu/raf/Software");
+      opener("https://www.eol.ucar.edu/raf/Software");
       break;
     case 3:
-      opener("http://www.eol.ucar.edu/raf/Software/ncpp.html");
+      opener("https://www.eol.ucar.edu/raf/Software/ncpp.html");
       break;
     }
 

@@ -4,7 +4,7 @@ Version: 2.5
 Release: 0%{?dist}
 License: GPL
 Group: System Environment/Daemons
-Url: http://www.eol.ucar.edu/
+Url: https://www.eol.ucar.edu/
 Packager: Chris Webster <cjw@ucar.edu>
 # becomes RPM_BUILD_ROOT
 BuildRoot:  %{_tmppath}/%{name}-%{version}-%{release}-root-%(%{__id_u} -n)
