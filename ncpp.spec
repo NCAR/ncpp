@@ -12,14 +12,8 @@ Vendor: UCAR
 BuildArch: x86_64
 
 Requires: netcdf-cxx4 netcdf libpng
-
-%if 0%{?rhel} <= 7
-BuildRequires: scons
-Requires: openmotif 
-%else
 BuildRequires: python3-scons
 Requires: motif
-%endif
 
 Source: ftp://ftp.eol.ucar.edu/pub/archive/RAF-src/%{name}.tar.gz
 
