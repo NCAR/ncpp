@@ -21,7 +21,7 @@ ncpp is available via [MacPorts](https://www.macports.org/) or follow the [MacOS
 
 Redhat / CentOS / Alma
 ```
-openmotif-devel (motif-devel CentOS 8 & later)
+motif-devel
 netcdf-devel
 netcdf-cxx4-devel
 xorg-x11-fonts-ISO8859-1-75dpi
