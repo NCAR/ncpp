@@ -3,15 +3,8 @@
 import eol_scons
 
 
-def ncpp(env):
-    if env['PLATFORM'] == 'darwin' and env['HOST_ARCH'] == 'arm64':
-        env['DEFAULT_OPT_PREFIX']='/opt/homebrew'
+env = Environment(tools = ['default', 'prefixoptions', 'openmotif', 'netcdfcxx4', 'raf'])
 
-    env.Require(['default', 'prefixoptions'])
-
-env = Environment(GLOBAL_TOOLS = [ncpp])
-
-env.Require(['openmotif', 'netcdfcxx4', 'raf'])
 
 env.Append(CXXFLAGS='-std=c++20 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
 
