@@ -6,7 +6,7 @@ import eol_scons
 env = Environment(tools = ['default', 'prefixoptions', 'openmotif', 'netcdfcxx4', 'raf'])
 
 
-env.Append(CXXFLAGS='-std=c++20 -g -Wall -Wno-write-strings -Wstrict-aliasing -Wno-deprecated-register')
+env.Append(CXXFLAGS='-std=c++20 -g -Werror -Wall -Wno-write-strings -Wstrict-aliasing')
 
 env.Append(CPPDEFINES=['PNG'])
 

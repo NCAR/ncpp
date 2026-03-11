@@ -228,7 +228,7 @@ std::cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << 
 
   for (int i = 0; i < nPanels; ++i)
     {
-    if (startV[0] + avRate > _file->NumberOfRecords())
+    if ((size_t)startV[0] + avRate > _file->NumberOfRecords())
       {
       std::cout << "INFO: exceeding nRecords, breaking.\n";
       break;
