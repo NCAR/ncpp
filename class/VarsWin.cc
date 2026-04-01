@@ -26,24 +26,29 @@ void VarsWin::Update(SetManager& sets, PlotManager *plotMgr)
 
   for (set = sets.FirstSet(); set; set = sets.NextSet())
     {
-    strcpy(buffer, set->probe()->Name().c_str());
-    strcat(buffer, "\n");
+    snprintf(buffer, BUFFSIZE, "%s\n", set->probe()->Name().c_str());
+    Append(buffer);
 
     for (size_t i = 0; i < set->probe()->nOtherVars(); ++i)
       {
-      snprintf(&buffer[strlen(buffer)], 64, "  %-12s", set->probe()->OtherVarName(i).c_str());
+      snprintf(buffer, BUFFSIZE, "  %-12s", set->probe()->OtherVarName(i).c_str());
 
       for (size_t j = 0; j < sets.NumberRecords(); ++j)
         {
-	snprintf(&buffer[strlen(buffer)], 64, "%10.3f", set->OtherVar(i, j));
+        if (strlen(buffer) + 64 >= BUFFSIZE)
+          {
+          Append(buffer);
+          buffer[0] = '\0';
+          }
+        snprintf(&buffer[strlen(buffer)], 64, "%10.3f", set->OtherVar(i, j));
         }
 
-      strcat(buffer, "\n");
+      strncat(buffer, "\n", BUFFSIZE - strlen(buffer) - 1);
+      Append(buffer);
+      buffer[0] = '\0';
       }
 
-    strcat(buffer, "\n");
-    Append(buffer);
-    buffer[0] = '\0';
+    Append("\n");
     }
 
   MoveTo(0);
