@@ -1,7 +1,7 @@
 Summary: Spec file for ncpp
 Name: ncpp
 Version: 2.5
-Release: 0%{?dist}
+Release: 1%{?dist}
 License: GPL
 Group: System Environment/Daemons
 Url: https://www.eol.ucar.edu/
