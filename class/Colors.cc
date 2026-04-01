@@ -360,7 +360,8 @@ void SetColorNames(char str[])
 
   for (i = 1; colorInfo[i+1].name[0]; ++i)
     {
-    strcpy(colorInfo[i].name, p);
+    strncpy(colorInfo[i].name, p, 19);
+    colorInfo[i].name[19] = '\0';
 
     if ((p = strtok(NULL, " \t,\n")) == NULL)
       break;

@@ -19,7 +19,8 @@ ncHeader::ncHeader(const Widget parent) : TextWindow(parent, "header")
 void ncHeader::Update(const std::string fileName)
 {
   FILE	*pp;
-  char command[256];
+  char	command[256];
+  int	n;
 
   Clear();
   Append(fileName.c_str());
@@ -32,10 +33,13 @@ void ncHeader::Update(const std::string fileName)
     ErrorMsg(buffer);
     }
 
-  while (fread(buffer, BUFFSIZE, 1, pp) > 0)
+  while ((n = fread(buffer, 1, BUFFSIZE-1, pp)) > 0)
+  {
+    buffer[n] = '\0';
     Append(buffer);
+  }
 
-  strcpy(strchr(buffer, '}')+1, "\n\n");
+  strcat(buffer, "\n\n");
   Append(buffer);
 
   pclose(pp);

@@ -103,16 +103,12 @@ static void Initialize()
   char	*p;
 
   if ((p = (char *)getenv("DATA_DIR")) != NULL)
-    {
-    strcpy(DataPath, p);
-    strcat(DataPath, "/*.nc");
-    }
+    snprintf(DataPath, PATH_LEN, "%s/*.nc", p);
   else
     strcpy(DataPath, "/*");
 
   p = (char *)getenv("HOME");
-  strcpy(UserPath, p);
-  strcat(UserPath, "/nimbus/*");
+  snprintf(UserPath, PATH_LEN, "%s/nimbus/*", p);
 
 }	/* END INITIALIZE */
 
@@ -163,8 +159,8 @@ static void ReadConfigFile()
     if (p == (char *)1)
        continue;
 
-    while (isspace(*p))
-      ++p;
+    for (++p; isspace(*p); ++p)
+      ;
 
     p[strlen(p)-1] = '\0'; /* ditch newline */
 

@@ -473,6 +473,9 @@ DataSet::~DataSet()
   if (conc)	delete [] conc;
   if (surface)	delete [] surface;
   if (volume)	delete [] volume;
+
+  for (size_t i = 0; i < _probe->nOtherVars(); ++i)
+    delete [] otherVars[i];
 }
 
 /* END DATASET.CC */
