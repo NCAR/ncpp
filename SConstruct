@@ -19,7 +19,7 @@ env.Append(LIBS=['png'])
 env.Append(LIBS=['z'])
 
 #env.Append(LIBPATH=['#/raf'])
-env['PUBLISH_PREFIX'] = '/net/www/docs/raf/Software'
+env['PUBLISH_PREFIX'] = '/net/www/docs/raf/Software/ncpp'
 
 
 sources = Split("""
@@ -81,7 +81,7 @@ env.Install('$INSTALL_PREFIX/bin', 'src/ncpp')
 #env = Environment(tools=['default'])
 
 if "publish" in COMMAND_LINE_TARGETS:
-   pub = env.Install('$PUBLISH_PREFIX', ["src/ncpp.html"])
+   pub = env.Install('$PUBLISH_PREFIX', ["src/doc/ncpp.html","src/doc/ncpp_ctrl.png","src/doc/ncpp_mov.png"])
    env.Alias('publish', pub)
 
 #env.SetHelp()
