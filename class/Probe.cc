@@ -275,7 +275,7 @@ Probe::Probe(NcFile *file, NcVar &av, int zbo) : _avar(av), _firstBin(0), _lastB
     }
 
 
-  // Find associated houskeeping & derived variables (using location)
+  // Find associated housekeeping & derived variables (using location)
   location = strchr(const_cast<char *>(_name.c_str()), '_');
   if (location == 0)
     {

@@ -6,8 +6,8 @@ FULL NAME:	Create File, Probe & Data type widgets
 
 TYPE:		
 
-DESCRIPTION:	This is a seperate class, because postage stamps & movie need
-		seperate copies.
+DESCRIPTION:	This is a separate class, because postage stamps & movie need
+		separate copies.
 
 COPYRIGHT:	University Corporation for Atmospheric Research, 1997
 -------------------------------------------------------------------------

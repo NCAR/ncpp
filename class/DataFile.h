@@ -58,7 +58,7 @@ public:
   bool  operator==(const DataFile& rhs) { return(_fileName == rhs._fileName); }
 
   /**
-   * The netCDF file has a global attirbute marking it as prelininary data.
+   * The netCDF file has a global attribute marking it as prelininary data.
    * @returns true/false if it was found.
    */
   bool  isPreliminaryData()	{ return _prelimData; }

@@ -288,7 +288,7 @@ std::cout << "Count[] = " << countV[0] << ", "<< countV[1]<<", "<< countV[2] << 
       if (conc && avCntr > 1)
         conc[dest] /= avCntr;
 
-      // Convert #/L data to #/cm3 so we have consistant data.
+      // Convert #/L data to #/cm3 so we have consistent data.
       if (((conc && conc[dest] != _probe->FillValue())) &&
 		(_probe->Units().find("L") != _probe->Units().npos ||
 		_probe->Units().find("liter") != _probe->Units().npos))
