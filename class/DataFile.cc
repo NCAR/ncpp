@@ -63,9 +63,15 @@ DataFile::DataFile(const char fName[]) : _fileName(fName), _nProbes(0)
     getStringAttribute(attr, _flightNum);
   }
 
-  attr = _file->getAtt("FlightDate");
+  attr = _file->getAtt("flight_start_date");
   if (! attr.isNull())
     getStringAttribute(attr, _flightDate);
+  else
+  {
+    attr = _file->getAtt("FlightDate");
+    if (! attr.isNull())
+      getStringAttribute(attr, _flightDate);
+  }
 
   // This will really only show up in post-2022 files.
   attr = _file->getAtt("SizeDistributionLegacyZeroBin");
